@@ -4,17 +4,10 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour {
 
-    [SerializeField] Rigidbody2D _playerRigidbody;
 
-    void Start() {
-
-        if (_playerRigidbody == null) { _playerRigidbody = GetComponentInParent<Rigidbody2D>(); }
+    void Update() {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }
