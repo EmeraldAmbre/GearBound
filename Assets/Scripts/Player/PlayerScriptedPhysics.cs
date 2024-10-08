@@ -5,11 +5,10 @@ using UnityEngine;
 public class PlayerScriptedPhysics : MonoBehaviour {
 
     [SerializeField] bool _isGrounded;
-    [SerializeField] float _gravityScale = 5f;
     [SerializeField] float _jumpHeight = 5f;
     [SerializeField] float _jumpDuration = 1f;
     [SerializeField] float _velocity;
-    [SerializeField] float _detectionRay = 1f;
+    [SerializeField] float _detectionRay = 0.4f;
     [SerializeField] LayerMask _layerGround;
 
     float _jumpTimer;
@@ -18,9 +17,9 @@ public class PlayerScriptedPhysics : MonoBehaviour {
 
     void Update() {
 
-        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(transform.position, _detectionRay, _layerGround);
+        Collider2D[] detectedGround = Physics2D.OverlapCircleAll(transform.position, _detectionRay, _layerGround);
 
-        if (detectedObjects.Length > 0) _isGrounded = true;
+        if (detectedGround.Length > 0) _isGrounded = true;
 
         else _isGrounded = false;
 
@@ -40,13 +39,10 @@ public class PlayerScriptedPhysics : MonoBehaviour {
 
     void GravityFalls() {
 
-        _velocity += Physics2D.gravity.y * _gravityScale * Time.deltaTime;
-
-        if (_isGrounded && _velocity < 0) {
-            _velocity = 0;
-        }
+        if (_isGrounded) { _velocity = 0; }
 
         else {
+            _velocity += Physics2D.gravity.y * Time.deltaTime;
             transform.Translate(new Vector3(0, _velocity, 0) * Time.deltaTime);
         }
     }
@@ -72,8 +68,7 @@ public class PlayerScriptedPhysics : MonoBehaviour {
         transform.position = new Vector3(transform.position.x, newHeight, transform.position.z);
     }
 
-    private void OnDrawGizmosSelected()
-    {
+    private void OnDrawGizmosSelected() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _detectionRay);
     }

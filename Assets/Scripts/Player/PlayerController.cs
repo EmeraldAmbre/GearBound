@@ -6,13 +6,16 @@ public class PlayerController : MonoBehaviour {
 
     [SerializeField] float _moveSpeed = 4f;
     [SerializeField] float _rotationSpeed = 20f;
+    [SerializeField] Transform _attachedGear;
 
     PlayerCompositePhysics _physics;
     PlayerScriptedPhysics _scriptedPhysics;
+    PlayerManager _playerManager;
 
     void Start() {
         _physics = GetComponent<PlayerCompositePhysics>();
         _scriptedPhysics = GetComponent<PlayerScriptedPhysics>();
+        _playerManager = GetComponent<PlayerManager>();
     }
 
     void FixedUpdate() {
@@ -34,7 +37,10 @@ public class PlayerController : MonoBehaviour {
 
         float inputRotation = Input.GetAxis("Horizontal");
         float rotation = inputRotation * _rotationSpeed;
-        transform.Rotate(Vector3.forward, -rotation);
+        if (rotation > 0) _playerManager.m_isTurningClockwise = true;
+        else _playerManager.m_isTurningClockwise = false;
+
+        _attachedGear.Rotate(Vector3.forward, -rotation);
 
     }
 
