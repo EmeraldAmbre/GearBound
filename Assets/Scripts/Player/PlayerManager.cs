@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour {
 
+    public bool m_isInteracting;
+    public bool m_isTurningClockwise;
 
     void Update() {
         
