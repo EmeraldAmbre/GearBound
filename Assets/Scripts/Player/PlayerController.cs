@@ -6,18 +6,20 @@ public class PlayerController : MonoBehaviour {
 
     [SerializeField] float _moveSpeed = 4f;
     [SerializeField] float _rotationSpeed = 20f;
-    [SerializeField] float _gravityScale = 5f;
-    [SerializeField] float _jumpHeight = 5f;
-    [SerializeField] float _velocity;
 
-    [SerializeField] PlayerPhysics _physics;
+    PlayerCompositePhysics _physics;
+    PlayerScriptedPhysics _scriptedPhysics;
 
-    private void FixedUpdate() {
+    void Start() {
+        _physics = GetComponent<PlayerCompositePhysics>();
+        _scriptedPhysics = GetComponent<PlayerScriptedPhysics>();
+    }
 
-        Jump();
-        Move();
-        Rotate();
+    void FixedUpdate() {
 
+        if (_physics != null && Input.GetKeyDown(KeyCode.Space)) { _physics.Jump(); }
+
+        Move(); Rotate();
     }
 
     void Move() {
@@ -36,21 +38,5 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void Jump() {
-
-        _velocity += Physics2D.gravity.y * _gravityScale * Time.deltaTime;
-
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            _velocity = Mathf.Sqrt(_jumpHeight * -2 * (Physics2D.gravity.y * _gravityScale));
-        }
-
-        if (_velocity >= 0) { transform.Translate(new Vector3(0, _velocity, 0) * Time.deltaTime); }
-
-        else {
-            if (!_physics.m_groundCheck) { transform.Translate(new Vector3(0, _velocity, 0) * Time.deltaTime); }
-        }
-
-    }
-
-
+    
 }
