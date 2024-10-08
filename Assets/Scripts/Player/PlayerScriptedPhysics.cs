@@ -24,10 +24,6 @@ public class PlayerScriptedPhysics : MonoBehaviour {
 
         else _isGrounded = false;
 
-    }
-
-    void FixedUpdate() {
-
         if (Input.GetKeyDown(KeyCode.Space) && !_isJumping) {
             BeginJump();
         }
@@ -39,6 +35,7 @@ public class PlayerScriptedPhysics : MonoBehaviour {
         else {
             GravityFalls();
         }
+
     }
 
     void GravityFalls() {
@@ -75,8 +72,9 @@ public class PlayerScriptedPhysics : MonoBehaviour {
         transform.position = new Vector3(transform.position.x, newHeight, transform.position.z);
     }
 
-    //private void OnDrawGizmosSelected() {
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawWireSphere(transform.position, _detectionRay);
-    //}
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _detectionRay);
+    }
 }
