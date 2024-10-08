@@ -23,7 +23,7 @@ public class PlayerScriptedPhysics : MonoBehaviour {
 
         else _isGrounded = false;
 
-        if (Input.GetKeyDown(KeyCode.Space) && !_isJumping) {
+        if (Input.GetKeyDown(KeyCode.Space) && !_isJumping && _isGrounded) {
             BeginJump();
         }
 
