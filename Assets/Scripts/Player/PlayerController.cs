@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour {
 
     [SerializeField] float _moveSpeed = 4f;
     [SerializeField] float _rotationSpeed = 20f;
+    [SerializeField] float _interactionRotationSpeed = 5f;
     [SerializeField] Transform _attachedGear;
 
     PlayerCompositePhysics _physics;
@@ -18,11 +19,20 @@ public class PlayerController : MonoBehaviour {
         _playerManager = GetComponent<PlayerManager>();
     }
 
-    void FixedUpdate() {
+    void Update() {
 
         if (_physics != null && Input.GetKeyDown(KeyCode.Space)) { _physics.Jump(); }
 
-        Move(); Rotate();
+        if (Input.GetKeyDown(KeyCode.E)) { Interact(); }
+
+        if (_playerManager.m_isInteracting == false) Move();
+
+    }
+
+    void FixedUpdate() {
+
+        if (_playerManager.m_isInteracting == false) Rotate();
+
     }
 
     void Move() {
@@ -42,6 +52,26 @@ public class PlayerController : MonoBehaviour {
 
         _attachedGear.Rotate(Vector3.forward, -rotation);
 
+    }
+
+    void Interact() {
+
+        _playerManager.m_isInteracting = !_playerManager.m_isInteracting;
+
+        if (_playerManager.m_isInteracting) {
+
+            _physics.m_playerMainCollider.isTrigger = true;
+            _physics.m_playerRigidbody.constraints = RigidbodyConstraints2D.FreezePosition;
+            _attachedGear.Rotate(Vector3.forward, _interactionRotationSpeed);
+
+        }
+
+        else {
+
+            _physics.m_playerMainCollider.isTrigger = false;
+            _physics.m_playerRigidbody.constraints = RigidbodyConstraints2D.None;
+
+        }
     }
 
     

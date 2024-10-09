@@ -4,38 +4,59 @@ using UnityEngine;
 
 public class GearManager : MonoBehaviour {
 
-    [SerializeField] float _detectionRay = 0.64f;
+    [SerializeField] float _linearMotorAcceleration = 0.25f;
+    [SerializeField] float _minMotorSpeed = 2.5f;
+    [SerializeField] float _maxMotorSpeed = 100f;
+    [SerializeField] float _detectionRay = 0.70f;
     [SerializeField] LayerMask _layerPlayer;
     [SerializeField] HingeJoint2D _hingeJoint;
     [SerializeField] GameObject _player;
-    
-    PlayerManager _playerManager;
-    Rigidbody2D _gearRigidbody;
+    [SerializeField] PlayerManager _playerManager;
+    [SerializeField] Rigidbody2D _gearRigidbody;
+
+    bool _isPlayerNear;
 
     void Start() {
 
         _hingeJoint = GetComponent<HingeJoint2D>();
-        _playerManager = _player.GetComponent<PlayerManager>();
-        _gearRigidbody = GetComponent<Rigidbody2D>();
+        if (_playerManager == null) _playerManager = _player.GetComponent<PlayerManager>();
+        if (_gearRigidbody == null) _gearRigidbody = GetComponent<Rigidbody2D>();
+        
+    }
+
+    void Awake() {
+
+        _gearRigidbody.freezeRotation = false;
         
     }
 
     void Update() {
 
-        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(transform.position, _detectionRay, _layerPlayer);
+        Collider2D[] detectedObj = Physics2D.OverlapCircleAll(transform.position, _detectionRay, _layerPlayer);
 
-        if (detectedObjects.Length > 0) _playerManager.m_isInteracting = true;
+        if (detectedObj.Length > 0) _isPlayerNear = true;
+        else _isPlayerNear = false;
 
-        else _playerManager.m_isInteracting = false;
-
-        if (_playerManager.m_isInteracting) _hingeJoint.useMotor = true;
-
-        else _hingeJoint.useMotor = false;
+        if (_isPlayerNear && _playerManager.m_isInteracting) Activate();
+        else Desactivate();
 
     }
 
-    private void OnDrawGizmosSelected() {
-        Gizmos.color = Color.green;
+    void Activate() {
+
+        _hingeJoint.useMotor = true;
+
+    }
+
+    void Desactivate() {
+
+        _hingeJoint.useMotor = false;
+
+    }
+
+    void OnDrawGizmosSelected() {
+        Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, _detectionRay);
     }
+
 }

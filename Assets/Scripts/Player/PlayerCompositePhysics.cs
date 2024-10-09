@@ -6,12 +6,13 @@ public class PlayerCompositePhysics : MonoBehaviour {
 
     [SerializeField] float _jumpForce = 10f;
 
-    public bool m_isGrounded;
-
-    Rigidbody2D _playerRigidbody;
+    public bool m_isGrounded { get; private set; }
+    public Rigidbody2D m_playerRigidbody { get; private set; }
+    public CircleCollider2D m_playerMainCollider { get; private set; }
 
     void Start() {
-        _playerRigidbody = GetComponent<Rigidbody2D>();
+        m_playerRigidbody = GetComponent<Rigidbody2D>();
+        m_playerMainCollider = GetComponent<CircleCollider2D>();
     }
 
     void OnCollisionEnter2D(Collision2D collision) {
@@ -23,6 +24,6 @@ public class PlayerCompositePhysics : MonoBehaviour {
     }
 
     public void Jump() {
-        _playerRigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+        m_playerRigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
     }
 }
