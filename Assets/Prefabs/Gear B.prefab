@@ -255,8 +255,8 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 3
 --- !u!233 &551917439303351157
 HingeJoint2D:
   m_ObjectHideFlags: 0
@@ -294,8 +294,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5675f9afa3dfe114a99deb0caf9d2424, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hingeJoint: {fileID: 0}
-  _isInteracting: 0
+  _linearMotorAcceleration: 0.25
+  _minMotorSpeed: 2.5
+  _maxMotorSpeed: 100
+  _detectionRay: 0.7
   _layerPlayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
+  _hingeJoint: {fileID: 551917439303351157}
+  _player: {fileID: 0}
+  _playerManager: {fileID: 0}
+  _gearRigidbody: {fileID: 1750356454240026932}

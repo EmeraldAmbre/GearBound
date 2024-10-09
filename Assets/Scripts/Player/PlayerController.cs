@@ -6,23 +6,34 @@ public class PlayerController : MonoBehaviour {
 
     [SerializeField] float _moveSpeed = 4f;
     [SerializeField] float _rotationSpeed = 20f;
+    [SerializeField] float _interactionRotationSpeed = 5f;
     [SerializeField] Transform _attachedGear;
 
     PlayerCompositePhysics _physics;
     PlayerScriptedPhysics _scriptedPhysics;
     PlayerManager _playerManager;
 
+    [SerializeField] HingeJoint2D _joint;
+
     void Start() {
         _physics = GetComponent<PlayerCompositePhysics>();
         _scriptedPhysics = GetComponent<PlayerScriptedPhysics>();
         _playerManager = GetComponent<PlayerManager>();
+        _joint = GetComponent<HingeJoint2D>();
+    }
+
+    void Update() {
+
+        if (_physics != null && Input.GetKeyDown(KeyCode.Space)) { _physics.Jump(); }
+
+        if (_playerManager.m_isInteracting == false) Move();
+
     }
 
     void FixedUpdate() {
 
-        if (_physics != null && Input.GetKeyDown(KeyCode.Space)) { _physics.Jump(); }
+        if (_playerManager.m_isInteracting == false) Rotate();
 
-        Move(); Rotate();
     }
 
     void Move() {
@@ -44,5 +55,4 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    
 }
