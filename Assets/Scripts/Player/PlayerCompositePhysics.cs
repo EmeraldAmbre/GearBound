@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerCompositePhysics : MonoBehaviour {
 
-    [SerializeField] float _jumpForce = 10f;
+    [SerializeField] float _jumpForce = 7.5f;
 
     public bool m_isGrounded { get; private set; }
     public Rigidbody2D m_playerRigidbody { get; private set; }

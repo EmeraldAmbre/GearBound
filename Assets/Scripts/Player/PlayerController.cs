@@ -13,17 +13,18 @@ public class PlayerController : MonoBehaviour {
     PlayerScriptedPhysics _scriptedPhysics;
     PlayerManager _playerManager;
 
+    [SerializeField] HingeJoint2D _joint;
+
     void Start() {
         _physics = GetComponent<PlayerCompositePhysics>();
         _scriptedPhysics = GetComponent<PlayerScriptedPhysics>();
         _playerManager = GetComponent<PlayerManager>();
+        _joint = GetComponent<HingeJoint2D>();
     }
 
     void Update() {
 
         if (_physics != null && Input.GetKeyDown(KeyCode.Space)) { _physics.Jump(); }
-
-        if (Input.GetKeyDown(KeyCode.E)) { Interact(); }
 
         if (_playerManager.m_isInteracting == false) Move();
 
@@ -54,25 +55,4 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void Interact() {
-
-        _playerManager.m_isInteracting = !_playerManager.m_isInteracting;
-
-        if (_playerManager.m_isInteracting) {
-
-            _physics.m_playerMainCollider.isTrigger = true;
-            _physics.m_playerRigidbody.constraints = RigidbodyConstraints2D.FreezePosition;
-            _attachedGear.Rotate(Vector3.forward, _interactionRotationSpeed);
-
-        }
-
-        else {
-
-            _physics.m_playerMainCollider.isTrigger = false;
-            _physics.m_playerRigidbody.constraints = RigidbodyConstraints2D.None;
-
-        }
-    }
-
-    
 }

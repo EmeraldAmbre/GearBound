@@ -4,29 +4,31 @@ using UnityEngine;
 
 public class GearManager : MonoBehaviour {
 
-    [SerializeField] float _linearMotorAcceleration = 0.25f;
-    [SerializeField] float _minMotorSpeed = 2.5f;
-    [SerializeField] float _maxMotorSpeed = 100f;
     [SerializeField] float _detectionRay = 0.70f;
+    [SerializeField] float _interactionTimer = 4.0f;
+    [SerializeField] Vector3 _targetAnchor;
+
     [SerializeField] LayerMask _layerPlayer;
-    [SerializeField] HingeJoint2D _hingeJoint;
+    [SerializeField] HingeJoint2D _playerJoint;
     [SerializeField] GameObject _player;
     [SerializeField] PlayerManager _playerManager;
-    [SerializeField] Rigidbody2D _gearRigidbody;
+    [SerializeField] Rigidbody2D _playerRigidbody;
 
     bool _isPlayerNear;
+    bool _isInInteraction;
+    float _timer;
 
     void Start() {
 
-        _hingeJoint = GetComponent<HingeJoint2D>();
+        if (_playerJoint == null) _playerJoint = _player.GetComponent<HingeJoint2D>();
         if (_playerManager == null) _playerManager = _player.GetComponent<PlayerManager>();
-        if (_gearRigidbody == null) _gearRigidbody = GetComponent<Rigidbody2D>();
+        if (_playerRigidbody == null) _playerRigidbody = _player.GetComponent<Rigidbody2D>();
         
     }
 
     void Awake() {
 
-        _gearRigidbody.freezeRotation = false;
+        _isInInteraction = false;
         
     }
 
@@ -37,20 +39,44 @@ public class GearManager : MonoBehaviour {
         if (detectedObj.Length > 0) _isPlayerNear = true;
         else _isPlayerNear = false;
 
-        if (_isPlayerNear && _playerManager.m_isInteracting) Activate();
-        else Desactivate();
+        if (_isPlayerNear && Input.GetKeyDown(KeyCode.E) && !_isInInteraction) {
+            BeginInteraction();
+        }
+
+        if (_isInInteraction) {
+            _timer -= Time.deltaTime;
+
+            if (_timer > 0) {
+                // eventual supplementary actions
+            }
+
+            else {
+                EndInteraction();
+            }
+        }
 
     }
 
-    void Activate() {
+    void BeginInteraction() {
 
-        _hingeJoint.useMotor = true;
+        _timer = _interactionTimer;
+        _isInInteraction = true;
+        _playerManager.m_isInteracting = true;
+        _player.transform.position = _targetAnchor;
+        _playerRigidbody.constraints = RigidbodyConstraints2D.FreezePosition;
+        _playerJoint.enabled = true;
+        _playerJoint.useMotor = true;
 
     }
 
-    void Desactivate() {
+    void EndInteraction() {
 
-        _hingeJoint.useMotor = false;
+        _isInInteraction = false;
+        _playerManager.m_isInteracting = false;
+        _playerJoint.useMotor = false;
+        _playerJoint.enabled = false;
+        _playerRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        _playerRigidbody.constraints = RigidbodyConstraints2D.None;
 
     }
 

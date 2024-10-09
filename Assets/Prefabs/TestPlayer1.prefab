@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 338719922381417479}
   - component: {fileID: 5853741092224359201}
   - component: {fileID: 5759015936850965458}
+  - component: {fileID: 229898538410000456}
   - component: {fileID: 6336856507998389190}
   - component: {fileID: 5440662832136601223}
   - component: {fileID: 7849542891999913344}
@@ -152,6 +153,31 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!233 &229898538410000456
+HingeJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4647488486377845635}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_BreakAction: 3
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: -3.01, y: -3.5}
+  m_UseMotor: 0
+  m_Motor:
+    m_MotorSpeed: 0
+    m_MaximumMotorForce: 10000
+  m_UseLimits: 0
+  m_AngleLimits:
+    m_LowerAngle: 0
+    m_UpperAngle: 359
 --- !u!114 &6336856507998389190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,7 +192,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 3.5
   _rotationSpeed: 25
+  _interactionRotationSpeed: 5
   _attachedGear: {fileID: 634525282832450468}
+  _joint: {fileID: 0}
 --- !u!114 &5440662832136601223
 MonoBehaviour:
   m_ObjectHideFlags: 0
