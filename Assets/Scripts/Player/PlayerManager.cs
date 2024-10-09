@@ -7,8 +7,11 @@ public class PlayerManager : MonoBehaviour {
     public bool m_isInteracting;
     public bool m_isTurningClockwise;
 
-    void Update() {
-        
+    void Start() {
+
+        m_isInteracting = false;
+        m_isTurningClockwise = false;
+
     }
 
 
