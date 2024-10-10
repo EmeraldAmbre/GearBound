@@ -47,7 +47,7 @@ public class GearManager : MonoBehaviour {
         }
 
         // Pulley System
-        if (_linkedPulley != null && _isInInteraction) {
+        if (_linkedPulley != null) {
             if (_gearRigidbody.angularVelocity > 0) {
                 _linkedPulley.m_isMovingDown = true;
                 _linkedPulley.m_isMovingUp = false;
