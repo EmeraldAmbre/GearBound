@@ -5,6 +5,7 @@ using UnityEngine;
 public class GearManager : MonoBehaviour {
 
     [SerializeField] float _detectionRay = 0.70f;
+    [SerializeField] float _detectionAngularRotation = 10f;
 
     [SerializeField] LayerMask _layerPlayer;
     [SerializeField] HingeJoint2D _playerJoint;
@@ -14,6 +15,7 @@ public class GearManager : MonoBehaviour {
 
     [SerializeField] Vector3 _interactionPosition;
     [SerializeField] PulleySystem _linkedPulley;
+    [SerializeField] SpinPulleySystem _linkedSpinPulley;
 
     bool _isPlayerNear;
     bool _isInInteraction;
@@ -48,12 +50,12 @@ public class GearManager : MonoBehaviour {
 
         // Pulley System
         if (_linkedPulley != null) {
-            if (_gearRigidbody.angularVelocity > 5) {
+            if (_gearRigidbody.angularVelocity > _detectionAngularRotation) {
                 _linkedPulley.m_isMovingDown = true;
                 _linkedPulley.m_isMovingUp = false;
             }
 
-            else if (_gearRigidbody.angularVelocity < -5) {
+            else if (_gearRigidbody.angularVelocity < -_detectionAngularRotation) {
                 _linkedPulley.m_isMovingDown = false;
                 _linkedPulley.m_isMovingUp = true;
             }
@@ -61,6 +63,24 @@ public class GearManager : MonoBehaviour {
             else {
                 _linkedPulley.m_isMovingDown = false;
                 _linkedPulley.m_isMovingUp = false;
+            }
+        }
+
+        // Spinning Pulley System
+        if (_linkedSpinPulley != null) {
+            if (_gearRigidbody.angularVelocity > _detectionAngularRotation) {
+                _linkedSpinPulley.m_isSpinningLeft = true;
+                _linkedSpinPulley.m_isSpinningRight = false;
+            }
+
+            else if (_gearRigidbody.angularVelocity < -_detectionAngularRotation) {
+                _linkedSpinPulley.m_isSpinningLeft = false;
+                _linkedSpinPulley.m_isSpinningRight = true;
+            }
+
+            else {
+                _linkedSpinPulley.m_isSpinningLeft = false;
+                _linkedSpinPulley.m_isSpinningRight = false;
             }
         }
     }
