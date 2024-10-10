@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Gear
+  - RoomConnector
   layers:
   - Default
   - TransparentFX
