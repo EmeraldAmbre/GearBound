@@ -5,14 +5,20 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour {
 
     public bool m_isInteracting;
-    public bool m_isTurningClockwise;
+    public bool m_rotationInversion;
 
-    void Start() {
+    void Awake() {
 
         m_isInteracting = false;
-        m_isTurningClockwise = false;
+        m_rotationInversion = false;
 
     }
 
+    public void RotationInversion(HingeJoint2D hingeJoint) {
+        m_rotationInversion = !m_rotationInversion;
+        JointMotor2D moteur = hingeJoint.motor;
+        moteur.motorSpeed = -moteur.motorSpeed;
+        hingeJoint.motor = moteur;
+    }
 
 }
