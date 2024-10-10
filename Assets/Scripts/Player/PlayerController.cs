@@ -38,9 +38,9 @@ public class PlayerController : MonoBehaviour {
 
     void Update() {
 
-        Collider2D[] detectedGears = Physics2D.OverlapCircleAll(transform.position, _gearDetectionRay, _layerGear);
-        if (detectedGears.Length == 0 && Input.GetKeyDown(KeyCode.E) && _isSpinningFixed == false) BeginFixedRotation();
-        else if (Input.GetKeyDown(KeyCode.F) && _isSpinningFixed == true) EndFixedRotation();
+        //Collider2D[] detectedGears = Physics2D.OverlapCircleAll(transform.position, _gearDetectionRay, _layerGear);
+        //if (detectedGears.Length == 0 && Input.GetKeyDown(KeyCode.E) && _isSpinningFixed == false) BeginFixedRotation();
+        //else if (Input.GetKeyDown(KeyCode.F) && _isSpinningFixed == true) EndFixedRotation();
 
         if (_physics != null && Input.GetKeyDown(KeyCode.Space)) {
             if (_physics.m_isGrounded) _physics.Jump();

@@ -12,7 +12,7 @@ public class PlayerSpawnerManager : MonoBehaviour
         {
 
             PlayerController player = FindAnyObjectByType(typeof(PlayerController)) as PlayerController;
-
+            
             // Get the room connector where to spawn player
             RoomConnector[] arrayRoomConnector = FindObjectsOfType(typeof(RoomConnector)) as RoomConnector[];
             List<RoomConnector> listRoomConnectors = new List<RoomConnector>();
