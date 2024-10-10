@@ -12,10 +12,12 @@ public class GearManager : MonoBehaviour {
     [SerializeField] GameObject _player;
     [SerializeField] PlayerManager _playerManager;
     [SerializeField] Rigidbody2D _playerRigidbody;
-
     [SerializeField] Vector3 _interactionPosition;
+
+    // Linked pulleys and linked interactions
     [SerializeField] PulleySystem _linkedPulley;
     [SerializeField] SpinPulleySystem _linkedSpinPulley;
+    [SerializeField] DrawbridgeSystem _linkedDrawbridge;
 
     bool _isPlayerNear;
     bool _isInInteraction;
@@ -40,13 +42,9 @@ public class GearManager : MonoBehaviour {
         if (detectedObj.Length > 0) _isPlayerNear = true;
         else _isPlayerNear = false;
 
-        if (_isPlayerNear && Input.GetKeyDown(KeyCode.E) && !_isInInteraction) {
-            BeginInteraction();
-        }
+        if (_isPlayerNear && Input.GetKeyDown(KeyCode.E) && !_isInInteraction) { BeginInteraction(); }
 
-        if (_isInInteraction && Input.GetKeyDown(KeyCode.F)) {
-            EndInteraction();
-        }
+        if (_isInInteraction && Input.GetKeyDown(KeyCode.F)) { EndInteraction(); }
 
         // Pulley System
         if (_linkedPulley != null) {
@@ -83,6 +81,25 @@ public class GearManager : MonoBehaviour {
                 _linkedSpinPulley.m_isSpinningRight = false;
             }
         }
+
+        // Drawbridge System
+        if (_linkedDrawbridge != null) {
+            if (_gearRigidbody.angularVelocity > _detectionAngularRotation) {
+                _linkedDrawbridge.m_isMovingDown = true;
+                _linkedDrawbridge.m_isMovingUp = false;
+            }
+
+            else if (_gearRigidbody.angularVelocity < -_detectionAngularRotation) {
+                _linkedDrawbridge.m_isMovingDown = false;
+                _linkedDrawbridge.m_isMovingUp = true;
+            }
+
+            else {
+                _linkedDrawbridge.m_isMovingDown = false;
+                _linkedDrawbridge.m_isMovingUp = false;
+            }
+        }
+
     }
 
     void BeginInteraction() {
