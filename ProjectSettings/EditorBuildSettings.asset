@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Ambre.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/Test/TestRoom 1.unity
+    guid: f0dba8e79ac4b044593e4511d072b7b3
   - enabled: 1
     path: Assets/Scenes/Test/TestRoom 2.unity
     guid: e54bb0b09d4f4844c991e7fc27eeca4f
-  - enabled: 1
-    path: Assets/Scenes/Test/TestRoom 1.unity
-    guid: f0dba8e79ac4b044593e4511d072b7b3
+  - enabled: 0
+    path: Assets/Scenes/Ambre.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}

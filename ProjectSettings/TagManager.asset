@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Gear
   - RoomConnector
+  - MechanismToSaveState
   layers:
   - Default
   - TransparentFX

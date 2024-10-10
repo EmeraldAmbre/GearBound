@@ -5,7 +5,15 @@ using UnityEngine;
 
 public class RoomData : Singleton<RoomData>
 {
-    public string m_lastRoomSceneName;
+    public string m_LastRoomSceneName;
 
-    // Start is called before the first frame update
+    public List<RoomMechanismData> m_ListRoomMechanismData = new List<RoomMechanismData>();
+
+}
+
+public class RoomMechanismData
+{
+    public string m_SceneRoomName;
+    public List<GameObject> m_ListMechanismStateSaved = new List<GameObject>();
+    
 }
