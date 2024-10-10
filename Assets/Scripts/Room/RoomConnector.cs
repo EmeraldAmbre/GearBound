@@ -5,17 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class RoomConnector : MonoBehaviour
 {
-    [SerializeField] string _sceneNameToConnect;
-
-    [SerializeField] bool _isSpawningUp;
-    [SerializeField] bool _isSpawningDown;
-    [SerializeField] bool _isSpawningRight;
-    [SerializeField] bool _isSpawningLeft;
-    [SerializeField] float _spawningDistance = 100;
+    public string m_SceneNameToConnect;
+    public Transform m_PointToSpawnPlayer;
     // Start is called before the first frame update
     void Start()
     {
-        
+
+        Debug.Log("last scene name from playerSpawnerManager :" + RoomData.Instance.m_lastRoomSceneName);
     }
 
     // Update is called once per frame
@@ -28,8 +24,8 @@ public class RoomConnector : MonoBehaviour
     {
         if (collision.gameObject.layer == 7)
         {
-            SceneManager.LoadScene(_sceneNameToConnect);
-            Debug.Log("Woah");
+            SceneManager.LoadScene(m_SceneNameToConnect);
+            RoomData.Instance.m_lastRoomSceneName = SceneManager.GetActiveScene().name;
         }
     }
 }
