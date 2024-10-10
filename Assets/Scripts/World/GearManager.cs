@@ -5,8 +5,6 @@ using UnityEngine;
 public class GearManager : MonoBehaviour {
 
     [SerializeField] float _detectionRay = 0.70f;
-    [SerializeField] float _interactionTimer = 4.0f;
-    [SerializeField] Vector3 _targetAnchor;
 
     [SerializeField] LayerMask _layerPlayer;
     [SerializeField] HingeJoint2D _playerJoint;
@@ -14,22 +12,23 @@ public class GearManager : MonoBehaviour {
     [SerializeField] PlayerManager _playerManager;
     [SerializeField] Rigidbody2D _playerRigidbody;
 
+    [SerializeField] Vector3 _interactionPosition;
+    [SerializeField] PulleySystem _linkedPulley;
+
     bool _isPlayerNear;
     bool _isInInteraction;
-    float _timer;
+
+    Rigidbody2D _gearRigidbody;
 
     void Start() {
 
         if (_playerJoint == null) _playerJoint = _player.GetComponent<HingeJoint2D>();
         if (_playerManager == null) _playerManager = _player.GetComponent<PlayerManager>();
         if (_playerRigidbody == null) _playerRigidbody = _player.GetComponent<Rigidbody2D>();
-        
-    }
 
-    void Awake() {
+        _gearRigidbody = GetComponent<Rigidbody2D>();
 
         _isInInteraction = false;
-        
     }
 
     void Update() {
@@ -43,26 +42,34 @@ public class GearManager : MonoBehaviour {
             BeginInteraction();
         }
 
-        if (_isInInteraction) {
-            _timer -= Time.deltaTime;
+        if (_isInInteraction && Input.GetKeyDown(KeyCode.F)) {
+            EndInteraction();
+        }
 
-            if (_timer > 0) {
-                // eventual supplementary actions
+        // Pulley System
+        if (_linkedPulley != null && _isInInteraction) {
+            if (_gearRigidbody.angularVelocity > 0) {
+                _linkedPulley.m_isMovingDown = true;
+                _linkedPulley.m_isMovingUp = false;
+            }
+
+            else if (_gearRigidbody.angularVelocity < 0) {
+                _linkedPulley.m_isMovingDown = false;
+                _linkedPulley.m_isMovingUp = true;
             }
 
             else {
-                EndInteraction();
+                _linkedPulley.m_isMovingDown = false;
+                _linkedPulley.m_isMovingUp = false;
             }
         }
-
     }
 
     void BeginInteraction() {
 
-        _timer = _interactionTimer;
         _isInInteraction = true;
         _playerManager.m_isInteracting = true;
-        _player.transform.position = _targetAnchor;
+        _player.transform.position = _interactionPosition;
         _playerRigidbody.constraints = RigidbodyConstraints2D.FreezePosition;
         _playerJoint.enabled = true;
         _playerJoint.useMotor = true;
@@ -75,6 +82,9 @@ public class GearManager : MonoBehaviour {
         _playerManager.m_isInteracting = false;
         _playerJoint.useMotor = false;
         _playerJoint.enabled = false;
+        _gearRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+        _gearRigidbody.constraints = RigidbodyConstraints2D.None;
+        _gearRigidbody.constraints = RigidbodyConstraints2D.FreezePosition;
         _playerRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         _playerRigidbody.constraints = RigidbodyConstraints2D.None;
 

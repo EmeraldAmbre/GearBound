@@ -24,7 +24,9 @@ public class PlayerController : MonoBehaviour {
 
     void Update() {
 
-        if (_physics != null && Input.GetKeyDown(KeyCode.Space)) { _physics.Jump(); }
+        if (_physics != null && Input.GetKeyDown(KeyCode.Space)) {
+            if (_physics.m_isGrounded) _physics.Jump();
+        }
 
         if (_playerManager.m_isInteracting == false) Move();
 
