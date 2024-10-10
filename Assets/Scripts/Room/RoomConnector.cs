@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,7 +13,6 @@ public class RoomConnector : MonoBehaviour
     void Start()
     {
 
-        Debug.Log("last scene name from playerSpawnerManager :" + RoomData.Instance.m_LastRoomSceneName);
     }
 
     // Update is called once per frame
@@ -36,10 +36,17 @@ public class RoomConnector : MonoBehaviour
             {
                 List<GameObject> listMechanismToSaveState = new List<GameObject>();
                 listMechanismToSaveState.AddRange(GameObject.FindGameObjectsWithTag("MechanismToSaveState"));
+
+                List<MechanismData> listMechanismDataToSave = new List<MechanismData>();
+                for (int i = 0; i < listMechanismToSaveState.Count; i++)
+                {
+                    MechanismData mechanismData = new MechanismData(listMechanismToSaveState.ElementAt(i));
+                    listMechanismDataToSave.Add(mechanismData);
+                }
                 roomMechanismData = new RoomMechanismData();
                 roomMechanismData.m_SceneRoomName = SceneManager.GetActiveScene().name;
-                roomMechanismData.m_ListMechanismStateSaved = listMechanismToSaveState;
-                RoomData.Instance.m_ListRoomMechanismData.Add(roomMechanismData); ;
+                roomMechanismData.m_ListMechanismStateSaved = listMechanismDataToSave;
+                RoomData.Instance.m_ListRoomMechanismData.Add(roomMechanismData);
 
             
             }
