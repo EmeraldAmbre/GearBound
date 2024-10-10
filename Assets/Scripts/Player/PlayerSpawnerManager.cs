@@ -21,8 +21,10 @@ public class PlayerSpawnerManager : MonoBehaviour
             listRoomConnectors.AddRange(arrayRoomConnector);
             RoomConnector roomConnectorToSpawnPlayer = listRoomConnectors.Find(
                 roomCoonnector => roomCoonnector.m_SceneNameToConnect == RoomData.Instance.m_LastRoomSceneName);
-
-            player.transform.position = roomConnectorToSpawnPlayer.m_PointToSpawnPlayer.transform.position;
+            if (roomConnectorToSpawnPlayer != null )
+            {
+                player.transform.position = roomConnectorToSpawnPlayer.m_PointToSpawnPlayer.transform.position;
+            }
         }
 
 
@@ -41,10 +43,10 @@ public class PlayerSpawnerManager : MonoBehaviour
                 GameObject mechanismToChange = listMechanismToChangeState.ElementAt(i);
                 for (int j = 0; j < roomMechanismData.m_ListMechanismStateSaved.Count; j++)
                 {
-                    GameObject mechanismStateSaved = roomMechanismData.m_ListMechanismStateSaved.ElementAt(i);
+                    MechanismData mechanismStateSaved = roomMechanismData.m_ListMechanismStateSaved.ElementAt(i);
                     if (mechanismToChange.name == mechanismStateSaved.name)
                     {
-                        mechanismToChange = mechanismStateSaved;
+                        mechanismToChange.transform.position = mechanismStateSaved.position;
                         break;
                     }
                 }

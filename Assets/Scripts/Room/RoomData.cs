@@ -14,6 +14,18 @@ public class RoomData : Singleton<RoomData>
 public class RoomMechanismData
 {
     public string m_SceneRoomName;
-    public List<GameObject> m_ListMechanismStateSaved = new List<GameObject>();
+    public List<MechanismData> m_ListMechanismStateSaved = new List<MechanismData>();
     
+}
+
+public class MechanismData
+{
+    public string name;
+    public Vector3 position;
+
+    public MechanismData(GameObject gameObject)
+    {
+        name = gameObject.name;
+        position = gameObject.transform.position;
+    }
 }
