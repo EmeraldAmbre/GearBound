@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class GearManager : MonoBehaviour {
 
-    [SerializeField] float _detectionRay = 0.70f;
+    [SerializeField] bool _isInteractable;
     [SerializeField] float _detectionAngularRotation = 10f;
-
-    [SerializeField] LayerMask _layerPlayer;
-    [SerializeField] HingeJoint2D _playerJoint;
-    [SerializeField] GameObject _player;
-    [SerializeField] PlayerManager _playerManager;
-    [SerializeField] Rigidbody2D _playerRigidbody;
-    [SerializeField] Vector3 _interactionPosition;
+    [SerializeField] float _detectionRay = 1f;
+    [SerializeField] LayerMask _detectionLayer = 7;
 
     // Linked pulleys and linked interactions
     [SerializeField] PulleySystem _linkedPulley;
@@ -25,11 +20,6 @@ public class GearManager : MonoBehaviour {
     Rigidbody2D _gearRigidbody;
 
     void Start() {
-
-        if (_playerJoint == null) _playerJoint = _player.GetComponent<HingeJoint2D>();
-        if (_playerManager == null) _playerManager = _player.GetComponent<PlayerManager>();
-        if (_playerRigidbody == null) _playerRigidbody = _player.GetComponent<Rigidbody2D>();
-
         _gearRigidbody = GetComponent<Rigidbody2D>();
 
         _isInInteraction = false;
@@ -37,14 +27,9 @@ public class GearManager : MonoBehaviour {
 
     void Update() {
 
-        Collider2D[] detectedObj = Physics2D.OverlapCircleAll(transform.position, _detectionRay, _layerPlayer);
-
-        if (detectedObj.Length > 0) _isPlayerNear = true;
-        else _isPlayerNear = false;
-
-        if (_isPlayerNear && Input.GetKeyDown(KeyCode.E) && !_isInInteraction) { BeginInteraction(); }
-
-        if (_isInInteraction && Input.GetKeyDown(KeyCode.F)) { EndInteraction(); }
+        Collider2D[] objetsDetectes = Physics2D.OverlapCircleAll(transform.position, _detectionRay, _detectionLayer);
+        if (objetsDetectes.Length == 0 && _isInteractable) _gearRigidbody.freezeRotation = true;
+        else _gearRigidbody.freezeRotation = false;
 
         // Pulley System
         if (_linkedPulley != null) {
@@ -100,36 +85,6 @@ public class GearManager : MonoBehaviour {
             }
         }
 
-    }
-
-    void BeginInteraction() {
-
-        _isInInteraction = true;
-        _playerManager.m_isInteracting = true;
-        _player.transform.position = _interactionPosition;
-        _playerRigidbody.constraints = RigidbodyConstraints2D.FreezePosition;
-        _playerJoint.enabled = true;
-        _playerJoint.useMotor = true;
-
-    }
-
-    void EndInteraction() {
-
-        _isInInteraction = false;
-        _playerManager.m_isInteracting = false;
-        _playerJoint.useMotor = false;
-        _playerJoint.enabled = false;
-        _gearRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
-        _gearRigidbody.constraints = RigidbodyConstraints2D.None;
-        _gearRigidbody.constraints = RigidbodyConstraints2D.FreezePosition;
-        _playerRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        _playerRigidbody.constraints = RigidbodyConstraints2D.None;
-
-    }
-
-    void OnDrawGizmosSelected() {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, _detectionRay);
     }
 
 }

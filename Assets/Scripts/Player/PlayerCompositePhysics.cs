@@ -7,6 +7,7 @@ public class PlayerCompositePhysics : MonoBehaviour {
     public float _jumpForce = 7.5f;
 
     public bool m_isGrounded { get; private set; }
+    public bool m_onWall { get; private set; }
     public Rigidbody2D m_playerRigidbody { get; private set; }
     public CircleCollider2D m_playerMainCollider { get; private set; }
 
@@ -16,11 +17,13 @@ public class PlayerCompositePhysics : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.layer == 6) m_isGrounded = true;
+        if (collision.gameObject.layer == 6 || collision.gameObject.layer == 8) m_isGrounded = true;
+        else if (collision.gameObject.CompareTag("Wall")) m_onWall = true;
     }
 
     void OnCollisionExit2D(Collision2D collision) {
-        if (collision.gameObject.layer == 6) m_isGrounded = false;
+        if (collision.gameObject.layer == 6 || collision.gameObject.layer == 8) m_isGrounded = false;
+        else if (collision.gameObject.CompareTag("Wall")) m_onWall = false;
     }
 
     public void Jump() {

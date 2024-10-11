@@ -7,18 +7,15 @@ public class PlayerManager : MonoBehaviour {
     public float m_playerLife { get; private set; }
 
     public bool m_isInteracting;
-    public bool m_rotationInversion;
+    public float m_rotationInversion { get; private set; }
 
     void Awake() {
         m_isInteracting = false;
-        m_rotationInversion = false;
+        m_rotationInversion = 1;
     }
 
-    public void RotationInversion(HingeJoint2D hingeJoint) {
-        m_rotationInversion = !m_rotationInversion;
-        JointMotor2D moteur = hingeJoint.motor;
-        moteur.motorSpeed = -moteur.motorSpeed;
-        hingeJoint.motor = moteur;
+    public void RotationInversion() {
+        m_rotationInversion *= -1;
     }
 
 }
