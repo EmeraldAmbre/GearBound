@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerCompositePhysics : MonoBehaviour {
@@ -11,19 +12,20 @@ public class PlayerCompositePhysics : MonoBehaviour {
     public Rigidbody2D m_playerRigidbody { get; private set; }
     public CircleCollider2D m_playerMainCollider { get; private set; }
 
+    [SerializeField] LayerMask _groundlayer;
+    [SerializeField] Transform _groundCheckLimitPoint;
+
     void Start() {
         m_playerRigidbody = GetComponent<Rigidbody2D>();
         m_playerMainCollider = GetComponent<CircleCollider2D>();
     }
 
     void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.layer == 6 || collision.gameObject.layer == 8) m_isGrounded = true;
-        else if (collision.gameObject.CompareTag("Wall")) m_onWall = true;
+        if ( (collision.gameObject.layer == 6) && (collision.GetContact(0).point.y < _groundCheckLimitPoint.position.y)) m_isGrounded = true;
     }
 
     void OnCollisionExit2D(Collision2D collision) {
-        if (collision.gameObject.layer == 6 || collision.gameObject.layer == 8) m_isGrounded = false;
-        else if (collision.gameObject.CompareTag("Wall")) m_onWall = false;
+        m_isGrounded = false;
     }
 
     public void Jump() {

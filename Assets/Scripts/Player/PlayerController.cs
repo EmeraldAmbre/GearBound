@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] float _moveSpeed = 4f;
     [SerializeField] float _rotationSpeed = 20f;
     [SerializeField] Transform _attachedGear;
-
+    
     // Physics
     PlayerCompositePhysics _physics;
     PlayerScriptedPhysics _scriptedPhysics;
@@ -30,19 +30,23 @@ public class PlayerController : MonoBehaviour {
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    void Update() {
+    void Update()
+    {
 
-        if (Input.GetKeyDown(KeyCode.E) && _isSpinningFixed == false && _physics.m_isGrounded) {
+        if (Input.GetKeyDown(KeyCode.E) && _isSpinningFixed == false && _physics.m_isGrounded)
+        {
             _isSpinningFixed = true;
             _rigidbody.constraints = RigidbodyConstraints2D.FreezePosition;
         }
 
-        else if (Input.GetKeyDown(KeyCode.E) && _isSpinningFixed == true) {
+        else if (Input.GetKeyDown(KeyCode.E) && _isSpinningFixed == true)
+        {
             _isSpinningFixed = false;
             _rigidbody.constraints = RigidbodyConstraints2D.None;
         }
 
-        if (_physics != null && Input.GetKeyDown(KeyCode.Space)) {
+        if (_physics != null && Input.GetKeyDown(KeyCode.Space))
+        {
             if (_physics.m_isGrounded) _isJumping = true;
         }
 
@@ -51,17 +55,24 @@ public class PlayerController : MonoBehaviour {
         inputX = Input.GetAxis("Horizontal");
     }
 
+    float _gravity = 9.81f;
+    float _yGravityAcelerationToApply = 0;
+
     void FixedUpdate() {
 
         if (_playerManager.m_isInteracting == false) Rotate();
 
-        Vector3 deplacement = new Vector3(inputX * _moveSpeed * Time.deltaTime, _rigidbody.velocity.y, 0);
-        _rigidbody.velocity = deplacement;
-
-        if(_isJumping) {
-            _rigidbody.AddForce(Vector2.up * _physics._jumpForce, ForceMode2D.Impulse);
+        Vector2 newVelocity = new Vector3(inputX * _moveSpeed * Time.deltaTime, _rigidbody.velocity.y, 0);
+        if (_physics.m_isGrounded) newVelocity.y = 0;
+        if (_isJumping)
+        {
+            _rigidbody.AddForce(new Vector2(0 ,_physics._jumpForce), ForceMode2D.Impulse);
             _isJumping = false;
         }
+
+        _rigidbody.velocity += newVelocity;
+
+        _attachedGear.transform.position = transform.position;
     }
 
     void Rotate() {
@@ -71,5 +82,8 @@ public class PlayerController : MonoBehaviour {
         _attachedGear.Rotate(Vector3.forward, -rotation);
 
     }
+
+
+  
 
 }
