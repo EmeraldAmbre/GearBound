@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour {
 
-    public float m_playerLife { get; private set; }
+    #region Public Variables
 
-    public bool m_isInteracting;
+    public bool m_isInteracting { get; set; }
+    public float m_playerLife { get; private set; }
     public float m_rotationInversion { get; private set; }
 
-    void Awake() {
+    #endregion
+
+    private void Awake() {
         m_isInteracting = false;
         m_rotationInversion = 1;
     }
@@ -18,4 +21,11 @@ public class PlayerManager : MonoBehaviour {
         m_rotationInversion *= -1;
     }
 
+    public void TakeDamage(float damage) {
+        m_playerLife -= damage;
+    }
+
+    public void Heal(float heal) {
+        m_playerLife += heal;
+    }
 }
