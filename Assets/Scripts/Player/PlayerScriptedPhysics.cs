@@ -58,7 +58,7 @@ public class PlayerScriptedPhysics : MonoBehaviour {
         float progression = _jumpTimer / _jumpDuration;
 
         if (progression >= 1f) {
-            _isJumping = false;
+            //_isJumping = false;
             transform.position = new Vector3(transform.position.x, _initialPos.y, transform.position.z);
             return;
         }
