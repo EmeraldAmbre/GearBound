@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5675f9afa3dfe114a99deb0caf9d2424, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isInteractable: 1
+  _isInteractable: 0
   _detectionAngularRotation: 10
   _detectionRay: 1
   _detectionLayer:
@@ -254,3 +254,4 @@ MonoBehaviour:
   _linkedPulley: {fileID: 0}
   _linkedSpinPulley: {fileID: 0}
   _linkedDrawbridge: {fileID: 0}
+  _linkedHorizontalPulley: {fileID: 0}

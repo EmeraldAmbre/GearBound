@@ -6,20 +6,28 @@ using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour {
 
+    // UI variables
     [SerializeField] private List<GameObject> _fullHearts;
     [SerializeField] private List<GameObject> _demiHearts;
     [SerializeField] private List<GameObject> _emptyHearts;
+
+    // Life and invincibilité frame
     [SerializeField] private int _maxLife;
+    [SerializeField] private float _invincibilityTime = 2f;
+    [SerializeField] private float _invincibilityFrame = 0.1f;
+    private SpriteRenderer _spriteRenderer;
 
     #region Public Variables
 
     public bool m_isInteracting { get; set; }
-    public int m_playerLife;
+    public int m_playerLife { get; private set; }
     public int m_rotationInversion { get; private set; }
+    public bool m_isInvincible { get; private set; }
 
     #endregion
 
     private void Awake() {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         m_isInteracting = false;
         m_rotationInversion = 1;
 
@@ -39,8 +47,11 @@ public class PlayerManager : MonoBehaviour {
     }
 
     public void TakeDamage() {
-        if (m_playerLife > 0) m_playerLife -= 1;
-        LifeUpdate();
+        if (!m_isInvincible) {
+            if (m_playerLife > 0) m_playerLife -= 1;
+            LifeUpdate();
+            StartCoroutine(Invincibility());
+        }
     }
 
     public void Heal() {
@@ -54,6 +65,24 @@ public class PlayerManager : MonoBehaviour {
     #endregion
 
     #region Private Methods
+    private IEnumerator Invincibility() {
+
+        m_isInvincible = true;
+        float timer = 0f;
+
+        while (timer < _invincibilityTime) {
+
+            _spriteRenderer.enabled = !_spriteRenderer.enabled;
+
+            yield return new WaitForSeconds(_invincibilityFrame);
+
+            timer += _invincibilityFrame;
+        }
+
+        _spriteRenderer.enabled = true;
+        m_isInvincible = false;
+    }
+
     private void LifeUpdate() {
 
         int fullHearts = m_playerLife / 2;
