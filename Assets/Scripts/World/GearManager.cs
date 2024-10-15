@@ -13,6 +13,7 @@ public class GearManager : MonoBehaviour {
     [SerializeField] PulleySystem _linkedPulley;
     [SerializeField] SpinPulleySystem _linkedSpinPulley;
     [SerializeField] DrawbridgeSystem _linkedDrawbridge;
+    [SerializeField] HorizontalPulleySystem _linkedHorizontalPulley;
 
     bool _isPlayerNear;
     bool _isInInteraction;
@@ -46,6 +47,24 @@ public class GearManager : MonoBehaviour {
             else {
                 _linkedPulley.m_isMovingDown = false;
                 _linkedPulley.m_isMovingUp = false;
+            }
+        }
+
+        // Horizontal Pulley System
+        if (_linkedHorizontalPulley != null) {
+            if (_gearRigidbody.angularVelocity > _detectionAngularRotation) {
+                _linkedHorizontalPulley.m_isMovingLeft = true;
+                _linkedHorizontalPulley.m_isMovingRight = false;
+            }
+
+            else if (_gearRigidbody.angularVelocity < -_detectionAngularRotation) {
+                _linkedHorizontalPulley.m_isMovingLeft = false;
+                _linkedHorizontalPulley.m_isMovingRight = true;
+            }
+
+            else {
+                _linkedHorizontalPulley.m_isMovingLeft = false;
+                _linkedHorizontalPulley.m_isMovingRight = false;
             }
         }
 
@@ -84,7 +103,5 @@ public class GearManager : MonoBehaviour {
                 _linkedDrawbridge.m_isMovingUp = false;
             }
         }
-
     }
-
 }
