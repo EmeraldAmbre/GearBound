@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour {
 
 
     // Physics
-    [SerializeField] PlayerGear _gear;
+    [SerializeField] GameObject _gear;
     PlayerCompositePhysics _physics;
     PlayerScriptedPhysics _scriptedPhysics;
     PlayerManager _playerManager;
@@ -77,19 +77,15 @@ public class PlayerController : MonoBehaviour {
 
         HandleXInput();
 
-        // 
-        if (_physics.m_isGrounded && !Input.GetKeyDown(KeyCode.Space))
+        if (_physics.IsGrounded() && _rigidbody.velocity.y <= 0.01f)
         {
             _hasJumped = false;
-        }
-        if (_physics.m_isGrounded && _rigidbody.velocity.y < 0)
-        {
             ResetYVelocityOfPlayerAndGearRigidbodies();
         }
 
     }
 
-    #region Jump and movement methods
+    #region Jump and movement methods called in Update()
     private void HandleXInput()
     {
         if (Input.GetKey(KeyCode.A)) inputX = -1;
@@ -98,19 +94,19 @@ public class PlayerController : MonoBehaviour {
     }
     private void HandleJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _physics.m_isGrounded && !_hasJumped)
+        if (Input.GetKeyDown(KeyCode.Space) && _physics.IsGrounded() && !_hasJumped)
         {
             _isTrigerringJump = true;
         }
     }
     private void HandleJumpBuffering()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !_physics.m_isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && !_physics.IsGrounded())
         {
             _jumpBufferTimer = 0;
         }
         else if (_jumpBufferTimer < _jumpBufferTime) _jumpBufferTimer += Time.deltaTime;
-        if (_physics.m_isGrounded && _jumpBufferTimer < _jumpBufferTime)
+        if (_physics.IsGrounded() && _jumpBufferTimer < _jumpBufferTime)
         {
             _isTrigerringJump = true;
             _jumpBufferTimer = _jumpBufferTime;
@@ -118,9 +114,10 @@ public class PlayerController : MonoBehaviour {
     }
     private void HandlingCoyoteJump()
     {
-        if (!_hasJumped && !_physics.m_isGrounded && _wasGroundedOnLastFrame && _rigidbody.velocity.y < 0 && _jumpCoyoteTimer != 0)
+        if (!_hasJumped && !_physics.IsGrounded() && _rigidbody.velocity.y < 0 && _jumpCoyoteTimer != 0)
         {
             _jumpCoyoteTimer = 0;
+            Debug.Log("Coyote timer triggered");
         }
         else if (_jumpCoyoteTimer < _jumpCoyoteTime) _jumpCoyoteTimer += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Space) && _jumpCoyoteTimer < _jumpCoyoteTime)
@@ -129,12 +126,10 @@ public class PlayerController : MonoBehaviour {
             ResetYVelocityOfPlayerAndGearRigidbodies();
             _isTrigerringJump = true;
         }
-
-        _wasGroundedOnLastFrame = _physics.m_isGrounded;
     }
     private void HandleJumpHandling()
     {
-        if (Input.GetKey(KeyCode.Space) && !_physics.m_isGrounded && _rigidbody.velocity.y >= 0)
+        if (Input.GetKey(KeyCode.Space) && !_physics.IsGrounded() && _rigidbody.velocity.y >= 0)
         {
             _isHandlingJumpButton = true;
         }
@@ -143,30 +138,17 @@ public class PlayerController : MonoBehaviour {
     #endregion
 
 
-    void FixedUpdate() {
-        if (_playerManager.m_isInteracting == false) Rotate();
+    void FixedUpdate()
+    {
+        if (_playerManager.m_isInteracting == false) RotateGear();
 
         Vector2 newVelocity = new Vector3(inputX * _moveSpeed, _rigidbody.velocity.y, 0);
 
-        // Handle gravity modifier on fall
-        if (_rigidbody.velocity.y < 0 && _rigidbody.gravityScale == _initGravityScale && !_physics.m_isGrounded) _rigidbody.gravityScale *= _fallGravityMultiplicator;
-        else if (_rigidbody.velocity.y >= 0 && _rigidbody.gravityScale != _initGravityScale) _rigidbody.gravityScale = _initGravityScale;
+        HandlePhysicsGravityChangeOnFall();
 
-        // Change velocity to make the jump
-        if (_isTrigerringJump)
-        {
-            ResetYVelocityOfPlayerAndGearRigidbodies();
-            //_rigidbody.AddForce(new Vector2(0 ,_physics._jumpForce), ForceMode2D.Impulse);
-            _rigidbody.velocity += new Vector2(0, _physics._jumpForce);
-            _hasJumped = true;
-            _isTrigerringJump = false;
-            //Debug.Log("Jump with starting y velocity : " + _rigidbody.velocity.y + "  At time : " + Time.time);
-        }
-        if (_isHandlingJumpButton && _rigidbody.velocity.y >= 0)
-        {
-            _rigidbody.velocity += new Vector2(0, _jumpHandlingVelocity);
-            //_rigidbody.AddForce(new Vector2(0, _jumpHandlingVelocity), ForceMode2D.Force);
-        }
+        HandlePhysicsVelocityWenJumpTriggered();
+
+        HandlePhysicsVelocityWhenJumpHandling();
 
         _rigidbody.velocity += newVelocity;
 
@@ -178,13 +160,43 @@ public class PlayerController : MonoBehaviour {
         _gear.transform.position = transform.position;
     }
 
+    #region Physics methods for FixedUpdate()
+    private void HandlePhysicsVelocityWhenJumpHandling()
+    {
+        if (_isHandlingJumpButton && _rigidbody.velocity.y >= 0)
+        {
+            _rigidbody.velocity += new Vector2(0, _jumpHandlingVelocity);
+            //_rigidbody.AddForce(new Vector2(0, _jumpHandlingVelocity), ForceMode2D.Force);
+        }
+    }
+
+    private void HandlePhysicsVelocityWenJumpTriggered()
+    {
+        if (_isTrigerringJump)
+        {
+            ResetYVelocityOfPlayerAndGearRigidbodies();
+            //_rigidbody.AddForce(new Vector2(0 ,_physics._jumpForce), ForceMode2D.Impulse);
+            _rigidbody.velocity += new Vector2(0, _physics._jumpForce);
+            _hasJumped = true;
+            _isTrigerringJump = false;
+            //Debug.Log("Jump with starting y velocity : " + _rigidbody.velocity.y + "  At time : " + Time.time);
+        }
+    }
+
+    private void HandlePhysicsGravityChangeOnFall()
+    {
+        if (_rigidbody.velocity.y < 0 && _rigidbody.gravityScale == _initGravityScale && !_physics.IsGrounded()) _rigidbody.gravityScale *= _fallGravityMultiplicator;
+        else if (_rigidbody.velocity.y >= 0 && _rigidbody.gravityScale != _initGravityScale) _rigidbody.gravityScale = _initGravityScale;
+    } 
+    #endregion
+
     private void ResetYVelocityOfPlayerAndGearRigidbodies()
     {
         _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, 0, 0);
-        _gear.m_rigidbody.velocity = new Vector3(_gear.m_rigidbody.velocity.x, 0, 0);
+        _gear.GetComponent<Rigidbody2D>().velocity = new Vector3(_gear.GetComponent<Rigidbody2D>().velocity.x, 0, 0);
     }
 
-    void Rotate() {
+    void RotateGear() {
         float rotation = inputX * _rotationSpeed * _playerManager.m_rotationInversion;
         _gear.transform.Rotate(Vector3.forward, -rotation);
     }
