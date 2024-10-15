@@ -144,24 +144,14 @@ public class PlayerController : MonoBehaviour {
     {
         if (_playerManager.m_isInteracting == false) RotateGear();
 
-        Vector2 newVelocity = new Vector2();
-
+        _rigidbody.velocity += new Vector2(inputX * _moveSpeed, _rigidbody.velocity.y);
 
         if (_physics.IsOnSlope())
         {
-            //_rigidbody.velocity = new Vector2( 0, _rigidbody.velocity.y);
-            newVelocity = new Vector3(inputX * _moveSpeed, _rigidbody.velocity.y, 0);
-            if (inputX == 0) _rigidbody.isKinematic = true;
-            else _rigidbody.isKinematic = false;
-            //_rigidbody.sharedMaterial = _physicMaterialZeroFriction;
+            if (inputX == 0) _rigidbody.sharedMaterial = _physicMaterialFullFriction;
+            else _rigidbody.sharedMaterial = _physicMaterialZeroFriction;   
         }
-        else if (!_physics.IsOnSlope())
-        {
-            if(_rigidbody.isKinematic) _rigidbody.isKinematic = false;
-            newVelocity = new Vector3(inputX * _moveSpeed, _rigidbody.velocity.y, 0);
-            //_rigidbody.sharedMaterial = _physicMaterialZeroFriction;
-
-        }
+        else _rigidbody.sharedMaterial = _physicMaterialZeroFriction;
 
 
         //newVelocity = new Vector3(inputX * _moveSpeed, _rigidbody.velocity.y, 0);
@@ -172,7 +162,6 @@ public class PlayerController : MonoBehaviour {
 
         HandlePhysicsVelocityWhenJumpHandling();
 
-        _rigidbody.velocity += newVelocity;
 
         //_rigidbody.velocity = new Vector2(
         //    Mathf.Clamp(_rigidbody.velocity.x, -_velocityXMax, _velocityXMax)
@@ -185,7 +174,7 @@ public class PlayerController : MonoBehaviour {
     #region Physics methods for FixedUpdate()
     private void HandlePhysicsVelocityWhenJumpHandling()
     {
-        if (_isHandlingJumpButton && _rigidbody.velocity.y >= 0)
+        if (_isHandlingJumpButton && _rigidbody.velocity.y > 0)
         {
             _rigidbody.velocity += new Vector2(0, _jumpHandlingVelocity);
             //_rigidbody.AddForce(new Vector2(0, _jumpHandlingVelocity), ForceMode2D.Force);
@@ -214,8 +203,8 @@ public class PlayerController : MonoBehaviour {
 
     private void ResetYVelocityOfPlayerAndGearRigidbodies()
     {
-        _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, 0, 0);
-        _gear.GetComponent<Rigidbody2D>().velocity = new Vector3(_gear.GetComponent<Rigidbody2D>().velocity.x, 0, 0);
+        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0);
+        _gear.GetComponent<Rigidbody2D>().velocity = new Vector3(_gear.GetComponent<Rigidbody2D>().velocity.x, 0);
     }
 
     void RotateGear() {

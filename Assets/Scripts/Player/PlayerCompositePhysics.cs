@@ -87,6 +87,15 @@ public class PlayerCompositePhysics : MonoBehaviour {
         }
         else return Vector2.left;
     }
+
+    public Vector2 GetSlopeGroundPointPosition()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, _slopeCheckLenghtDistance, _groundlayer);
+        return hit.transform.position;
+    }
+
+
+
     public bool IsOnSlope()
     {
         if (GetSlopePerpendicularNormal() != Vector2.left) return true;
