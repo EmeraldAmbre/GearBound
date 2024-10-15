@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour {
     bool _isSpinningFixed;
     [SerializeField] float _moveSpeed = 4f;
     [SerializeField] float _rotationSpeed = 20f;
-    [SerializeField] Transform _attachedGear;
 
 
     [SerializeField] float _jumpHandlingVelocity = 5;
@@ -30,14 +29,17 @@ public class PlayerController : MonoBehaviour {
 
 
     // Physics
+    [SerializeField] PlayerGear _gear;
     PlayerCompositePhysics _physics;
     PlayerScriptedPhysics _scriptedPhysics;
     PlayerManager _playerManager;
     Rigidbody2D _rigidbody;
 
     float inputX;
-    bool _isJumping = false;
+    bool _isTrigerringJump = false;
+    bool _hasJumped = false;
     bool _isHandlingJumpButton = false;
+    bool _wasGroundedOnLastFrame = false;
 
     private void Awake() {
         _isSpinningFixed = false;
@@ -53,65 +55,117 @@ public class PlayerController : MonoBehaviour {
 
     void Update()
     {
-        if (!_isJumping && !_physics.m_isGrounded && _rigidbody.velocity.y < 0 && _jumpCoyoteTimer == 0) _jumpCoyoteTimer = 0;
-        else if (_jumpCoyoteTimer <= _jumpCoyoteTime) _jumpCoyoteTimer += Time.deltaTime;
+        //if (Input.GetKeyDown(KeyCode.E) && _isSpinningFixed == false && _physics.m_isGrounded)
+        //{
+        //    _isSpinningFixed = true;
+        //    _rigidbody.constraints = RigidbodyConstraints2D.FreezePosition;
+        //}
+        //else if (Input.GetKeyDown(KeyCode.E) && _isSpinningFixed == true)
+        //{
+        //    _isSpinningFixed = false;
+        //    _rigidbody.constraints = RigidbodyConstraints2D.None;
+        //}
+        //if (Input.GetKeyDown(KeyCode.F)) _playerManager.RotationInversion();
 
-        if (Input.GetKeyDown(KeyCode.Space) && !_physics.m_isGrounded) _jumpBufferTimer = 0;
-        else if (_jumpBufferTimer <= _jumpBufferTime) _jumpBufferTimer += Time.deltaTime;
+        HandleJump();
 
-        if (Input.GetKeyDown(KeyCode.E) && _isSpinningFixed == false && _physics.m_isGrounded)
+        HandlingCoyoteJump();
+
+        HandleJumpBuffering();
+
+        HandleJumpHandling();
+
+        HandleXInput();
+
+        // 
+        if (_physics.m_isGrounded && !Input.GetKeyDown(KeyCode.Space))
         {
-            _isSpinningFixed = true;
-            _rigidbody.constraints = RigidbodyConstraints2D.FreezePosition;
+            _hasJumped = false;
         }
-        else if (Input.GetKeyDown(KeyCode.E) && _isSpinningFixed == true)
+        if (_physics.m_isGrounded && _rigidbody.velocity.y < 0)
         {
-            _isSpinningFixed = false;
-            _rigidbody.constraints = RigidbodyConstraints2D.None;
+            ResetYVelocityOfPlayerAndGearRigidbodies();
         }
-        if (_physics != null && ( 
-            (Input.GetKeyDown(KeyCode.Space) && _physics.m_isGrounded)
-            || (_physics.m_isGrounded && _jumpBufferTimer <= _jumpBufferTime)
-            || (Input.GetKeyDown(KeyCode.Space) && !_isJumping && !_physics.m_isGrounded && _jumpCoyoteTimer <= _jumpCoyoteTime)
-            ))
-        {
-            _isJumping = true;
-            if (_jumpCoyoteTimer <= _jumpCoyoteTime) Debug.Log("Coyote timer : " + _jumpCoyoteTimer);
-            else if (_jumpBufferTimer <= _jumpBufferTime) Debug.Log("Jump buffering timer : " + _jumpBufferTimer);
 
-        }
-        if (_physics != null && Input.GetKey(KeyCode.Space))
-        {
-            if (_physics.m_isGrounded) _isHandlingJumpButton = true;
-        }
-        else _isHandlingJumpButton = false;
-
-        if (Input.GetKeyDown(KeyCode.F)) _playerManager.RotationInversion();
-
-        inputX = Input.GetAxis("Horizontal");
     }
 
-    void FixedUpdate() {
+    #region Jump and movement methods
+    private void HandleXInput()
+    {
+        if (Input.GetKey(KeyCode.A)) inputX = -1;
+        else if (Input.GetKey(KeyCode.D)) inputX = 1;
+        else inputX = 0;
+    }
+    private void HandleJump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && _physics.m_isGrounded && !_hasJumped)
+        {
+            _isTrigerringJump = true;
+        }
+    }
+    private void HandleJumpBuffering()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && !_physics.m_isGrounded)
+        {
+            _jumpBufferTimer = 0;
+        }
+        else if (_jumpBufferTimer < _jumpBufferTime) _jumpBufferTimer += Time.deltaTime;
+        if (_physics.m_isGrounded && _jumpBufferTimer < _jumpBufferTime)
+        {
+            _isTrigerringJump = true;
+            _jumpBufferTimer = _jumpBufferTime;
+        }
+    }
+    private void HandlingCoyoteJump()
+    {
+        if (!_hasJumped && !_physics.m_isGrounded && _wasGroundedOnLastFrame && _rigidbody.velocity.y < 0 && _jumpCoyoteTimer != 0)
+        {
+            _jumpCoyoteTimer = 0;
+        }
+        else if (_jumpCoyoteTimer < _jumpCoyoteTime) _jumpCoyoteTimer += Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.Space) && _jumpCoyoteTimer < _jumpCoyoteTime)
+        {
+            _jumpCoyoteTimer = _jumpCoyoteTime;
+            ResetYVelocityOfPlayerAndGearRigidbodies();
+            _isTrigerringJump = true;
+        }
 
+        _wasGroundedOnLastFrame = _physics.m_isGrounded;
+    }
+    private void HandleJumpHandling()
+    {
+        if (Input.GetKey(KeyCode.Space) && !_physics.m_isGrounded && _rigidbody.velocity.y >= 0)
+        {
+            _isHandlingJumpButton = true;
+        }
+        else _isHandlingJumpButton = false;
+    } 
+    #endregion
+
+
+    void FixedUpdate() {
         if (_playerManager.m_isInteracting == false) Rotate();
-        
+
+        Vector2 newVelocity = new Vector3(inputX * _moveSpeed, _rigidbody.velocity.y, 0);
+
+        // Handle gravity modifier on fall
         if (_rigidbody.velocity.y < 0 && _rigidbody.gravityScale == _initGravityScale && !_physics.m_isGrounded) _rigidbody.gravityScale *= _fallGravityMultiplicator;
         else if (_rigidbody.velocity.y >= 0 && _rigidbody.gravityScale != _initGravityScale) _rigidbody.gravityScale = _initGravityScale;
-        Vector2 newVelocity = new Vector3(inputX * _moveSpeed, _rigidbody.velocity.y, 0);
-        //if (_physics.m_isGrounded) newVelocity.y = 0;
-        if (_isJumping)
+
+        // Change velocity to make the jump
+        if (_isTrigerringJump)
         {
-            _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, 0, 0);
-            _rigidbody.AddForce(new Vector2(0 ,_physics._jumpForce), ForceMode2D.Impulse);
+            ResetYVelocityOfPlayerAndGearRigidbodies();
+            //_rigidbody.AddForce(new Vector2(0 ,_physics._jumpForce), ForceMode2D.Impulse);
+            _rigidbody.velocity += new Vector2(0, _physics._jumpForce);
+            _hasJumped = true;
+            _isTrigerringJump = false;
+            //Debug.Log("Jump with starting y velocity : " + _rigidbody.velocity.y + "  At time : " + Time.time);
         }
         if (_isHandlingJumpButton && _rigidbody.velocity.y >= 0)
         {
-            _rigidbody.AddForce(new Vector2(0, _jumpHandlingVelocity), ForceMode2D.Force);
-        }
-
-        if (_physics.m_isGrounded && !Input.GetKeyDown(KeyCode.Space))
-        {
-            _isJumping = false;
+            _rigidbody.velocity += new Vector2(0, _jumpHandlingVelocity);
+            //_rigidbody.AddForce(new Vector2(0, _jumpHandlingVelocity), ForceMode2D.Force);
         }
 
         _rigidbody.velocity += newVelocity;
@@ -121,14 +175,18 @@ public class PlayerController : MonoBehaviour {
         //    ,Mathf.Clamp(_rigidbody.velocity.y, _velocityFallMax, _velocityJumpMax)
         //);
 
-        _attachedGear.transform.position = transform.position;
+        _gear.transform.position = transform.position;
+    }
+
+    private void ResetYVelocityOfPlayerAndGearRigidbodies()
+    {
+        _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, 0, 0);
+        _gear.m_rigidbody.velocity = new Vector3(_gear.m_rigidbody.velocity.x, 0, 0);
     }
 
     void Rotate() {
-
-        float inputRotation = Input.GetAxis("Horizontal");
-        float rotation = inputRotation * _rotationSpeed * _playerManager.m_rotationInversion;
-        _attachedGear.Rotate(Vector3.forward, -rotation);
+        float rotation = inputX * _rotationSpeed * _playerManager.m_rotationInversion;
+        _gear.transform.Rotate(Vector3.forward, -rotation);
     }
 
 

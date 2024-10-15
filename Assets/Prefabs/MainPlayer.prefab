@@ -241,6 +241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _groundCheckLimitPoint: {fileID: 5846892098470925822}
   _playerPhysics: {fileID: 1967034538161950795}
+  m_rigidbody: {fileID: 1769748072155877811}
 --- !u!1 &4943062611954763122
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,7 +267,7 @@ Transform:
   m_GameObject: {fileID: 4943062611954763122}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.998, z: 0}
+  m_LocalPosition: {x: 0, y: -0.882, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -383,16 +384,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93eb02a10750fc7439032c0d35b6bd82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 2
+  _moveSpeed: 2.5
   _rotationSpeed: 2
-  _attachedGear: {fileID: 7701107524195736328}
-  _jumpHandlingVelocity: 20
+  _jumpHandlingVelocity: 0.45
   _jumpBufferTime: 0.13
-  _jumpCoyoteTime: 0.13
-  _fallGravityMultiplicator: 1.25
+  _jumpCoyoteTime: 0.2
+  _fallGravityMultiplicator: 0.9
   _velocityXMax: 20000
   _velocityJumpMax: 20000
   _velocityFallMax: -20000
+  _gear: {fileID: 47352810951506715}
 --- !u!70 &6663402324413124091
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -425,6 +426,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.28489563}
-  m_Size: {x: 1.1563368, y: 2.4715028}
+  m_Offset: {x: 0, y: -0.14277649}
+  m_Size: {x: 1.1563368, y: 2.1872644}
   m_Direction: 0

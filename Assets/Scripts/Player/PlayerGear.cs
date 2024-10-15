@@ -6,6 +6,12 @@ public class PlayerGear : MonoBehaviour
 {
     [SerializeField] Transform _groundCheckLimitPoint;
     [SerializeField] PlayerCompositePhysics _playerPhysics;
+    public Rigidbody2D m_rigidbody;
+
+    private void Start()
+    {
+        m_rigidbody = GetComponent<Rigidbody2D>();
+    }
 
     // Update is called once per frame
     void Update()
