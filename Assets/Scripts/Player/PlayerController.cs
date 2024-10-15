@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class PlayerController : MonoBehaviour {
 
     // Movement
@@ -30,6 +29,8 @@ public class PlayerController : MonoBehaviour {
 
     // Physics
     [SerializeField] GameObject _gear;
+    [SerializeField] PhysicsMaterial2D _physicMaterialFullFriction;
+    [SerializeField] PhysicsMaterial2D _physicMaterialZeroFriction;
     PlayerCompositePhysics _physics;
     PlayerScriptedPhysics _scriptedPhysics;
     PlayerManager _playerManager;
@@ -40,6 +41,8 @@ public class PlayerController : MonoBehaviour {
     bool _hasJumped = false;
     bool _isHandlingJumpButton = false;
     bool _wasGroundedOnLastFrame = false;
+
+
 
     private void Awake() {
         _isSpinningFixed = false;
@@ -117,7 +120,6 @@ public class PlayerController : MonoBehaviour {
         if (!_hasJumped && !_physics.IsGrounded() && _rigidbody.velocity.y < 0 && _jumpCoyoteTimer != 0)
         {
             _jumpCoyoteTimer = 0;
-            Debug.Log("Coyote timer triggered");
         }
         else if (_jumpCoyoteTimer < _jumpCoyoteTime) _jumpCoyoteTimer += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Space) && _jumpCoyoteTimer < _jumpCoyoteTime)
@@ -142,7 +144,27 @@ public class PlayerController : MonoBehaviour {
     {
         if (_playerManager.m_isInteracting == false) RotateGear();
 
-        Vector2 newVelocity = new Vector3(inputX * _moveSpeed, _rigidbody.velocity.y, 0);
+        Vector2 newVelocity = new Vector2();
+
+
+        if (_physics.IsOnSlope())
+        {
+            //_rigidbody.velocity = new Vector2( 0, _rigidbody.velocity.y);
+            newVelocity = new Vector3(inputX * _moveSpeed, _rigidbody.velocity.y, 0);
+            if (inputX == 0) _rigidbody.isKinematic = true;
+            else _rigidbody.isKinematic = false;
+            //_rigidbody.sharedMaterial = _physicMaterialZeroFriction;
+        }
+        else if (!_physics.IsOnSlope())
+        {
+            if(_rigidbody.isKinematic) _rigidbody.isKinematic = false;
+            newVelocity = new Vector3(inputX * _moveSpeed, _rigidbody.velocity.y, 0);
+            //_rigidbody.sharedMaterial = _physicMaterialZeroFriction;
+
+        }
+
+
+        //newVelocity = new Vector3(inputX * _moveSpeed, _rigidbody.velocity.y, 0);
 
         HandlePhysicsGravityChangeOnFall();
 
@@ -202,6 +224,6 @@ public class PlayerController : MonoBehaviour {
     }
 
 
-  
+
 
 }

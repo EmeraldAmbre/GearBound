@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Windows;
 
 public class PlayerCompositePhysics : MonoBehaviour {
 
@@ -12,6 +13,7 @@ public class PlayerCompositePhysics : MonoBehaviour {
     public Rigidbody2D m_playerRigidbody { get; private set; }
 
     [SerializeField] float _groundCheckOffsetLenght = 0.1f;
+    [SerializeField] float _slopeCheckLenghtDistance = 0.1f;
     [SerializeField] CircleCollider2D _groundCheckerCircleCollider;
 
     [SerializeField] LayerMask _groundlayer;
@@ -32,6 +34,14 @@ public class PlayerCompositePhysics : MonoBehaviour {
              || Physics2D.OverlapCircle(GetGroundCheckerCircleCollider(), _groundCheckerCircleCollider.radius * transform.localScale.x, _gearlayer)
         ) return true;
         else return false;
+    }
+
+    private void Update()
+    {
+        if(IsOnSlope())
+        {
+            Debug.Log("Is on slope");
+        }
     }
 
     private void OnDrawGizmos()
@@ -61,5 +71,47 @@ public class PlayerCompositePhysics : MonoBehaviour {
             lastPoint = nextPoint;
         }
     }
+
+
+    public Vector2 GetSlopePerpendicularNormal()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, _slopeCheckLenghtDistance, _groundlayer);
+        Debug.DrawRay(transform.position, Vector2.down * _slopeCheckLenghtDistance, Color.yellow);
+
+        if (hit)
+        {
+            Vector2 slopeNormalPerpendicular = Vector2.Perpendicular(hit.normal).normalized;
+            Debug.DrawRay(hit.point, slopeNormalPerpendicular, Color.blue);
+            Debug.DrawRay(hit.point, hit.normal, Color.green);
+            return slopeNormalPerpendicular;
+        }
+        else return Vector2.left;
+    }
+    public bool IsOnSlope()
+    {
+        if (GetSlopePerpendicularNormal() != Vector2.left) return true;
+        else return false;
+
+        //if (slopeDownAngle > maxSlopeAngle || slopeSideAngle > maxSlopeAngle)
+        //{
+        //    canWalkOnSlope = false;
+        //}
+        //else
+        //{
+        //    canWalkOnSlope = true;
+        //}
+
+        //if (isOnSlope && canWalkOnSlope && xInput == 0.0f)
+        //{
+        //    rb.sharedMaterial = fullFriction;
+        //}
+        //else
+        //{
+        //    rb.sharedMaterial = noFriction;
+        //}
+    }
+
+
+
 
 }
