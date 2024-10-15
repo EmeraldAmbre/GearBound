@@ -99,11 +99,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3ef0b13496a3954f9088876a9fae1a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fullHearts: []
-  _demiHearts: []
-  _emptyHearts: []
-  _maxLife: 0
-  m_playerLife: 0
+  _fullHearts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _demiHearts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _emptyHearts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _maxLife: 8
+  _invincibilityTime: 2
+  _invincibilityFrame: 0.1
 --- !u!114 &3756639636478510469
 MonoBehaviour:
   m_ObjectHideFlags: 0

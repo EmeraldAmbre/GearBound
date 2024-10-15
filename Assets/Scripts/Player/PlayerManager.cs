@@ -15,7 +15,7 @@ public class PlayerManager : MonoBehaviour {
     [SerializeField] private int _maxLife;
     [SerializeField] private float _invincibilityTime = 2f;
     [SerializeField] private float _invincibilityFrame = 0.1f;
-    private SpriteRenderer _spriteRenderer;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
 
     #region Public Variables
 
@@ -27,7 +27,6 @@ public class PlayerManager : MonoBehaviour {
     #endregion
 
     private void Awake() {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
         m_isInteracting = false;
         m_rotationInversion = 1;
 

@@ -12,6 +12,6 @@ public class Spikes : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D collision) {
-        _manager.TakeDamage();
+         _manager.TakeDamage();
     }
 }

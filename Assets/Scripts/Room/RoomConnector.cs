@@ -25,31 +25,36 @@ public class RoomConnector : MonoBehaviour
     {
         if (collision.gameObject.layer == 7)
         {
-            SceneManager.LoadScene(m_SceneNameToConnect);
-            RoomData.Instance.m_LastRoomSceneName = SceneManager.GetActiveScene().name;
+            SaveRoomData();
+        }
+    }
 
-            // If not roomMechanism Data saved yert for this room
-            RoomMechanismData roomMechanismData = RoomData.Instance.m_ListRoomMechanismData.Find(
-                roomMechanicData => roomMechanicData.m_SceneRoomName == SceneManager.GetActiveScene().name);
+    private void SaveRoomData()
+    {
+        SceneManager.LoadScene(m_SceneNameToConnect);
+        RoomData.Instance.m_LastRoomSceneName = SceneManager.GetActiveScene().name;
 
-            if (roomMechanismData == null)
+        // If not roomMechanism Data saved yert for this room
+        RoomMechanismData roomMechanismData = RoomData.Instance.m_ListRoomMechanismData.Find(
+            roomMechanicData => roomMechanicData.m_SceneRoomName == SceneManager.GetActiveScene().name);
+
+        if (roomMechanismData == null)
+        {
+            List<GameObject> listMechanismToSaveState = new List<GameObject>();
+            listMechanismToSaveState.AddRange(GameObject.FindGameObjectsWithTag("MechanismToSaveState"));
+
+            List<MechanismData> listMechanismDataToSave = new List<MechanismData>();
+            for (int i = 0; i < listMechanismToSaveState.Count; i++)
             {
-                List<GameObject> listMechanismToSaveState = new List<GameObject>();
-                listMechanismToSaveState.AddRange(GameObject.FindGameObjectsWithTag("MechanismToSaveState"));
-
-                List<MechanismData> listMechanismDataToSave = new List<MechanismData>();
-                for (int i = 0; i < listMechanismToSaveState.Count; i++)
-                {
-                    MechanismData mechanismData = new MechanismData(listMechanismToSaveState.ElementAt(i));
-                    listMechanismDataToSave.Add(mechanismData);
-                }
-                roomMechanismData = new RoomMechanismData();
-                roomMechanismData.m_SceneRoomName = SceneManager.GetActiveScene().name;
-                roomMechanismData.m_ListMechanismStateSaved = listMechanismDataToSave;
-                RoomData.Instance.m_ListRoomMechanismData.Add(roomMechanismData);
-
-            
+                MechanismData mechanismData = new MechanismData(listMechanismToSaveState.ElementAt(i));
+                listMechanismDataToSave.Add(mechanismData);
             }
+            roomMechanismData = new RoomMechanismData();
+            roomMechanismData.m_SceneRoomName = SceneManager.GetActiveScene().name;
+            roomMechanismData.m_ListMechanismStateSaved = listMechanismDataToSave;
+            RoomData.Instance.m_ListRoomMechanismData.Add(roomMechanismData);
+
+
         }
     }
 }
