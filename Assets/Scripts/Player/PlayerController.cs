@@ -1,40 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 public class PlayerController : MonoBehaviour {
-
-    // Movement
-    bool _isSpinningFixed;
+    [Header("Movement")]
     [SerializeField] float _moveSpeed = 4f;
-    [SerializeField] float _rotationSpeed = 20f;
-
-
-    [SerializeField] float _jumpHandlingVelocity = 5;
-
-    [SerializeField] float _jumpBufferTime = 0.13f;
-    float _jumpBufferTimer = 5;
-
-    [SerializeField] float _jumpCoyoteTime = 0.13f;
-    float _jumpCoyoteTimer = 5;
-
-
-    float _initGravityScale;
-    [SerializeField] float _fallGravityMultiplicator = 2;
-
-
     [SerializeField] float _velocityXMax = 20000;
     [SerializeField] float _velocityJumpMax = 20000;
     [SerializeField] float _velocityFallMax = -20000;
 
+    [Header("Jump values")]
+    [SerializeField] float _jumpForce = 7.5f;
+    [SerializeField] float _jumpHandlingVelocity = 5;
 
-    // Physics
-    [SerializeField] GameObject _gear;
+    [SerializeField] float _jumpBufferTime = 0.13f;
+    float _jumpBufferTimer = 5;
+    bool _isCoyoteTimerStarted = false;
+    [SerializeField] float _jumpCoyoteTime = 0.13f;
+    float _jumpCoyoteTimer = 5;
+
+
+    [Header("Physics")]
+    Vector2 _velocity = Vector2.zero;
+    [SerializeField] float _initGravity = 9.81f;
+    float _currentGravity;
+    [SerializeField] float _fallGravityMultiplicator = 2;
     [SerializeField] PhysicsMaterial2D _physicMaterialFullFriction;
     [SerializeField] PhysicsMaterial2D _physicMaterialZeroFriction;
     PlayerCompositePhysics _physics;
-    PlayerScriptedPhysics _scriptedPhysics;
     PlayerManager _playerManager;
     Rigidbody2D _rigidbody;
+
+    // Physics
+    [Header("Gear")]
+    [SerializeField] GameObject _gear;
+    [SerializeField] float _gearRotationSpeed = 20f;
 
     float inputX;
     bool _isTrigerringJump = false;
@@ -43,32 +43,15 @@ public class PlayerController : MonoBehaviour {
     bool _wasGroundedOnLastFrame = false;
 
 
-
-    private void Awake() {
-        _isSpinningFixed = false;
-    }
-
     void Start() {
         _physics = GetComponent<PlayerCompositePhysics>();
-        _scriptedPhysics = GetComponent<PlayerScriptedPhysics>();
         _playerManager = GetComponent<PlayerManager>();
         _rigidbody = GetComponent<Rigidbody2D>();
-        _initGravityScale = _rigidbody.gravityScale;
+        _currentGravity = _initGravity;
     }
 
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.E) && _isSpinningFixed == false && _physics.m_isGrounded)
-        //{
-        //    _isSpinningFixed = true;
-        //    _rigidbody.constraints = RigidbodyConstraints2D.FreezePosition;
-        //}
-        //else if (Input.GetKeyDown(KeyCode.E) && _isSpinningFixed == true)
-        //{
-        //    _isSpinningFixed = false;
-        //    _rigidbody.constraints = RigidbodyConstraints2D.None;
-        //}
-        //if (Input.GetKeyDown(KeyCode.F)) _playerManager.RotationInversion();
 
         HandleJump();
 
@@ -80,10 +63,10 @@ public class PlayerController : MonoBehaviour {
 
         HandleXInput();
 
-        if (_physics.IsGrounded() && _rigidbody.velocity.y <= 0.01f)
+        if (_physics.IsGrounded() && _velocity.y <= 0.01f)
         {
             _hasJumped = false;
-            ResetYVelocityOfPlayerAndGearRigidbodies();
+            _isCoyoteTimerStarted = false;
         }
 
     }
@@ -91,9 +74,7 @@ public class PlayerController : MonoBehaviour {
     #region Jump and movement methods called in Update()
     private void HandleXInput()
     {
-        if (Input.GetKey(KeyCode.A)) inputX = -1;
-        else if (Input.GetKey(KeyCode.D)) inputX = 1;
-        else inputX = 0;
+        inputX = Input.GetAxisRaw("Horizontal");
     }
     private void HandleJump()
     {
@@ -117,9 +98,11 @@ public class PlayerController : MonoBehaviour {
     }
     private void HandlingCoyoteJump()
     {
-        if (!_hasJumped && !_physics.IsGrounded() && _rigidbody.velocity.y < 0 && _jumpCoyoteTimer != 0)
+        if (!_hasJumped && !_physics.IsGrounded() && _velocity.y < 0 && !_isCoyoteTimerStarted)
         {
             _jumpCoyoteTimer = 0;
+            _isCoyoteTimerStarted = true;
+
         }
         else if (_jumpCoyoteTimer < _jumpCoyoteTime) _jumpCoyoteTimer += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Space) && _jumpCoyoteTimer < _jumpCoyoteTime)
@@ -131,7 +114,7 @@ public class PlayerController : MonoBehaviour {
     }
     private void HandleJumpHandling()
     {
-        if (Input.GetKey(KeyCode.Space) && !_physics.IsGrounded() && _rigidbody.velocity.y >= 0)
+        if (Input.GetKey(KeyCode.Space) && !_physics.IsGrounded() && _velocity.y >= 0)
         {
             _isHandlingJumpButton = true;
         }
@@ -142,9 +125,24 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if (_playerManager.m_isInteracting == false) RotateGear();
+        _rigidbody.velocity = Vector2.zero;
+        // Handle gravity 
+        if (_physics.IsGrounded() && _velocity.y <= 0.01f)
+        {
+            _velocity.y = 0;
+        }
+        else
+        {
+            _velocity.y = (_velocity.y - _currentGravity);
+        }
 
-        _rigidbody.velocity += new Vector2(inputX * _moveSpeed, _rigidbody.velocity.y);
+
+        // Handle movement 
+        _velocity.x = inputX * _moveSpeed;
+
+
+
+
 
         if (_physics.IsOnSlope())
         {
@@ -168,15 +166,24 @@ public class PlayerController : MonoBehaviour {
         //    ,Mathf.Clamp(_rigidbody.velocity.y, _velocityFallMax, _velocityJumpMax)
         //);
 
+        if (_playerManager.m_isInteracting == false) RotateGear();
         _gear.transform.position = transform.position;
+
+        // Check ceiling
+        if(_physics.IsCeiling() && _velocity.y > 0.1 && !_physics.IsOnWall())
+        {
+            _velocity.y = 0;
+        }
+
+        _rigidbody.MovePosition(_rigidbody.position + _velocity * Time.fixedDeltaTime);
     }
 
     #region Physics methods for FixedUpdate()
     private void HandlePhysicsVelocityWhenJumpHandling()
     {
-        if (_isHandlingJumpButton && _rigidbody.velocity.y > 0)
+        if (_isHandlingJumpButton && _velocity.y > 0)
         {
-            _rigidbody.velocity += new Vector2(0, _jumpHandlingVelocity);
+            _velocity += new Vector2(0, _jumpHandlingVelocity);
             //_rigidbody.AddForce(new Vector2(0, _jumpHandlingVelocity), ForceMode2D.Force);
         }
     }
@@ -187,29 +194,30 @@ public class PlayerController : MonoBehaviour {
         {
             ResetYVelocityOfPlayerAndGearRigidbodies();
             //_rigidbody.AddForce(new Vector2(0 ,_physics._jumpForce), ForceMode2D.Impulse);
-            _rigidbody.velocity += new Vector2(0, _physics._jumpForce);
+            _velocity += new Vector2(0, _jumpForce);
             _hasJumped = true;
             _isTrigerringJump = false;
-            //Debug.Log("Jump with starting y velocity : " + _rigidbody.velocity.y + "  At time : " + Time.time);
+            // Debug.Log("Jump with starting y velocity : " + _rigidbody.velocity.y + "  At time : " + Time.time);
         }
     }
 
     private void HandlePhysicsGravityChangeOnFall()
     {
-        if (_rigidbody.velocity.y < 0 && _rigidbody.gravityScale == _initGravityScale && !_physics.IsGrounded()) _rigidbody.gravityScale *= _fallGravityMultiplicator;
-        else if (_rigidbody.velocity.y >= 0 && _rigidbody.gravityScale != _initGravityScale) _rigidbody.gravityScale = _initGravityScale;
+        if (_velocity.y < 0 && _currentGravity == _initGravity && !_physics.IsGrounded()) _currentGravity = _initGravity * _fallGravityMultiplicator;
+        else if (_velocity.y >= 0 && _currentGravity != _initGravity) _currentGravity = _initGravity;
     } 
     #endregion
 
     private void ResetYVelocityOfPlayerAndGearRigidbodies()
     {
-        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0);
+        _velocity = new Vector2(_velocity.x, 0);
         _gear.GetComponent<Rigidbody2D>().velocity = new Vector3(_gear.GetComponent<Rigidbody2D>().velocity.x, 0);
     }
 
     void RotateGear() {
-        float rotation = inputX * _rotationSpeed * _playerManager.m_rotationInversion;
-        _gear.transform.Rotate(Vector3.forward, -rotation);
+        float rotation = inputX * _gearRotationSpeed * _playerManager.m_rotationInversion;
+        //_gear.transform.Rotate(Vector3.forward, -rotation);
+        _gear.GetComponent<Rigidbody2D>().rotation -= rotation * Time.fixedDeltaTime;
     }
 
 
