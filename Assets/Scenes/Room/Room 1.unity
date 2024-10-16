@@ -6434,6 +6434,74 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -3.6694078
       objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _jumpForce
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _initGravity
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _initMoveSpeed
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _jumpCoyoteTime
+      value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _airAcceleration
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _airDeceleration
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _velocityFallMax
+      value: -150
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _peakAcceleration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _peakDeceleration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _gearRotationSpeed
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _groundAcceleration
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _groundDeceleration
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _jumpHandlingVelocity
+      value: 5.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _yVelocityPeakThreshold
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _fallGravityMultiplicator
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _peakGravityMultiplicator
+      value: 0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _peakXMovementMultiplicator
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

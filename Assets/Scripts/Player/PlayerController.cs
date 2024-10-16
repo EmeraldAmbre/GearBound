@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 public class PlayerController : MonoBehaviour {
     [Header("Movement")]
-    [SerializeField] float _moveSpeed = 4f;
+    [SerializeField] float _initMoveSpeed = 50f;
+    float _currentSpeed;
+    [SerializeField] float _groundAcceleration = 7f;
+    [SerializeField] float _groundDeceleration = 17f;
+    [SerializeField] float _airAcceleration = 7f;
+    [SerializeField] float _airDeceleration = 17f;
     [SerializeField] float _velocityXMax = 20000;
     [SerializeField] float _velocityJumpMax = 20000;
     [SerializeField] float _velocityFallMax = -20000;
@@ -18,6 +24,13 @@ public class PlayerController : MonoBehaviour {
     bool _isCoyoteTimerStarted = false;
     [SerializeField] float _jumpCoyoteTime = 0.13f;
     float _jumpCoyoteTimer = 5;
+
+    [Header("Air peak values")]
+    [SerializeField] float _yVelocityPeakThreshold = 10f;
+    [SerializeField] float _peakGravityMultiplicator = 0.8f;
+    [SerializeField] float _peakXMovementMultiplicator = 1.2f;
+    [SerializeField] float _peakAcceleration = 1.2f;
+    [SerializeField] float _peakDeceleration = 1.2f;
 
 
     [Header("Physics")]
@@ -35,6 +48,7 @@ public class PlayerController : MonoBehaviour {
     [Header("Gear")]
     [SerializeField] GameObject _gear;
     [SerializeField] float _gearRotationSpeed = 20f;
+    float _currentRotation = 0;
 
     float inputX;
     bool _isTrigerringJump = false;
@@ -47,6 +61,7 @@ public class PlayerController : MonoBehaviour {
         _playerManager = GetComponent<PlayerManager>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _currentGravity = _initGravity;
+        _currentSpeed = _initMoveSpeed;
     }
 
     void Update()
@@ -130,16 +145,24 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate()
     {
+        if (IsOnPeakThresholdJump()) Debug.Log("On jump peak");
         // ORDER HAVE IMPORTANCE DON'T CHANGE THE ORDER UNLESS YOU KNOW WHAT YOU DO
         _rigidbody.velocity = Vector2.zero;
 
-        HandlePhysicsGravity();
+        HandlePhysicsXMovement();
 
-        _velocity.x = inputX * _moveSpeed;
+        //[SerializeField] float _yVelocityPeakThreshold = 10f;
+        //[SerializeField] float _peakGravityMultiplicator = 0.8f;
+        //[SerializeField] float _peakSpeedMultiplicator = 1.2f;
+        //[SerializeField] float _peakAcceleration = 1.2f;
+        //[SerializeField] float _peakDeceleration = 1.2f;
+
+
+        HandlePhysicsGravityChange();
+        HandlePhysicsGravity();
 
         HandleCheckSlopePhysicsMaterialReset();
 
-        HandlePhysicsGravityChangeOnFall();
 
         HandlePhysicsVelocityWenJumpTriggered();
 
@@ -149,9 +172,37 @@ public class PlayerController : MonoBehaviour {
 
         HandleCheckCeilingVelocityReset();
 
+
         ClampVelocity();
 
         _rigidbody.MovePosition(_rigidbody.position + _velocity * Time.fixedDeltaTime);
+    }
+
+    bool IsOnPeakThresholdJump()
+    {
+        return (!_physics.IsGrounded() && _velocity.y > 0.01f && _hasJumped && _velocity.y < Mathf.Abs(_yVelocityPeakThreshold));
+    }
+
+    private void HandlePhysicsXMovement()
+    {
+        // On ground
+        if (_physics.IsGrounded() && _velocity.y <= 0.01f)
+        {
+            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _groundDeceleration * Time.fixedDeltaTime);
+            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _groundAcceleration * Time.fixedDeltaTime);
+        }
+        // On jump peak
+        else if (IsOnPeakThresholdJump())
+        {
+            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _peakXMovementMultiplicator, _peakDeceleration  * Time.fixedDeltaTime);
+            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _peakXMovementMultiplicator, _peakAcceleration * Time.fixedDeltaTime);
+        }
+        // In air
+        else
+        {
+            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _airDeceleration * Time.fixedDeltaTime);
+            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _airAcceleration * Time.fixedDeltaTime);
+        }
     }
 
     #region Physics methods for FixedUpdate()
@@ -215,10 +266,14 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private void HandlePhysicsGravityChangeOnFall()
-    {
+    private void HandlePhysicsGravityChange()
+    {   
+        // Falling
         if (_velocity.y < 0 && _currentGravity == _initGravity && !_physics.IsGrounded()) _currentGravity = _initGravity * _fallGravityMultiplicator;
+        // Normal
         else if (_velocity.y >= 0 && _currentGravity != _initGravity) _currentGravity = _initGravity;
+        // Jump peak
+        if (IsOnPeakThresholdJump()) _currentGravity = _initGravity * _peakGravityMultiplicator;
     }
 
     private void ClampVelocity()
@@ -237,9 +292,12 @@ public class PlayerController : MonoBehaviour {
     }
 
     void RotateGear() {
+        if (inputX == 0) _currentRotation = Mathf.Lerp(_currentRotation, inputX * _gearRotationSpeed * _playerManager.m_rotationInversion, _groundDeceleration * Time.fixedDeltaTime);
+        else _currentRotation = Mathf.Lerp(_currentRotation, inputX * _gearRotationSpeed * _playerManager.m_rotationInversion, _groundAcceleration * Time.fixedDeltaTime);
+
         float rotation = inputX * _gearRotationSpeed * _playerManager.m_rotationInversion;
         //_gear.transform.Rotate(Vector3.forward, -rotation);
-        _gear.GetComponent<Rigidbody2D>().rotation -= rotation * Time.fixedDeltaTime;
+        _gear.GetComponent<Rigidbody2D>().rotation -= _currentRotation * Time.fixedDeltaTime;
     }
 
 

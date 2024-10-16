@@ -27,7 +27,6 @@ public class GearManager : MonoBehaviour {
     }
 
     void Update() {
-        Debug.Log("_precedentRotation : " + _precedentRotation + "    VS current rotation : " + _gearRigidbody.rotation);
         Collider2D[] objetsDetectes = Physics2D.OverlapCircleAll(transform.position, _detectionRay, _detectionLayer);
         if (objetsDetectes.Length == 0 && _isInteractable) _gearRigidbody.freezeRotation = true;
         else _gearRigidbody.freezeRotation = false;
