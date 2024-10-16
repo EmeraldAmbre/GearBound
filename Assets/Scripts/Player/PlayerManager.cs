@@ -34,8 +34,7 @@ public class PlayerManager : MonoBehaviour {
         LifeUpdate();
     }
 
-    private void Update()
-    {
+    private void Update() {
         LifeUpdate();
     }
 
