@@ -265,7 +265,7 @@ MonoBehaviour:
   m_ShowCameraFrustum: 1
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
+  m_UpdateMethod: 1
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
     m_Style: 1
@@ -3259,6 +3259,10 @@ PrefabInstance:
     - target: {fileID: 1687165667588966374, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: m_LinearDrag
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1687165667588966374, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1687165667588966374, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: m_GravityScale

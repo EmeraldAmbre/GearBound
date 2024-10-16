@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviour {
     bool _isTrigerringJump = false;
     bool _hasJumped = false;
     bool _isHandlingJumpButton = false;
-    bool _wasGroundedOnLastFrame = false;
 
 
     void Start() {
@@ -63,13 +62,10 @@ public class PlayerController : MonoBehaviour {
 
         HandleXInput();
 
-        if (_physics.IsGrounded() && _velocity.y <= 0.01f)
-        {
-            _hasJumped = false;
-            _isCoyoteTimerStarted = false;
-        }
+        ResetNeededDataWhenOnGround();
 
     }
+
 
     #region Jump and movement methods called in Update()
     private void HandleXInput()
@@ -119,14 +115,58 @@ public class PlayerController : MonoBehaviour {
             _isHandlingJumpButton = true;
         }
         else _isHandlingJumpButton = false;
-    } 
+    }
+
+    private void ResetNeededDataWhenOnGround()
+    {
+        if (_physics.IsGrounded() && _velocity.y <= 0.01f)
+        {
+            _hasJumped = false;
+            _isCoyoteTimerStarted = false;
+        }
+    }
     #endregion
 
 
     void FixedUpdate()
     {
+        // ORDER HAVE IMPORTANCE DON'T CHANGE THE ORDER UNLESS YOU KNOW WHAT YOU DO
         _rigidbody.velocity = Vector2.zero;
-        // Handle gravity 
+
+        HandlePhysicsGravity();
+
+        _velocity.x = inputX * _moveSpeed;
+
+        HandleCheckSlopePhysicsMaterialReset();
+
+        HandlePhysicsGravityChangeOnFall();
+
+        HandlePhysicsVelocityWenJumpTriggered();
+
+        HandlePhysicsVelocityWhenJumpHandling();
+
+        UpdateGearTransformAndRotation();
+
+        HandleCheckCeilingVelocityReset();
+
+        ClampVelocity();
+
+        _rigidbody.MovePosition(_rigidbody.position + _velocity * Time.fixedDeltaTime);
+    }
+
+    #region Physics methods for FixedUpdate()
+    private void HandleCheckSlopePhysicsMaterialReset()
+    {
+        if (_physics.IsOnSlope())
+        {
+            if (inputX == 0) _rigidbody.sharedMaterial = _physicMaterialFullFriction;
+            else _rigidbody.sharedMaterial = _physicMaterialZeroFriction;
+        }
+        else _rigidbody.sharedMaterial = _physicMaterialZeroFriction;
+    }
+
+    private void HandlePhysicsGravity()
+    {
         if (_physics.IsGrounded() && _velocity.y <= 0.01f)
         {
             _velocity.y = 0;
@@ -135,50 +175,24 @@ public class PlayerController : MonoBehaviour {
         {
             _velocity.y = (_velocity.y - _currentGravity);
         }
+    }
 
-
-        // Handle movement 
-        _velocity.x = inputX * _moveSpeed;
-
-
-
-
-
-        if (_physics.IsOnSlope())
-        {
-            if (inputX == 0) _rigidbody.sharedMaterial = _physicMaterialFullFriction;
-            else _rigidbody.sharedMaterial = _physicMaterialZeroFriction;   
-        }
-        else _rigidbody.sharedMaterial = _physicMaterialZeroFriction;
-
-
-        //newVelocity = new Vector3(inputX * _moveSpeed, _rigidbody.velocity.y, 0);
-
-        HandlePhysicsGravityChangeOnFall();
-
-        HandlePhysicsVelocityWenJumpTriggered();
-
-        HandlePhysicsVelocityWhenJumpHandling();
-
-
-        //_rigidbody.velocity = new Vector2(
-        //    Mathf.Clamp(_rigidbody.velocity.x, -_velocityXMax, _velocityXMax)
-        //    ,Mathf.Clamp(_rigidbody.velocity.y, _velocityFallMax, _velocityJumpMax)
-        //);
-
+    private void UpdateGearTransformAndRotation()
+    {
         if (_playerManager.m_isInteracting == false) RotateGear();
         _gear.transform.position = transform.position;
+    }
 
-        // Check ceiling
-        if(_physics.IsCeiling() && _velocity.y > 0.1 && !_physics.IsOnWall())
+    private void HandleCheckCeilingVelocityReset()
+    {
+        if (_physics.IsCeiling() && _velocity.y > 0.1 && !_physics.IsOnWall())
         {
             _velocity.y = 0;
         }
-
-        _rigidbody.MovePosition(_rigidbody.position + _velocity * Time.fixedDeltaTime);
     }
 
-    #region Physics methods for FixedUpdate()
+
+
     private void HandlePhysicsVelocityWhenJumpHandling()
     {
         if (_isHandlingJumpButton && _velocity.y > 0)
@@ -205,7 +219,15 @@ public class PlayerController : MonoBehaviour {
     {
         if (_velocity.y < 0 && _currentGravity == _initGravity && !_physics.IsGrounded()) _currentGravity = _initGravity * _fallGravityMultiplicator;
         else if (_velocity.y >= 0 && _currentGravity != _initGravity) _currentGravity = _initGravity;
-    } 
+    }
+
+    private void ClampVelocity()
+    {
+        _velocity = new Vector2(
+            Mathf.Clamp(_velocity.x, -_velocityXMax, _velocityXMax)
+            , Mathf.Clamp(_velocity.y, _velocityFallMax, _velocityJumpMax)
+         );
+    }
     #endregion
 
     private void ResetYVelocityOfPlayerAndGearRigidbodies()
