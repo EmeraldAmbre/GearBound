@@ -3,6 +3,8 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class ParallaxCamera : MonoBehaviour
 {
+
+    [SerializeField] bool m_activateParallacinEditor = false;
     public delegate void ParallaxCameraDelegate(float deltaMovement);
     public ParallaxCameraDelegate m_onCameraXTranslate;
     public ParallaxCameraDelegate m_onCameraYTranslate;
@@ -18,25 +20,28 @@ public class ParallaxCamera : MonoBehaviour
 
     void Update()
     {
-        if (transform.position.x != _oldXPosition)
+        if (m_activateParallacinEditor)
         {
-            if (m_onCameraXTranslate != null)
+            if (transform.position.x != _oldXPosition)
             {
-                float delta = _oldXPosition - transform.position.x;
-                m_onCameraXTranslate(delta);
-            }
+                if (m_onCameraXTranslate != null)
+                {
+                    float delta = _oldXPosition - transform.position.x;
+                    m_onCameraXTranslate(delta);
+                }
 
-            _oldXPosition = transform.position.x;
-        }
-        if (transform.position.y != _oldYPosition)
-        {
-            if (m_onCameraYTranslate != null)
+                _oldXPosition = transform.position.x;
+            }
+            if (transform.position.y != _oldYPosition)
             {
-                float delta = _oldYPosition - transform.position.y;
-                m_onCameraYTranslate(delta);
-            }
+                if (m_onCameraYTranslate != null)
+                {
+                    float delta = _oldYPosition - transform.position.y;
+                    m_onCameraYTranslate(delta);
+                }
 
-            _oldYPosition = transform.position.y;
+                _oldYPosition = transform.position.y;
+            }
         }
     }
 }

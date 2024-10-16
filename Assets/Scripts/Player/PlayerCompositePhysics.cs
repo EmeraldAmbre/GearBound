@@ -6,15 +6,17 @@ using UnityEngine.Windows;
 
 public class PlayerCompositePhysics : MonoBehaviour {
 
-    public float _jumpForce = 7.5f;
-
     //public bool m_isGrounded { get; set; }
-    public bool m_isCollidingWithGround { get; private set; }
     public Rigidbody2D m_playerRigidbody { get; private set; }
 
     [SerializeField] float _groundCheckOffsetLenght = 0.1f;
-    [SerializeField] float _slopeCheckLenghtDistance = 0.1f;
     [SerializeField] CircleCollider2D _groundCheckerCircleCollider;
+    [SerializeField] float _ceilingCheckOffsetLenght = 0.1f;
+    [SerializeField] CircleCollider2D _ceilingCheckerCircleCollider;
+    [SerializeField] float _wallCheckOffsetLenght = 0.1f;
+    [SerializeField] CircleCollider2D _wallCheckerCircleCollider;
+
+    [SerializeField] float _slopeCheckLenghtDistance = 0.1f;
 
     [SerializeField] LayerMask _groundlayer;
     [SerializeField] LayerMask _gearlayer;
@@ -22,16 +24,28 @@ public class PlayerCompositePhysics : MonoBehaviour {
     void Start() {
         m_playerRigidbody = GetComponent<Rigidbody2D>();
     }
-
-    public void Jump() {
-        m_playerRigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-    }
-
     public bool IsGrounded()
     {
-
         if ( Physics2D.OverlapCircle(GetGroundCheckerCircleCollider(), _groundCheckerCircleCollider.radius * transform.localScale.x, _groundlayer)
              || Physics2D.OverlapCircle(GetGroundCheckerCircleCollider(), _groundCheckerCircleCollider.radius * transform.localScale.x, _gearlayer)
+        ) return true;
+        else return false;
+    }
+
+    public bool IsCeiling()
+    {
+        if (Physics2D.OverlapCircle(GetCeilingCheckerCircleCollider(), (_ceilingCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _groundlayer)
+             || Physics2D.OverlapCircle(GetCeilingCheckerCircleCollider(), (_ceilingCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _gearlayer)
+        ) return true;
+        else return false;
+    }
+
+    public bool IsOnWall()
+    {
+        if (Physics2D.OverlapCircle(GetWallCheckerCircleCollider(1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _groundlayer)
+             || Physics2D.OverlapCircle(GetWallCheckerCircleCollider(1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _gearlayer)
+             || Physics2D.OverlapCircle(GetWallCheckerCircleCollider(-1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _groundlayer)
+             || Physics2D.OverlapCircle(GetWallCheckerCircleCollider(-1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _gearlayer)
         ) return true;
         else return false;
     }
@@ -47,11 +61,22 @@ public class PlayerCompositePhysics : MonoBehaviour {
     private void OnDrawGizmos()
     {
         DrawCircle(GetGroundCheckerCircleCollider(), _groundCheckerCircleCollider.radius * transform.localScale.x);
+        DrawCircle(GetCeilingCheckerCircleCollider(), (_ceilingCheckerCircleCollider.radius - 0.1f) * transform.localScale.x);
+        DrawCircle(GetWallCheckerCircleCollider(1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x);
+        DrawCircle(GetWallCheckerCircleCollider(-1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x);
     }
 
     Vector2 GetGroundCheckerCircleCollider()
     {
-        return (_groundCheckerCircleCollider.transform.position + new Vector3(0, (_groundCheckerCircleCollider.offset.y - _groundCheckOffsetLenght) * transform.localScale.x)) ;
+        return (_groundCheckerCircleCollider.transform.position + new Vector3(0, (_groundCheckerCircleCollider.offset.y - _groundCheckOffsetLenght) * transform.localScale.x));
+    }
+    Vector2 GetCeilingCheckerCircleCollider()
+    {
+        return (_ceilingCheckerCircleCollider.transform.position + new Vector3(0, (_ceilingCheckerCircleCollider.offset.y + _ceilingCheckOffsetLenght) * transform.localScale.x));
+    }
+    Vector2 GetWallCheckerCircleCollider(int direction)
+    {
+        return (_ceilingCheckerCircleCollider.transform.position + new Vector3(_ceilingCheckerCircleCollider.offset.x + direction * _wallCheckOffsetLenght * transform.localScale.x, 0));
     }
 
     void DrawCircle(Vector3 center, float radius)
