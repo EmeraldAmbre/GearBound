@@ -17,29 +17,29 @@ public class GearManager : MonoBehaviour {
 
     bool _isPlayerNear;
     bool _isInInteraction;
-
+    int _precedentRotation;
     Rigidbody2D _gearRigidbody;
 
     void Start() {
         _gearRigidbody = GetComponent<Rigidbody2D>();
-
+        _precedentRotation = (int)_gearRigidbody.rotation;
         _isInInteraction = false;
     }
 
     void Update() {
-
+        Debug.Log("_precedentRotation : " + _precedentRotation + "    VS current rotation : " + _gearRigidbody.rotation);
         Collider2D[] objetsDetectes = Physics2D.OverlapCircleAll(transform.position, _detectionRay, _detectionLayer);
         if (objetsDetectes.Length == 0 && _isInteractable) _gearRigidbody.freezeRotation = true;
         else _gearRigidbody.freezeRotation = false;
 
         // Pulley System
         if (_linkedPulley != null) {
-            if (_gearRigidbody.angularVelocity > _detectionAngularRotation) {
+            if (_precedentRotation < (int)_gearRigidbody.rotation) {
                 _linkedPulley.m_isMovingDown = true;
                 _linkedPulley.m_isMovingUp = false;
             }
 
-            else if (_gearRigidbody.angularVelocity < -_detectionAngularRotation) {
+            else if (_precedentRotation > (int)_gearRigidbody.rotation) {
                 _linkedPulley.m_isMovingDown = false;
                 _linkedPulley.m_isMovingUp = true;
             }
@@ -52,12 +52,12 @@ public class GearManager : MonoBehaviour {
 
         // Horizontal Pulley System
         if (_linkedHorizontalPulley != null) {
-            if (_gearRigidbody.angularVelocity > _detectionAngularRotation) {
+            if (_precedentRotation < (int)_gearRigidbody.rotation) {
                 _linkedHorizontalPulley.m_isMovingLeft = true;
                 _linkedHorizontalPulley.m_isMovingRight = false;
             }
 
-            else if (_gearRigidbody.angularVelocity < -_detectionAngularRotation) {
+            else if (_precedentRotation > (int)_gearRigidbody.rotation) {
                 _linkedHorizontalPulley.m_isMovingLeft = false;
                 _linkedHorizontalPulley.m_isMovingRight = true;
             }
@@ -70,12 +70,12 @@ public class GearManager : MonoBehaviour {
 
         // Spinning Pulley System
         if (_linkedSpinPulley != null) {
-            if (_gearRigidbody.angularVelocity > _detectionAngularRotation) {
+            if (_precedentRotation < (int)_gearRigidbody.rotation) {
                 _linkedSpinPulley.m_isSpinningLeft = true;
                 _linkedSpinPulley.m_isSpinningRight = false;
             }
 
-            else if (_gearRigidbody.angularVelocity < -_detectionAngularRotation) {
+            else if (_precedentRotation > (int)_gearRigidbody.rotation) {
                 _linkedSpinPulley.m_isSpinningLeft = false;
                 _linkedSpinPulley.m_isSpinningRight = true;
             }
@@ -88,12 +88,12 @@ public class GearManager : MonoBehaviour {
 
         // Drawbridge System
         if (_linkedDrawbridge != null) {
-            if (_gearRigidbody.angularVelocity > _detectionAngularRotation) {
+            if (_precedentRotation < (int)_gearRigidbody.rotation) {
                 _linkedDrawbridge.m_isMovingDown = true;
                 _linkedDrawbridge.m_isMovingUp = false;
             }
 
-            else if (_gearRigidbody.angularVelocity < -_detectionAngularRotation) {
+            else if (_precedentRotation > (int)_gearRigidbody.rotation) {
                 _linkedDrawbridge.m_isMovingDown = false;
                 _linkedDrawbridge.m_isMovingUp = true;
             }
@@ -103,5 +103,8 @@ public class GearManager : MonoBehaviour {
                 _linkedDrawbridge.m_isMovingUp = false;
             }
         }
+
+
+        _precedentRotation = (int)_gearRigidbody.rotation;
     }
 }
