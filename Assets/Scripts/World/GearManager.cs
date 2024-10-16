@@ -14,6 +14,7 @@ public class GearManager : MonoBehaviour {
     [SerializeField] SpinPulleySystem _linkedSpinPulley;
     [SerializeField] DrawbridgeSystem _linkedDrawbridge;
     [SerializeField] HorizontalPulleySystem _linkedHorizontalPulley;
+    [SerializeField] Spring _springSystem;
 
     bool _isPlayerNear;
     bool _isInInteraction;
@@ -101,6 +102,13 @@ public class GearManager : MonoBehaviour {
             else {
                 _linkedDrawbridge.m_isMovingDown = false;
                 _linkedDrawbridge.m_isMovingUp = false;
+            }
+        }
+
+        // Spring System
+        if (_springSystem != null) {
+            if (_gearRigidbody.angularVelocity > _detectionAngularRotation || _gearRigidbody.angularVelocity < -_detectionAngularRotation) {
+                _springSystem.Tighten();
             }
         }
     }
