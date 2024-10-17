@@ -45,9 +45,9 @@ public class PlayerManager : MonoBehaviour {
         m_rotationInversion *= -1;
     }
 
-    public void TakeDamage() {
+    public void TakeDamage(int nb_damage = 1) {
         if (!m_isInvincible) {
-            if (m_playerLife > 0) m_playerLife -= 1;
+            if (m_playerLife > 0) m_playerLife -= nb_damage;
             LifeUpdate();
             StartCoroutine(Invincibility());
         }

@@ -7,23 +7,48 @@ public class PulleySystem : MonoBehaviour {
     public bool m_isMovingUp;
     public bool m_isMovingDown;
 
-    [SerializeField] float _minHeight;
     [SerializeField] float _maxHeight;
+    [SerializeField] float _minHeight;
     [SerializeField] float _pulleySpeed;
 
+    Vector2 _initialPosition;
     float currentHeight;
+    [SerializeField] BoxCollider2D _boxCollider;
+
+    private void Start()
+    {
+        _initialPosition = transform.position;
+        _boxCollider = GetComponent<BoxCollider2D>();
+    }
 
     void Update() {
-
-        currentHeight = transform.position.y;
-
         if (m_isMovingUp) {
-            if (currentHeight < _maxHeight) transform.Translate(Vector2.up * _pulleySpeed);
+            if (transform.position.y < _initialPosition.y + _maxHeight) transform.Translate(Vector2.up * _pulleySpeed);
         }
 
         else if (m_isMovingDown) {
-            if (currentHeight > _minHeight) transform.Translate(Vector2.down * _pulleySpeed);
+            if (transform.position.y > _initialPosition.y - _minHeight) transform.Translate(Vector2.down * _pulleySpeed);
         }
         
+    }
+
+    private void OnDrawGizmos()
+    {
+
+        if (_initialPosition == null) _initialPosition = transform.position;
+
+        Gizmos.color = Color.yellow;
+        float doorWidth = _boxCollider.size.x * transform.localScale.x;
+        float doorHeight = _boxCollider.size.y * transform.localScale.y;
+
+        float xLineOrigin = _initialPosition.x - doorWidth / 2;
+        float xLineEnd = _initialPosition.x + doorWidth / 2;
+        float yMaxheight = _initialPosition.y + _maxHeight + doorHeight / 2;
+        float yMinheight = _initialPosition.y - _minHeight - doorHeight / 2;
+
+        // Draw line max height
+        Gizmos.DrawLine(new Vector2(xLineOrigin, yMaxheight), new Vector2(xLineEnd, yMaxheight));
+        // Draw line min height
+        Gizmos.DrawLine(new Vector2(xLineOrigin, yMinheight), new Vector2(xLineEnd, yMinheight));
     }
 }
