@@ -47,7 +47,6 @@ public class PlayerSpawnerManager : MonoBehaviour
                     if (mechanismToChange.name == mechanismStateSaved.name)
                     {
                         mechanismToChange.transform.position = mechanismStateSaved.position;
-                        break;
                     }
                 }
             }

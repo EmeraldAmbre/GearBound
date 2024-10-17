@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 3597970611730771909}
   - component: {fileID: 1256829945132858730}
   - component: {fileID: 6009226518817226176}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Door
-  m_TagString: Untagged
+  m_TagString: MechanismToSaveState
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_isMovingUp: 0
   m_isMovingDown: 0
-  _minHeight: -2.5
   _maxHeight: 1.5
+  _minHeight: -2.5
   _pulleySpeed: 0.005
   _boxCollider: {fileID: 1256829945132858730}

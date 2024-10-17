@@ -5,6 +5,7 @@ using UnityEngine;
 public class GearManager : MonoBehaviour {
 
     [SerializeField] bool _isInteractable;
+    [SerializeField] bool _isReversingEffectOnMechanism = false;
     [SerializeField] float _detectionAngularRotation = 10f;
     [SerializeField] float _detectionRay = 1f;
     [SerializeField] LayerMask _detectionLayer = 7;
@@ -34,13 +35,13 @@ public class GearManager : MonoBehaviour {
         // Pulley System
         if (_linkedPulley != null) {
             if (_precedentRotation < (int)_gearRigidbody.rotation) {
-                _linkedPulley.m_isMovingDown = true;
-                _linkedPulley.m_isMovingUp = false;
+                _linkedPulley.m_isMovingDown = !_isReversingEffectOnMechanism;
+                _linkedPulley.m_isMovingUp = _isReversingEffectOnMechanism;
             }
 
             else if (_precedentRotation > (int)_gearRigidbody.rotation) {
-                _linkedPulley.m_isMovingDown = false;
-                _linkedPulley.m_isMovingUp = true;
+                _linkedPulley.m_isMovingDown = _isReversingEffectOnMechanism;
+                _linkedPulley.m_isMovingUp = !_isReversingEffectOnMechanism;
             }
 
             else {
@@ -52,13 +53,13 @@ public class GearManager : MonoBehaviour {
         // Horizontal Pulley System
         if (_linkedHorizontalPulley != null) {
             if (_precedentRotation < (int)_gearRigidbody.rotation) {
-                _linkedHorizontalPulley.m_isMovingLeft = true;
-                _linkedHorizontalPulley.m_isMovingRight = false;
+                _linkedHorizontalPulley.m_isMovingLeft = !_isReversingEffectOnMechanism;
+                _linkedHorizontalPulley.m_isMovingRight = _isReversingEffectOnMechanism;
             }
 
             else if (_precedentRotation > (int)_gearRigidbody.rotation) {
-                _linkedHorizontalPulley.m_isMovingLeft = false;
-                _linkedHorizontalPulley.m_isMovingRight = true;
+                _linkedHorizontalPulley.m_isMovingLeft = _isReversingEffectOnMechanism;
+                _linkedHorizontalPulley.m_isMovingRight = !_isReversingEffectOnMechanism;
             }
 
             else {
@@ -70,13 +71,13 @@ public class GearManager : MonoBehaviour {
         // Spinning Pulley System
         if (_linkedSpinPulley != null) {
             if (_precedentRotation < (int)_gearRigidbody.rotation) {
-                _linkedSpinPulley.m_isSpinningLeft = true;
-                _linkedSpinPulley.m_isSpinningRight = false;
+                _linkedSpinPulley.m_isSpinningLeft = !_isReversingEffectOnMechanism;
+                _linkedSpinPulley.m_isSpinningRight = _isReversingEffectOnMechanism;
             }
 
             else if (_precedentRotation > (int)_gearRigidbody.rotation) {
-                _linkedSpinPulley.m_isSpinningLeft = false;
-                _linkedSpinPulley.m_isSpinningRight = true;
+                _linkedSpinPulley.m_isSpinningLeft = _isReversingEffectOnMechanism;
+                _linkedSpinPulley.m_isSpinningRight = !_isReversingEffectOnMechanism;
             }
 
             else {
@@ -88,13 +89,13 @@ public class GearManager : MonoBehaviour {
         // Drawbridge System
         if (_linkedDrawbridge != null) {
             if (_precedentRotation < (int)_gearRigidbody.rotation) {
-                _linkedDrawbridge.m_isMovingDown = true;
-                _linkedDrawbridge.m_isMovingUp = false;
+                _linkedDrawbridge.m_isMovingDown = !_isReversingEffectOnMechanism;
+                _linkedDrawbridge.m_isMovingUp = _isReversingEffectOnMechanism;
             }
 
             else if (_precedentRotation > (int)_gearRigidbody.rotation) {
-                _linkedDrawbridge.m_isMovingDown = false;
-                _linkedDrawbridge.m_isMovingUp = true;
+                _linkedDrawbridge.m_isMovingDown = !_isReversingEffectOnMechanism;
+                _linkedDrawbridge.m_isMovingUp = _isReversingEffectOnMechanism;
             }
 
             else {

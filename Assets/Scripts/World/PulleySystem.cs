@@ -11,7 +11,7 @@ public class PulleySystem : MonoBehaviour {
     [SerializeField] float _minHeight;
     [SerializeField] float _pulleySpeed;
 
-    Vector2 _initialPosition;
+    Vector2 _initialPosition = new Vector2(0,0);
     float currentHeight;
     [SerializeField] BoxCollider2D _boxCollider;
 
@@ -34,10 +34,9 @@ public class PulleySystem : MonoBehaviour {
 
     private void OnDrawGizmos()
     {
-
-        if (_initialPosition == null) _initialPosition = transform.position;
-
+        if (Application.isEditor && _initialPosition == Vector2.zero) _initialPosition = transform.position;
         Gizmos.color = Color.yellow;
+
         float doorWidth = _boxCollider.size.x * transform.localScale.x;
         float doorHeight = _boxCollider.size.y * transform.localScale.y;
 
@@ -47,8 +46,18 @@ public class PulleySystem : MonoBehaviour {
         float yMinheight = _initialPosition.y - _minHeight - doorHeight / 2;
 
         // Draw line max height
+        Gizmos.DrawLine(new Vector2(xLineOrigin, yMaxheight + 0.01f), new Vector2(xLineEnd, yMaxheight + 0.01f));
         Gizmos.DrawLine(new Vector2(xLineOrigin, yMaxheight), new Vector2(xLineEnd, yMaxheight));
+        Gizmos.DrawLine(new Vector2(xLineOrigin, yMaxheight - 0.01f), new Vector2(xLineEnd, yMaxheight - 0.01f));
         // Draw line min height
+        Gizmos.DrawLine(new Vector2(xLineOrigin, yMinheight + 0.01f), new Vector2(xLineEnd, yMinheight + 0.01f));
         Gizmos.DrawLine(new Vector2(xLineOrigin, yMinheight), new Vector2(xLineEnd, yMinheight));
+        Gizmos.DrawLine(new Vector2(xLineOrigin, yMinheight - 0.01f), new Vector2(xLineEnd, yMinheight - 0.01f));
+
+
     }
+
+
+
+
 }
