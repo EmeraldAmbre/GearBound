@@ -161,7 +161,7 @@ MonoBehaviour:
   _physicMaterialFullFriction: {fileID: 6200000, guid: 255c7b8769e885049a3bc03ab7fae01b, type: 2}
   _physicMaterialZeroFriction: {fileID: 6200000, guid: fa41bfe3cae2daa46a73ae9dfc0e3396, type: 2}
   _gear: {fileID: 8332424179354718857}
-  _gearRotationSpeed: 1
+  _gearRotationSpeed: 180
 --- !u!58 &1656328653714424387
 CircleCollider2D:
   m_ObjectHideFlags: 0
