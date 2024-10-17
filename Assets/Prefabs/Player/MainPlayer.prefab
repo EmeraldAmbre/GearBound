@@ -62,7 +62,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 1
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &5497943837919046562
@@ -77,10 +77,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3732418e5c5e3b74395fd516cf053856, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpForce: 13
   _groundCheckOffsetLenght: 0.1
-  _slopeCheckLenghtDistance: 1
   _groundCheckerCircleCollider: {fileID: 3272336158450424867}
+  _ceilingCheckOffsetLenght: 0.1
+  _ceilingCheckerCircleCollider: {fileID: 0}
+  _wallCheckOffsetLenght: 0.1
+  _wallCheckerCircleCollider: {fileID: 0}
+  _slopeCheckLenghtDistance: 1
   _groundlayer:
     serializedVersion: 2
     m_Bits: 64
@@ -136,18 +139,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93eb02a10750fc7439032c0d35b6bd82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 2.5
-  _rotationSpeed: 2
-  _jumpHandlingVelocity: 0.45
-  _jumpBufferTime: 0.13
-  _jumpCoyoteTime: 0.2
-  _fallGravityMultiplicator: 0.9
+  _initMoveSpeed: 50
+  _groundAcceleration: 7
+  _groundDeceleration: 17
+  _airAcceleration: 8
+  _airDeceleration: 17
   _velocityXMax: 20000
   _velocityJumpMax: 20000
   _velocityFallMax: -20000
-  _gear: {fileID: 8332424179354718857}
+  _jumpForce: 140
+  _jumpHandlingVelocity: 8.4
+  _jumpBufferTime: 0.13
+  _jumpCoyoteTime: 0.15
+  _yVelocityPeakThreshold: 10
+  _peakGravityMultiplicator: 0.8
+  _peakXMovementMultiplicator: 3
+  _peakAcceleration: 1.2
+  _peakDeceleration: 1.2
+  _initGravity: 14
+  _fallGravityMultiplicator: 0.8
   _physicMaterialFullFriction: {fileID: 6200000, guid: 255c7b8769e885049a3bc03ab7fae01b, type: 2}
   _physicMaterialZeroFriction: {fileID: 6200000, guid: fa41bfe3cae2daa46a73ae9dfc0e3396, type: 2}
+  _gear: {fileID: 8332424179354718857}
+  _gearRotationSpeed: 1
 --- !u!58 &1656328653714424387
 CircleCollider2D:
   m_ObjectHideFlags: 0

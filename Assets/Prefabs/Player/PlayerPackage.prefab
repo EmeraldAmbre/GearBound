@@ -146,7 +146,7 @@ Transform:
   m_GameObject: {fileID: 1806577759601782277}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -64.33, y: 11.27, z: -10}
+  m_LocalPosition: {x: -57.019997, y: 14.18, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -473,7 +473,7 @@ Transform:
   m_GameObject: {fileID: 8294867329391124573}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -64.33, y: 11.27, z: -10}
+  m_LocalPosition: {x: -57.019997, y: 14.18, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1064,28 +1064,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
-      propertyPath: _jumpForce
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _moveSpeed
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
-      propertyPath: _initGravity
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _initMoveSpeed
       value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
-      propertyPath: _jumpCoyoteTime
-      value: 0.13
-      objectReference: {fileID: 0}
-    - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
-      propertyPath: _airAcceleration
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _airDeceleration
@@ -1104,32 +1088,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
-      propertyPath: _gearRotationSpeed
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _groundDeceleration
       value: 18
-      objectReference: {fileID: 0}
-    - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
-      propertyPath: _jumpHandlingVelocity
-      value: 5.3
       objectReference: {fileID: 0}
     - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _yVelocityPeakThreshold
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
-      propertyPath: _fallGravityMultiplicator
-      value: 1.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _peakGravityMultiplicator
       value: 0.95
-      objectReference: {fileID: 0}
-    - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
-      propertyPath: _peakXMovementMultiplicator
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3812919033788693926, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: m_Mass
@@ -1141,11 +1109,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4144461980584475701, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -64.33
+      value: -57.02
       objectReference: {fileID: 0}
     - target: {fileID: 4144461980584475701, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.27
+      value: 14.18
       objectReference: {fileID: 0}
     - target: {fileID: 4144461980584475701, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: m_LocalPosition.z

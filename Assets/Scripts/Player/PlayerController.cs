@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 public class PlayerController : MonoBehaviour {
     [Header("Movement")]
@@ -56,51 +58,83 @@ public class PlayerController : MonoBehaviour {
     bool _isHandlingJumpButton = false;
 
 
-    void Start() {
+    PlayerInputAction _input;
+
+    void Start()
+    {
         _physics = GetComponent<PlayerCompositePhysics>();
         _playerManager = GetComponent<PlayerManager>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _currentGravity = _initGravity;
         _currentSpeed = _initMoveSpeed;
+        InitInput();
+    }
+
+    private void InitInput()
+    {
+        _input = new();
+        _input.Player.Jump.started += OnPerformJumpStarted;
+        _input.Player.Jump.canceled += OnPerformJumpCanceled;
+        _input.Player.Movement.performed += OnPerformXAxis;
+        _input.Enable();
+    }
+
+    private void OnPerformXAxis(InputAction.CallbackContext context)
+    {
+        inputX = context.ReadValue<Vector2>().normalized.x;
+    }
+
+    private void OnPerformJumpCanceled(InputAction.CallbackContext context)
+    {
+        _isHandlingJumpButton = false;
+    }
+
+    private void OnPerformJumpStarted(InputAction.CallbackContext context)
+    {
+        if (_physics.IsGrounded() && !_hasJumped)
+        {
+            _isTrigerringJump = true;
+        }
+        if (!_physics.IsGrounded())
+        {
+            _jumpBufferTimer = 0;
+        }
+        if (_jumpCoyoteTimer < _jumpCoyoteTime)
+        {
+            _jumpCoyoteTimer = _jumpCoyoteTime;
+            ResetYVelocityOfPlayerAndGearRigidbodies();
+            _isTrigerringJump = true;
+        }
+        
+        _isHandlingJumpButton = true;
+        
+    }
+
+    private void OnDestroy()
+    {
+        _input.Player.Jump.started       -= OnPerformJumpStarted;
+        _input.Player.Jump.canceled      -= OnPerformJumpCanceled;
+        _input.Player.Movement.performed -= OnPerformXAxis;
+        _input.Player.Disable();
     }
 
     void Update()
     {
-
-        HandleJump();
-
         HandlingCoyoteJump();
 
         HandleJumpBuffering();
 
-        HandleJumpHandling();
-
-        HandleXInput();
-
         ResetNeededDataWhenOnGround();
 
+        UpdateGearTransformAndRotation();
     }
 
 
     #region Jump and movement methods called in Update()
-    private void HandleXInput()
-    {
-        inputX = Input.GetAxisRaw("Horizontal");
-    }
-    private void HandleJump()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && _physics.IsGrounded() && !_hasJumped)
-        {
-            _isTrigerringJump = true;
-        }
-    }
+
     private void HandleJumpBuffering()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !_physics.IsGrounded())
-        {
-            _jumpBufferTimer = 0;
-        }
-        else if (_jumpBufferTimer < _jumpBufferTime) _jumpBufferTimer += Time.deltaTime;
+        if (_jumpBufferTimer < _jumpBufferTime) _jumpBufferTimer += Time.deltaTime;
         if (_physics.IsGrounded() && _jumpBufferTimer < _jumpBufferTime)
         {
             _isTrigerringJump = true;
@@ -113,23 +147,9 @@ public class PlayerController : MonoBehaviour {
         {
             _jumpCoyoteTimer = 0;
             _isCoyoteTimerStarted = true;
-
         }
         else if (_jumpCoyoteTimer < _jumpCoyoteTime) _jumpCoyoteTimer += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Space) && _jumpCoyoteTimer < _jumpCoyoteTime)
-        {
-            _jumpCoyoteTimer = _jumpCoyoteTime;
-            ResetYVelocityOfPlayerAndGearRigidbodies();
-            _isTrigerringJump = true;
-        }
-    }
-    private void HandleJumpHandling()
-    {
-        if (Input.GetKey(KeyCode.Space) && !_physics.IsGrounded() && _velocity.y >= 0)
-        {
-            _isHandlingJumpButton = true;
-        }
-        else _isHandlingJumpButton = false;
+   
     }
 
     private void ResetNeededDataWhenOnGround()
@@ -145,37 +165,31 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if (IsOnPeakThresholdJump()) Debug.Log("On jump peak");
         // ORDER HAVE IMPORTANCE DON'T CHANGE THE ORDER UNLESS YOU KNOW WHAT YOU DO
-        _rigidbody.velocity = Vector2.zero;
+        //_rigidbody.velocity = Vector2.zero;
 
-        HandlePhysicsXMovement();
 
-        //[SerializeField] float _yVelocityPeakThreshold = 10f;
-        //[SerializeField] float _peakGravityMultiplicator = 0.8f;
-        //[SerializeField] float _peakSpeedMultiplicator = 1.2f;
-        //[SerializeField] float _peakAcceleration = 1.2f;
-        //[SerializeField] float _peakDeceleration = 1.2f;
+        HandleCheckSlopePhysicsMaterialReset();
 
 
         HandlePhysicsGravityChange();
         HandlePhysicsGravity();
 
-        HandleCheckSlopePhysicsMaterialReset();
 
+        HandlePhysicsXMovement();
 
         HandlePhysicsVelocityWenJumpTriggered();
-
         HandlePhysicsVelocityWhenJumpHandling();
 
-        UpdateGearTransformAndRotation();
 
         HandleCheckCeilingVelocityReset();
-
 
         ClampVelocity();
 
         _rigidbody.MovePosition(_rigidbody.position + _velocity * Time.fixedDeltaTime);
+
+
+        // UpdateGearTransformAndRotation();
     }
 
     bool IsOnPeakThresholdJump()
@@ -230,8 +244,21 @@ public class PlayerController : MonoBehaviour {
 
     private void UpdateGearTransformAndRotation()
     {
-        if (_playerManager.m_isInteracting == false) RotateGear();
+        if (_playerManager.m_isInteracting == false)
+        {
+            if (inputX == 0) _currentRotation = Mathf.Lerp(_currentRotation, inputX * _gearRotationSpeed * _playerManager.m_rotationInversion, _groundDeceleration);
+            else _currentRotation = Mathf.Lerp(_currentRotation, inputX * _gearRotationSpeed * _playerManager.m_rotationInversion, _groundAcceleration);
+
+            float rotation = inputX * _gearRotationSpeed * _playerManager.m_rotationInversion;
+
+            _gear.transform.Rotate(Vector3.forward, -_currentRotation * Time.deltaTime );
+            //_gear.GetComponent<Rigidbody2D>().rotation -= _currentRotation * Time.fixedDeltaTime;
+            //_gear.transform.rotation -= _currentRotation * Time.deltaTime
+
+        }
+        //_gear.GetComponent<Rigidbody2D>().MovePosition(transform.position);
         _gear.transform.position = transform.position;
+
     }
 
     private void HandleCheckCeilingVelocityReset()
@@ -246,10 +273,9 @@ public class PlayerController : MonoBehaviour {
 
     private void HandlePhysicsVelocityWhenJumpHandling()
     {
-        if (_isHandlingJumpButton && _velocity.y > 0)
+        if (_isHandlingJumpButton && _velocity.y > 0.01f)
         {
             _velocity += new Vector2(0, _jumpHandlingVelocity);
-            //_rigidbody.AddForce(new Vector2(0, _jumpHandlingVelocity), ForceMode2D.Force);
         }
     }
 
@@ -258,11 +284,9 @@ public class PlayerController : MonoBehaviour {
         if (_isTrigerringJump)
         {
             ResetYVelocityOfPlayerAndGearRigidbodies();
-            //_rigidbody.AddForce(new Vector2(0 ,_physics._jumpForce), ForceMode2D.Impulse);
             _velocity += new Vector2(0, _jumpForce);
             _hasJumped = true;
             _isTrigerringJump = false;
-            // Debug.Log("Jump with starting y velocity : " + _rigidbody.velocity.y + "  At time : " + Time.time);
         }
     }
 
@@ -291,14 +315,7 @@ public class PlayerController : MonoBehaviour {
         _gear.GetComponent<Rigidbody2D>().velocity = new Vector3(_gear.GetComponent<Rigidbody2D>().velocity.x, 0);
     }
 
-    void RotateGear() {
-        if (inputX == 0) _currentRotation = Mathf.Lerp(_currentRotation, inputX * _gearRotationSpeed * _playerManager.m_rotationInversion, _groundDeceleration * Time.fixedDeltaTime);
-        else _currentRotation = Mathf.Lerp(_currentRotation, inputX * _gearRotationSpeed * _playerManager.m_rotationInversion, _groundAcceleration * Time.fixedDeltaTime);
 
-        float rotation = inputX * _gearRotationSpeed * _playerManager.m_rotationInversion;
-        //_gear.transform.Rotate(Vector3.forward, -rotation);
-        _gear.GetComponent<Rigidbody2D>().rotation -= _currentRotation * Time.fixedDeltaTime;
-    }
 
 
 
