@@ -1,3 +1,4 @@
+using GearFactory;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -48,7 +49,7 @@ public class PlayerController : MonoBehaviour {
 
     // Physics
     [Header("Gear")]
-    [SerializeField] GameObject _gear;
+    [SerializeField] PlayerGear _gear;
     [SerializeField] float _gearRotationSpeed = 20f;
     float _currentRotation = 0;
 
@@ -67,7 +68,18 @@ public class PlayerController : MonoBehaviour {
         _rigidbody = GetComponent<Rigidbody2D>();
         _currentGravity = _initGravity;
         _currentSpeed = _initMoveSpeed;
+        _gear.OnExittingCollisionWitGear.AddListener(OnGearExitingOtherGear);
         InitInput();
+    }
+
+    void OnGearExitingOtherGear()
+    {
+        if (!_isTrigerringJump && !_hasJumped && !_isHandlingJumpButton)
+        {
+            _rigidbody.velocity = new Vector2(0, 0);
+            _velocity = new Vector2(0, 0);
+            //Debug.Log("OnGearExitingOtherGear");
+        }
     }
 
     private void InitInput()
@@ -126,7 +138,8 @@ public class PlayerController : MonoBehaviour {
 
         ResetNeededDataWhenOnGround();
 
-        UpdateGearTransformAndRotation();
+        // UpdateGearTransformAndRotation();
+        Debug.Log("Velocity y " + _velocity.y);
     }
 
 
@@ -186,10 +199,10 @@ public class PlayerController : MonoBehaviour {
 
         ClampVelocity();
 
-        _rigidbody.MovePosition(_rigidbody.position + _velocity * Time.fixedDeltaTime);
+        //_rigidbody.MovePosition(_rigidbody.position + _velocity * Time.fixedDeltaTime);
 
-
-        // UpdateGearTransformAndRotation();
+        _rigidbody.velocity += _velocity;
+        UpdateGearTransformAndRotation();
     }
 
     bool IsOnPeakThresholdJump()
@@ -230,17 +243,7 @@ public class PlayerController : MonoBehaviour {
         else _rigidbody.sharedMaterial = _physicMaterialZeroFriction;
     }
 
-    private void HandlePhysicsGravity()
-    {
-        if (_physics.IsGrounded() && _velocity.y <= 0.01f)
-        {
-            _velocity.y = 0;
-        }
-        else
-        {
-            _velocity.y = (_velocity.y - _currentGravity);
-        }
-    }
+
 
     private void UpdateGearTransformAndRotation()
     {
@@ -251,13 +254,14 @@ public class PlayerController : MonoBehaviour {
 
             float rotation = inputX * _gearRotationSpeed * _playerManager.m_rotationInversion;
 
-            _gear.transform.Rotate(Vector3.forward, -_currentRotation * Time.deltaTime );
-            //_gear.GetComponent<Rigidbody2D>().rotation -= _currentRotation * Time.fixedDeltaTime;
-            //_gear.transform.rotation -= _currentRotation * Time.deltaTime
+            //_gear.transform.Rotate(Vector3.forward, -_currentRotation * Time.deltaTime );
+            //_gear.GetComponent<Rigidbody2D>().AddTorque(-rotation * Time.fixedDeltaTime);
+            _gear.GetComponent<Rigidbody2D>().rotation -= _currentRotation * Time.fixedDeltaTime;
+            // _gear.transform.rotation -= _currentRotation * Time.deltaTime
 
         }
         //_gear.GetComponent<Rigidbody2D>().MovePosition(transform.position);
-        _gear.transform.position = transform.position;
+        //_gear.transform.position = transform.position;
 
     }
 
@@ -298,7 +302,30 @@ public class PlayerController : MonoBehaviour {
         else if (_velocity.y >= 0 && _currentGravity != _initGravity) _currentGravity = _initGravity;
         // Jump peak
         if (IsOnPeakThresholdJump()) _currentGravity = _initGravity * _peakGravityMultiplicator;
+
+        // 
+        if(_gear.m_isCollidingWithGear && !_physics.IsCeiling())
+        {
+            Debug.Log("Is colliding with gear");
+            _hasJumped = false;
+            _isCoyoteTimerStarted = false;
+            _currentGravity = _initGravity / 8;
+        }
     }
+    private void HandlePhysicsGravity()
+    {
+        if (_physics.IsGrounded() && _velocity.y <= 0.01f)
+        {
+            _velocity.y = 0;
+        }
+        else
+        {
+            _velocity.y = (_velocity.y - _currentGravity);
+        }
+    }
+
+
+
 
     private void ClampVelocity()
     {

@@ -21,13 +21,15 @@ public class PlayerCompositePhysics : MonoBehaviour {
     [SerializeField] LayerMask _groundlayer;
     [SerializeField] LayerMask _gearlayer;
 
+
     void Start() {
         m_playerRigidbody = GetComponent<Rigidbody2D>();
     }
+
+
     public bool IsGrounded()
     {
         if ( Physics2D.OverlapCircle(GetGroundCheckerCircleCollider(), _groundCheckerCircleCollider.radius * transform.localScale.x, _groundlayer)
-             || Physics2D.OverlapCircle(GetGroundCheckerCircleCollider(), _groundCheckerCircleCollider.radius * transform.localScale.x, _gearlayer)
         ) return true;
         else return false;
     }
@@ -144,6 +146,7 @@ public class PlayerCompositePhysics : MonoBehaviour {
         //    rb.sharedMaterial = noFriction;
         //}
     }
+
 
 
 
