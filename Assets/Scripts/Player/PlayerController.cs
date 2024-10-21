@@ -207,8 +207,6 @@ public class PlayerController : MonoBehaviour {
         ClampVelocity();
 
         //_rigidbody.MovePosition(_rigidbody.position + _velocity * Time.fixedDeltaTime);
-
-        Debug.Log("Velocity y " + _velocity.y + "Velocity x " + _velocity.x);
         _rigidbody.velocity = _velocity;
         //transform.position = _gear.transform.position;
 
@@ -323,7 +321,6 @@ public class PlayerController : MonoBehaviour {
         // 
         if(_physics.IsOnContactWithGear() && !_physics.IsCeiling())
         {
-            Debug.Log("Is colliding with gear");
             _hasJumped = false;
             _isCoyoteTimerStarted = false;
             // _currentGravity = _initGravity / 8;
