@@ -9,17 +9,6 @@ public class RoomConnector : MonoBehaviour
 {
     public string m_SceneNameToConnect;
     public Transform m_PointToSpawnPlayer;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -34,7 +23,7 @@ public class RoomConnector : MonoBehaviour
         SceneManager.LoadScene(m_SceneNameToConnect);
         RoomData.Instance.m_LastRoomSceneName = SceneManager.GetActiveScene().name;
 
-        // If not roomMechanism Data saved yert for this room
+        // If not roomMechanism Data saved yet for this room
         RoomMechanismData roomMechanismData = RoomData.Instance.m_ListRoomMechanismData.Find(
             roomMechanicData => roomMechanicData.m_SceneRoomName == SceneManager.GetActiveScene().name);
 
