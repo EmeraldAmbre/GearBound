@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public class PlayerGear : MonoBehaviour
 {
-    public bool m_isCollidingWithGear;
+    public bool m_isCollidingWithGear = false;
     public UnityEvent OnExittingCollisionWitGear;
     // Start is called before the first frame update
     void Start()
@@ -20,7 +20,18 @@ public class PlayerGear : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        m_isCollidingWithGear = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        m_isCollidingWithGear = false;
+        OnExittingCollisionWitGear.Invoke();
+    }
+
+    private void OnTri(Collision2D collision)
     {
         if(collision.collider.tag == "Gear") m_isCollidingWithGear = true;
     }
@@ -29,8 +40,6 @@ public class PlayerGear : MonoBehaviour
     {
         if (collision.collider.tag == "Gear")
         {
-            m_isCollidingWithGear = false;
-            OnExittingCollisionWitGear.Invoke();
         }
     }
 }

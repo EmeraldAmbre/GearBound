@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 public class PlayerController : MonoBehaviour {
@@ -15,8 +16,9 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] float _airAcceleration = 7f;
     [SerializeField] float _airDeceleration = 17f;
     [SerializeField] float _velocityXMax = 20000;
-    [SerializeField] float _velocityJumpMax = 20000;
-    [SerializeField] float _velocityFallMax = -20000;
+    [SerializeField] float _velocityYJumpMax = 20000;
+    [SerializeField] float _velocityYFallMax = -150;
+    [SerializeField] float _velocityYOnGearMax = -20;
 
     [Header("Jump values")]
     [SerializeField] float _jumpForce = 7.5f;
@@ -49,14 +51,29 @@ public class PlayerController : MonoBehaviour {
 
     // Physics
     [Header("Gear")]
-    [SerializeField] PlayerGear _gear;
     [SerializeField] float _gearRotationSpeed = 20f;
     float _currentRotation = 0;
+    [SerializeField] GameObject _body;
+    Quaternion _bodyInitialRotation;
 
     float inputX;
     bool _isTrigerringJump = false;
     bool _hasJumped = false;
     bool _isHandlingJumpButton = false;
+
+
+
+
+
+    void OnGearExitingOtherGear()
+    {
+        if (!_isTrigerringJump && !_hasJumped && !_isHandlingJumpButton)
+        {
+            _rigidbody.velocity = new Vector2(0, 0);
+            _velocity = new Vector2(0, 0);
+            Debug.Log("OnGearExitingOtherGear");
+        }
+    }
 
 
     PlayerInputAction _input;
@@ -68,19 +85,11 @@ public class PlayerController : MonoBehaviour {
         _rigidbody = GetComponent<Rigidbody2D>();
         _currentGravity = _initGravity;
         _currentSpeed = _initMoveSpeed;
-        _gear.OnExittingCollisionWitGear.AddListener(OnGearExitingOtherGear);
         InitInput();
+        _bodyInitialRotation = _body.transform.rotation;
     }
 
-    void OnGearExitingOtherGear()
-    {
-        if (!_isTrigerringJump && !_hasJumped && !_isHandlingJumpButton)
-        {
-            _rigidbody.velocity = new Vector2(0, 0);
-            _velocity = new Vector2(0, 0);
-            //Debug.Log("OnGearExitingOtherGear");
-        }
-    }
+    #region Input Methods
 
     private void InitInput()
     {
@@ -103,11 +112,11 @@ public class PlayerController : MonoBehaviour {
 
     private void OnPerformJumpStarted(InputAction.CallbackContext context)
     {
-        if (_physics.IsGrounded() && !_hasJumped)
+        if ((_physics.IsGrounded() || _physics.IsOnContactWithGear()) && !_hasJumped)
         {
             _isTrigerringJump = true;
         }
-        if (!_physics.IsGrounded())
+        if (!(_physics.IsGrounded() || _physics.IsOnContactWithGear()))
         {
             _jumpBufferTimer = 0;
         }
@@ -117,18 +126,19 @@ public class PlayerController : MonoBehaviour {
             ResetYVelocityOfPlayerAndGearRigidbodies();
             _isTrigerringJump = true;
         }
-        
+
         _isHandlingJumpButton = true;
-        
+
     }
 
     private void OnDestroy()
     {
-        _input.Player.Jump.started       -= OnPerformJumpStarted;
-        _input.Player.Jump.canceled      -= OnPerformJumpCanceled;
+        _input.Player.Jump.started -= OnPerformJumpStarted;
+        _input.Player.Jump.canceled -= OnPerformJumpCanceled;
         _input.Player.Movement.performed -= OnPerformXAxis;
         _input.Player.Disable();
-    }
+    } 
+    #endregion
 
     void Update()
     {
@@ -137,9 +147,6 @@ public class PlayerController : MonoBehaviour {
         HandleJumpBuffering();
 
         ResetNeededDataWhenOnGround();
-
-        // UpdateGearTransformAndRotation();
-        Debug.Log("Velocity y " + _velocity.y);
     }
 
 
@@ -201,8 +208,17 @@ public class PlayerController : MonoBehaviour {
 
         //_rigidbody.MovePosition(_rigidbody.position + _velocity * Time.fixedDeltaTime);
 
-        _rigidbody.velocity += _velocity;
+        Debug.Log("Velocity y " + _velocity.y + "Velocity x " + _velocity.x);
+        _rigidbody.velocity = _velocity;
+        //transform.position = _gear.transform.position;
+
         UpdateGearTransformAndRotation();
+    }
+
+    private void LateUpdate()
+    {
+
+        _body.transform.rotation = _bodyInitialRotation;
     }
 
     bool IsOnPeakThresholdJump()
@@ -213,7 +229,7 @@ public class PlayerController : MonoBehaviour {
     private void HandlePhysicsXMovement()
     {
         // On ground
-        if (_physics.IsGrounded() && _velocity.y <= 0.01f)
+        if ((_physics.IsGrounded() && _velocity.y <= 0.01f) || _physics.IsOnContactWithGear())
         {
             if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _groundDeceleration * Time.fixedDeltaTime);
             else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _groundAcceleration * Time.fixedDeltaTime);
@@ -256,12 +272,12 @@ public class PlayerController : MonoBehaviour {
 
             //_gear.transform.Rotate(Vector3.forward, -_currentRotation * Time.deltaTime );
             //_gear.GetComponent<Rigidbody2D>().AddTorque(-rotation * Time.fixedDeltaTime);
-            _gear.GetComponent<Rigidbody2D>().rotation -= _currentRotation * Time.fixedDeltaTime;
-            // _gear.transform.rotation -= _currentRotation * Time.deltaTime
+            transform.Rotate(Vector3.forward, - _currentRotation * Time.deltaTime);
+            // transform.rotation -= _currentRotation * Time.deltaTime
 
         }
         //_gear.GetComponent<Rigidbody2D>().MovePosition(transform.position);
-        //_gear.transform.position = transform.position;
+        // _gear.transform.position = transform.position;
 
     }
 
@@ -270,6 +286,7 @@ public class PlayerController : MonoBehaviour {
         if (_physics.IsCeiling() && _velocity.y > 0.1 && !_physics.IsOnWall())
         {
             _velocity.y = 0;
+            _isHandlingJumpButton = false;
         }
     }
 
@@ -304,12 +321,12 @@ public class PlayerController : MonoBehaviour {
         if (IsOnPeakThresholdJump()) _currentGravity = _initGravity * _peakGravityMultiplicator;
 
         // 
-        if(_gear.m_isCollidingWithGear && !_physics.IsCeiling())
+        if(_physics.IsOnContactWithGear() && !_physics.IsCeiling())
         {
             Debug.Log("Is colliding with gear");
             _hasJumped = false;
             _isCoyoteTimerStarted = false;
-            _currentGravity = _initGravity / 8;
+            // _currentGravity = _initGravity / 8;
         }
     }
     private void HandlePhysicsGravity()
@@ -329,22 +346,26 @@ public class PlayerController : MonoBehaviour {
 
     private void ClampVelocity()
     {
-        _velocity = new Vector2(
-            Mathf.Clamp(_velocity.x, -_velocityXMax, _velocityXMax)
-            , Mathf.Clamp(_velocity.y, _velocityFallMax, _velocityJumpMax)
-         );
+        if(_physics.IsOnContactWithGear())
+        {
+            _velocity = new Vector2(
+                Mathf.Clamp(_velocity.x, -_velocityXMax, _velocityXMax)
+                , Mathf.Clamp(_velocity.y, _velocityYOnGearMax, _velocityYJumpMax)
+             );
+        }
+        else
+        {
+            _velocity = new Vector2(
+                Mathf.Clamp(_velocity.x, -_velocityXMax, _velocityXMax)
+                , Mathf.Clamp(_velocity.y, _velocityYFallMax, _velocityYJumpMax)
+             );
+        }
     }
     #endregion
 
     private void ResetYVelocityOfPlayerAndGearRigidbodies()
     {
         _velocity = new Vector2(_velocity.x, 0);
-        _gear.GetComponent<Rigidbody2D>().velocity = new Vector3(_gear.GetComponent<Rigidbody2D>().velocity.x, 0);
+        _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, 0);
     }
-
-
-
-
-
-
 }
