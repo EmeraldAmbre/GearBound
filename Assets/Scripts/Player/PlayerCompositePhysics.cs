@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Windows;
@@ -18,34 +19,48 @@ public class PlayerCompositePhysics : MonoBehaviour {
 
     [SerializeField] float _slopeCheckLenghtDistance = 0.1f;
 
-    [SerializeField] LayerMask _groundlayer;
-    [SerializeField] LayerMask _gearlayer;
+    [SerializeField] LayerMask _plateformLayer;
+    [SerializeField] LayerMask _gearLayer;
+
+    bool m_isOnContactWithGear;
+
 
     void Start() {
         m_playerRigidbody = GetComponent<Rigidbody2D>();
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        m_isOnContactWithGear = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        m_isOnContactWithGear = false;
+    }
+
     public bool IsGrounded()
     {
-        if ( Physics2D.OverlapCircle(GetGroundCheckerCircleCollider(), _groundCheckerCircleCollider.radius * transform.localScale.x, _groundlayer)
-             || Physics2D.OverlapCircle(GetGroundCheckerCircleCollider(), _groundCheckerCircleCollider.radius * transform.localScale.x, _gearlayer)
+        if ( Physics2D.OverlapCircle(GetGroundCheckerCircleCollider(), _groundCheckerCircleCollider.radius * transform.localScale.x, _plateformLayer)
         ) return true;
         else return false;
     }
 
+    public bool IsOnContactWithGear() => m_isOnContactWithGear;
     public bool IsCeiling()
     {
-        if (Physics2D.OverlapCircle(GetCeilingCheckerCircleCollider(), (_ceilingCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _groundlayer)
-             || Physics2D.OverlapCircle(GetCeilingCheckerCircleCollider(), (_ceilingCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _gearlayer)
+        if (Physics2D.OverlapCircle(GetCeilingCheckerCircleCollider(), (_ceilingCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _plateformLayer)
+             || Physics2D.OverlapCircle(GetCeilingCheckerCircleCollider(), (_ceilingCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _gearLayer)
         ) return true;
         else return false;
     }
 
     public bool IsOnWall()
     {
-        if (Physics2D.OverlapCircle(GetWallCheckerCircleCollider(1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _groundlayer)
-             || Physics2D.OverlapCircle(GetWallCheckerCircleCollider(1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _gearlayer)
-             || Physics2D.OverlapCircle(GetWallCheckerCircleCollider(-1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _groundlayer)
-             || Physics2D.OverlapCircle(GetWallCheckerCircleCollider(-1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _gearlayer)
+        if (Physics2D.OverlapCircle(GetWallCheckerCircleCollider(1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _plateformLayer)
+             // || Physics2D.OverlapCircle(GetWallCheckerCircleCollider(1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _gearlayer)
+             || Physics2D.OverlapCircle(GetWallCheckerCircleCollider(-1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _plateformLayer)
+            // || Physics2D.OverlapCircle(GetWallCheckerCircleCollider(-1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _gearlayer)
         ) return true;
         else return false;
     }
@@ -100,7 +115,7 @@ public class PlayerCompositePhysics : MonoBehaviour {
 
     public Vector2 GetSlopePerpendicularNormal()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, _slopeCheckLenghtDistance, _groundlayer);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, _slopeCheckLenghtDistance, _plateformLayer);
         Debug.DrawRay(transform.position, Vector2.down * _slopeCheckLenghtDistance, Color.yellow);
 
         if (hit)
@@ -115,7 +130,7 @@ public class PlayerCompositePhysics : MonoBehaviour {
 
     public Vector2 GetSlopeGroundPointPosition()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, _slopeCheckLenghtDistance, _groundlayer);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, _slopeCheckLenghtDistance, _plateformLayer);
         return hit.transform.position;
     }
 
@@ -144,6 +159,7 @@ public class PlayerCompositePhysics : MonoBehaviour {
         //    rb.sharedMaterial = noFriction;
         //}
     }
+
 
 
 
