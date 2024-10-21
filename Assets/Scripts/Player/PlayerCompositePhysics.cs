@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Windows;
 
@@ -22,7 +23,8 @@ public class PlayerCompositePhysics : MonoBehaviour {
     [SerializeField] LayerMask _plateformLayer;
     [SerializeField] LayerMask _gearLayer;
 
-    bool m_isOnContactWithGear;
+    bool _isOnContactWithGear;
+    bool _isOnContactWithGearWall;
 
 
     void Start() {
@@ -31,12 +33,17 @@ public class PlayerCompositePhysics : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        m_isOnContactWithGear = true;
+        if (collision.tag == "Gear") _isOnContactWithGear = true;
+        else if (collision.tag == "GearWall") _isOnContactWithGearWall = true;
+
+
+        Debug.Log("collision.tag : " + collision.tag);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        m_isOnContactWithGear = false;
+        _isOnContactWithGear = false;
+        _isOnContactWithGearWall = false;
     }
 
     public bool IsGrounded()
@@ -46,7 +53,8 @@ public class PlayerCompositePhysics : MonoBehaviour {
         else return false;
     }
 
-    public bool IsOnContactWithGear() => m_isOnContactWithGear;
+    public bool IsOnContactWithGear() => _isOnContactWithGear;
+    public bool IsOnContactWithGearWall() => _isOnContactWithGearWall;
     public bool IsCeiling()
     {
         if (Physics2D.OverlapCircle(GetCeilingCheckerCircleCollider(), (_ceilingCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _plateformLayer)

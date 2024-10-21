@@ -8,6 +8,7 @@ TagManager:
   - RoomConnector
   - MechanismToSaveState
   - Wall
+  - GearWall
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - PlayerPlatform
   - PlayerDamageArea
   - Obstacle
-  - 
+  - GearWall
   - 
   - 
   - 

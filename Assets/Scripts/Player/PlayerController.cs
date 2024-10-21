@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] float _velocityXMax = 20000;
     [SerializeField] float _velocityYJumpMax = 20000;
     [SerializeField] float _velocityYFallMax = -150;
-    [SerializeField] float _velocityYOnGearMax = -20;
 
     [Header("Jump values")]
     [SerializeField] float _jumpForce = 7.5f;
@@ -51,6 +50,10 @@ public class PlayerController : MonoBehaviour {
 
     // Physics
     [Header("Gear")]
+    [SerializeField] float _onGearSpeedMultiplicator = 0.7f;
+    [SerializeField] float _onGearVelocityYCap = -3;
+    [SerializeField] float _onGearWallSpeedMultiplicator = 5f;
+    [SerializeField] float _onGearWallVelocityYCap = 0;
     [SerializeField] float _gearRotationSpeed = 20f;
     float _currentRotation = 0;
     [SerializeField] GameObject _body;
@@ -60,20 +63,6 @@ public class PlayerController : MonoBehaviour {
     bool _isTrigerringJump = false;
     bool _hasJumped = false;
     bool _isHandlingJumpButton = false;
-
-
-
-
-
-    void OnGearExitingOtherGear()
-    {
-        if (!_isTrigerringJump && !_hasJumped && !_isHandlingJumpButton)
-        {
-            _rigidbody.velocity = new Vector2(0, 0);
-            _velocity = new Vector2(0, 0);
-            Debug.Log("OnGearExitingOtherGear");
-        }
-    }
 
 
     PlayerInputAction _input;
@@ -112,11 +101,11 @@ public class PlayerController : MonoBehaviour {
 
     private void OnPerformJumpStarted(InputAction.CallbackContext context)
     {
-        if ((_physics.IsGrounded() || _physics.IsOnContactWithGear()) && !_hasJumped)
+        if ((_physics.IsGrounded() || _physics.IsOnContactWithGear() || _physics.IsOnContactWithGearWall()) && !_hasJumped)
         {
             _isTrigerringJump = true;
         }
-        if (!(_physics.IsGrounded() || _physics.IsOnContactWithGear()))
+        if (!(_physics.IsGrounded() || _physics.IsOnContactWithGear() || _physics.IsOnContactWithGearWall()))
         {
             _jumpBufferTimer = 0;
         }
@@ -208,7 +197,7 @@ public class PlayerController : MonoBehaviour {
 
         //_rigidbody.MovePosition(_rigidbody.position + _velocity * Time.fixedDeltaTime);
 
-        Debug.Log("Velocity y " + _velocity.y + "Velocity x " + _velocity.x);
+        // Debug.Log("Velocity y " + _velocity.y + "Velocity x " + _velocity.x);
         _rigidbody.velocity = _velocity;
         //transform.position = _gear.transform.position;
 
@@ -217,19 +206,14 @@ public class PlayerController : MonoBehaviour {
 
     private void LateUpdate()
     {
-
         _body.transform.rotation = _bodyInitialRotation;
     }
 
-    bool IsOnPeakThresholdJump()
-    {
-        return (!_physics.IsGrounded() && _velocity.y > 0.01f && _hasJumped && _velocity.y < Mathf.Abs(_yVelocityPeakThreshold));
-    }
-
+    #region Physics methods for FixedUpdate()
     private void HandlePhysicsXMovement()
     {
         // On ground
-        if ((_physics.IsGrounded() && _velocity.y <= 0.01f) || _physics.IsOnContactWithGear())
+        if ((_physics.IsGrounded() && _velocity.y <= 0.01f))
         {
             if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _groundDeceleration * Time.fixedDeltaTime);
             else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _groundAcceleration * Time.fixedDeltaTime);
@@ -237,8 +221,22 @@ public class PlayerController : MonoBehaviour {
         // On jump peak
         else if (IsOnPeakThresholdJump())
         {
-            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _peakXMovementMultiplicator, _peakDeceleration  * Time.fixedDeltaTime);
+            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _peakXMovementMultiplicator, _peakDeceleration * Time.fixedDeltaTime);
             else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _peakXMovementMultiplicator, _peakAcceleration * Time.fixedDeltaTime);
+        }
+        // On gear
+        else if (_physics.IsOnContactWithGear())
+        {
+
+            // _velocity.x = 0;
+            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearSpeedMultiplicator, _groundDeceleration * Time.fixedDeltaTime);
+            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearSpeedMultiplicator, _groundAcceleration * Time.fixedDeltaTime);
+        }
+        // On gear wall
+        else if (_physics.IsOnContactWithGearWall())
+        {
+            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearWallSpeedMultiplicator, _groundDeceleration * Time.fixedDeltaTime);
+            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearWallSpeedMultiplicator, _groundAcceleration * Time.fixedDeltaTime);    
         }
         // In air
         else
@@ -248,7 +246,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    #region Physics methods for FixedUpdate()
+
     private void HandleCheckSlopePhysicsMaterialReset()
     {
         if (_physics.IsOnSlope())
@@ -272,7 +270,7 @@ public class PlayerController : MonoBehaviour {
 
             //_gear.transform.Rotate(Vector3.forward, -_currentRotation * Time.deltaTime );
             //_gear.GetComponent<Rigidbody2D>().AddTorque(-rotation * Time.fixedDeltaTime);
-            transform.Rotate(Vector3.forward, - _currentRotation * Time.deltaTime);
+            transform.Rotate(Vector3.forward, - _currentRotation * Time.fixedDeltaTime);
             // transform.rotation -= _currentRotation * Time.deltaTime
 
         }
@@ -350,7 +348,14 @@ public class PlayerController : MonoBehaviour {
         {
             _velocity = new Vector2(
                 Mathf.Clamp(_velocity.x, -_velocityXMax, _velocityXMax)
-                , Mathf.Clamp(_velocity.y, _velocityYOnGearMax, _velocityYJumpMax)
+                , Mathf.Clamp(_velocity.y, _onGearVelocityYCap, _velocityYJumpMax)
+             );
+        }
+        else if (_physics.IsOnContactWithGearWall())
+        {
+            _velocity = new Vector2(
+                Mathf.Clamp(_velocity.x, -_velocityXMax, _velocityXMax)
+                , Mathf.Clamp(_velocity.y, _onGearWallVelocityYCap , _velocityYJumpMax)
              );
         }
         else
@@ -368,4 +373,11 @@ public class PlayerController : MonoBehaviour {
         _velocity = new Vector2(_velocity.x, 0);
         _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, 0);
     }
+
+    bool IsOnPeakThresholdJump()
+    {
+        return (!_physics.IsGrounded() && _velocity.y > 0.01f && _hasJumped && _velocity.y < Mathf.Abs(_yVelocityPeakThreshold));
+    }
+
+
 }
