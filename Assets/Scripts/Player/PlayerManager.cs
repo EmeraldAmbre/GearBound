@@ -12,13 +12,13 @@ public class PlayerManager : MonoBehaviour {
     [SerializeField] private List<GameObject> _demiHearts;
     [SerializeField] private List<GameObject> _emptyHearts;
 
-    // Life and invincibilité frame
-    [SerializeField] private int _maxLife;
+    // Invincibility frame
     [SerializeField] private float _invincibilityTime = 2f;
     [SerializeField] private float _invincibilityFrame = 0.1f;
     [SerializeField] private SpriteRenderer _spriteRenderer;
 
     #region Public Variables
+    public int m_maxLife = 8;
     public int m_playerLife;
     public bool m_isInteracting { get; set; }
     public bool m_isInvincible { get; private set; }
@@ -35,7 +35,24 @@ public class PlayerManager : MonoBehaviour {
         if (_spriteRenderer == null) _spriteRenderer = GetComponent<SpriteRenderer>();
 
         m_isInteracting = false;
-        m_playerLife = _maxLife;
+
+        if (PlayerPrefs.HasKey("max_player_life")) m_maxLife = PlayerPrefs.GetInt("max_player_life");
+
+        if (PlayerPrefs.HasKey("is_changing_room")) {
+            if (PlayerPrefs.GetInt("is_changing_room") == 1) {
+                m_playerLife = PlayerPrefs.GetInt("current_player_life");
+                PlayerPrefs.SetInt("is_changing_room", 0);
+                PlayerPrefs.Save();
+            }
+
+            else {
+                m_playerLife = m_maxLife;
+            }
+        }
+
+        else {
+            m_playerLife = m_maxLife;
+        }
     }
 
     void Start() {
@@ -77,15 +94,25 @@ public class PlayerManager : MonoBehaviour {
     }
 
     public void Heal() {
-        if (m_playerLife < _maxLife) m_playerLife += 1;
+        if (m_playerLife < m_maxLife) m_playerLife += 1;
         LifeUpdate();
     }
 
     public void LifeUpgrade() {
-        _maxLife += 2;
+        m_maxLife += 2;
+    }
+
+    public void ChangeRoom() {
+        PlayerPrefs.SetInt("is_changing_room", 1);
+        PlayerPrefs.SetInt("max_player_life", m_maxLife);
+        PlayerPrefs.SetInt("current_player_life", m_playerLife);
+        PlayerPrefs.Save();
     }
 
     public void Death() {
+
+        PlayerPrefs.SetInt("max_player_life", m_maxLife);
+        PlayerPrefs.Save();
 
         if (!string.IsNullOrEmpty(CheckpointManager.instance.m_lastCheckpointScene)) {
 
@@ -118,7 +145,7 @@ public class PlayerManager : MonoBehaviour {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null) {
             player.transform.position = respawnPosition;
-            m_playerLife = _maxLife;
+            m_playerLife = m_maxLife;
         }
 
         else {
@@ -152,7 +179,7 @@ public class PlayerManager : MonoBehaviour {
 
         if (hasDemiHeart)  {
             
-            emptyHearts = (_maxLife/2) - fullHearts - 1;
+            emptyHearts = (m_maxLife/2) - fullHearts - 1;
 
             for (int i = 0; i < fullHearts + emptyHearts + 1; i++) {
 
@@ -178,7 +205,7 @@ public class PlayerManager : MonoBehaviour {
         
         else {
             
-            emptyHearts = (_maxLife / 2) - fullHearts;
+            emptyHearts = (m_maxLife / 2) - fullHearts;
 
             for (int i = 0; i < fullHearts + emptyHearts; i++) {
 

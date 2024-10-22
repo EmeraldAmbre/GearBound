@@ -5,16 +5,28 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class RoomConnector : MonoBehaviour
-{
+public class RoomConnector : MonoBehaviour {
+
     public string m_SceneNameToConnect;
     public Transform m_PointToSpawnPlayer;
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == 7)
-        {
+    GameObject _player;
+    PlayerManager _manager;
+
+    void Awake() {
+
+        _player = GameObject.FindWithTag("Player");
+        _manager = _player.GetComponent<PlayerManager>();
+
+    }
+
+    void OnTriggerEnter2D(Collider2D collision) {
+
+        if (collision.gameObject.layer == 7) {
+
+            _manager.ChangeRoom();
             SaveRoomData();
+            
         }
     }
 
