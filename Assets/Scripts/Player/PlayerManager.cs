@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour {
@@ -18,38 +19,60 @@ public class PlayerManager : MonoBehaviour {
     [SerializeField] private SpriteRenderer _spriteRenderer;
 
     #region Public Variables
-
+    public int m_playerLife;
     public bool m_isInteracting { get; set; }
-    public int m_playerLife { get; private set; }
-    public int m_rotationInversion { get; private set; }
     public bool m_isInvincible { get; private set; }
 
+    // Singleton
+    public static PlayerManager instance;
     #endregion
 
-    private void Awake() {
+    #region Unity API
+    void Awake() {
+        if (instance == null) { instance = this; }
+        else { Destroy(gameObject); }
+
+        if (_spriteRenderer == null) _spriteRenderer = GetComponent<SpriteRenderer>();
+
         m_isInteracting = false;
-        m_rotationInversion = 1;
-
         m_playerLife = _maxLife;
-        LifeUpdate();
     }
 
-    private void Update()
-    {
+    void Start() {
+        LifeUpdate();
+
+        float x = PlayerPrefs.GetFloat("checkpoint_pos_x");
+        float y = PlayerPrefs.GetFloat("checkpoint_pos_y");
+        float z = PlayerPrefs.GetFloat("checkpoint_pos_z");
+        bool isRespawn = false;
+
+        if (PlayerPrefs.HasKey("is_respawn")) {
+            if (PlayerPrefs.GetInt("is_respawn") == 1) isRespawn = true;
+        }
+
+        if ((x != 0 || y != 0 || z != 0) && isRespawn) {
+            transform.position = new Vector3(x, y, z);
+            PlayerPrefs.SetInt("is_respawn", 0);
+            PlayerPrefs.Save();
+            isRespawn = false;
+        }
+    }
+
+    void Update() {
         LifeUpdate();
     }
+    #endregion
 
     #region Public Methods
-
-    public void RotationInversion() {
-        m_rotationInversion *= -1;
-    }
-
     public void TakeDamage(int nb_damage = 1) {
         if (!m_isInvincible) {
-            if (m_playerLife > 0) m_playerLife -= nb_damage;
-            LifeUpdate();
-            StartCoroutine(Invincibility());
+            if (m_playerLife > 0) {
+                m_playerLife -= nb_damage;
+                LifeUpdate();
+                if (m_playerLife <= 0) Death();
+                else StartCoroutine(Invincibility());
+            }
+
         }
     }
 
@@ -61,9 +84,48 @@ public class PlayerManager : MonoBehaviour {
     public void LifeUpgrade() {
         _maxLife += 2;
     }
+
+    public void Death() {
+
+        if (!string.IsNullOrEmpty(CheckpointManager.instance.m_lastCheckpointScene)) {
+
+            if (SceneManager.GetActiveScene().name != CheckpointManager.instance.m_lastCheckpointScene) {
+                PlayerPrefs.SetInt("is_respawn", 1); PlayerPrefs.Save();
+                SceneManager.LoadScene(CheckpointManager.instance.m_lastCheckpointScene);
+                StartCoroutine(RespawnAfterLoading());
+            }
+
+            else {
+                RespawnPlayer(CheckpointManager.instance.m_lastCheckpointPosition);
+            }
+        }
+
+        else {
+            Debug.LogWarning("Aucun checkpoint enregistré. Respawn à la position initiale.");
+            // Définir ici une position par défaut si aucun checkpoint n'a été visité
+        }
+    }
     #endregion
 
     #region Private Methods
+    private IEnumerator RespawnAfterLoading() {
+
+        yield return null; // Do not delete !
+        RespawnPlayer(CheckpointManager.instance.m_lastCheckpointPosition);
+    }
+
+    private void RespawnPlayer(Vector3 respawnPosition) {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null) {
+            player.transform.position = respawnPosition;
+            m_playerLife = _maxLife;
+        }
+
+        else {
+            Debug.LogError("Impossible de trouver l'objet Player pour respawn.");
+        }
+    }
+
     private IEnumerator Invincibility() {
 
         m_isInvincible = true;
