@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Windows;
 
@@ -19,10 +18,12 @@ public class PlayerCompositePhysics : MonoBehaviour {
     [SerializeField] CircleCollider2D _wallCheckerCircleCollider;
 
     [SerializeField] float _slopeCheckLenghtDistance = 0.1f;
+    [SerializeField] Transform _feetPoint;
 
     [SerializeField] LayerMask _plateformLayer;
     [SerializeField] LayerMask _gearLayer;
 
+    bool _isCollidingWithPlateform;
     bool _isOnContactWithGear;
     public bool m_isOnContactWithGearWall;
     public int m_gearWallDirection = 0;
@@ -45,6 +46,7 @@ public class PlayerCompositePhysics : MonoBehaviour {
     public bool IsGrounded()
     {
         if ( Physics2D.OverlapCircle(GetGroundCheckerCircleCollider(), _groundCheckerCircleCollider.radius * transform.localScale.x, _plateformLayer)
+        || (IsOnSlope() && _isCollidingWithPlateform)
         ) return true;
         else return false;
     }
@@ -162,6 +164,16 @@ public class PlayerCompositePhysics : MonoBehaviour {
         //{
         //    rb.sharedMaterial = noFriction;
         //}
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        _isCollidingWithPlateform = true;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        _isCollidingWithPlateform = false;
     }
 
 

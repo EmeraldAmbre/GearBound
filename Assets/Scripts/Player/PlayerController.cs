@@ -199,16 +199,18 @@ public class PlayerController : MonoBehaviour {
 
         ClampVelocity();
 
+        // _rigidbody.MovePosition((Vector2) transform.position + _velocity * Time.fixedDeltaTime);
         _rigidbody.velocity = _velocity;
 
         UpdateGearRotation();
 
+
     }
 
-    private void LateUpdate()
-    {
-        _body.transform.rotation = _bodyInitialRotation;
-    }
+    //private void LateUpdate()
+    //{
+    //    _body.transform.rotation = _bodyInitialRotation;
+    //}
 
     #region Physics methods for FixedUpdate()
     private void HandlePhysicsXMovement() {
@@ -216,7 +218,7 @@ public class PlayerController : MonoBehaviour {
         if ((_physics.IsGrounded() && _velocity.y <= 0.01f))
         {
             if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _groundDeceleration * Time.fixedDeltaTime);
-            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _groundAcceleration * Time.fixedDeltaTime);
+            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _groundAcceleration );
         }
         // On jump peak
         else if (IsOnPeakThresholdJump())
@@ -277,8 +279,10 @@ public class PlayerController : MonoBehaviour {
             else if (_physics.IsOnContactWithGearWall()) _currentRotation = Mathf.Lerp(_currentRotation, inputX * _onGearWallGearRotationSpeed, _groundAcceleration);
             else _currentRotation = Mathf.Lerp(_currentRotation, inputX * _gearRotationSpeed, _groundAcceleration);
 
-            transform.Rotate(Vector3.forward, - _currentRotation * Time.fixedDeltaTime);
+            transform.Rotate(Vector3.forward, - _currentRotation);
         }
+
+        //_body.transform.rotation = _bodyInitialRotation;
     }
 
     private void HandleCheckCeilingVelocityReset()
