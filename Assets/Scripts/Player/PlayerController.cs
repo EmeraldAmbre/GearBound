@@ -1,4 +1,3 @@
-using GearFactory;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -55,7 +54,11 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] float _onGearWallSpeedMultiplicator = 5f;
     [SerializeField] float _onGearWallVelocityYCap = 0;
     [SerializeField] float _gearRotationSpeed = 20f;
+    [SerializeField] float _onGearWallGearRotationSpeed = 300f;
     [SerializeField] Vector2 _gearWallJumpForceVector = Vector2.zero;
+    [SerializeField] float _airGearWallJumpAcceleration = 7f;
+    [SerializeField] float _airGearWallJumpDeceleration = 17f;
+    bool _isGearWallJumping = false;
     float _currentRotation = 0;
     [SerializeField] GameObject _body;
     Quaternion _bodyInitialRotation;
@@ -103,6 +106,7 @@ public class PlayerController : MonoBehaviour {
         if ((_physics.IsGrounded() || _physics.IsOnContactWithGear() || _physics.IsOnContactWithGearWall()) && !_hasJumped)
         {
             _isTrigerringJump = true;
+            if (_physics.IsOnContactWithGearWall() && !_physics.IsGrounded()) _isGearWallJumping = true;
         }
         if (!(_physics.IsGrounded() || _physics.IsOnContactWithGear() || _physics.IsOnContactWithGearWall()))
         {
@@ -166,6 +170,7 @@ public class PlayerController : MonoBehaviour {
         {
             _hasJumped = false;
             _isCoyoteTimerStarted = false;
+            _isGearWallJumping = false;
         }
     }
     #endregion
@@ -198,7 +203,8 @@ public class PlayerController : MonoBehaviour {
         _rigidbody.velocity = _velocity;
         //transform.position = _gear.transform.position;
 
-        UpdateGearTransformAndRotation();
+        UpdateGearRotation();
+
     }
 
     private void LateUpdate()
@@ -232,8 +238,15 @@ public class PlayerController : MonoBehaviour {
         // On gear wall
         else if (_physics.IsOnContactWithGearWall())
         {
-            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearWallSpeedMultiplicator, _groundDeceleration * Time.fixedDeltaTime);
+            Debug.Log("Should stop moving on gear wall");
+            if (inputX == 0) _velocity.x = 0;
             else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearWallSpeedMultiplicator, _groundAcceleration * Time.fixedDeltaTime);    
+        }
+        // In air when gear wall jumping
+        else if (_isGearWallJumping)
+        {
+            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearWallSpeedMultiplicator, _airGearWallJumpDeceleration * Time.fixedDeltaTime);
+            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearWallSpeedMultiplicator, _airGearWallJumpAcceleration * Time.fixedDeltaTime);
         }
         // In air
         else
@@ -256,24 +269,16 @@ public class PlayerController : MonoBehaviour {
 
 
 
-    private void UpdateGearTransformAndRotation() {
+    private void UpdateGearRotation() {
 
         if (_playerManager.m_isInteracting == false) {
 
             if (inputX == 0) _currentRotation = Mathf.Lerp(_currentRotation, inputX * _gearRotationSpeed, _groundDeceleration);
+            else if (_physics.IsOnContactWithGearWall()) _currentRotation = Mathf.Lerp(_currentRotation, inputX * _onGearWallGearRotationSpeed, _groundAcceleration);
             else _currentRotation = Mathf.Lerp(_currentRotation, inputX * _gearRotationSpeed, _groundAcceleration);
 
-            float rotation = inputX * _gearRotationSpeed;
-
-            //_gear.transform.Rotate(Vector3.forward, -_currentRotation * Time.deltaTime );
-            //_gear.GetComponent<Rigidbody2D>().AddTorque(-rotation * Time.fixedDeltaTime);
             transform.Rotate(Vector3.forward, - _currentRotation * Time.fixedDeltaTime);
-            // transform.rotation -= _currentRotation * Time.deltaTime
-
         }
-        //_gear.GetComponent<Rigidbody2D>().MovePosition(transform.position);
-        // _gear.transform.position = transform.position;
-
     }
 
     private void HandleCheckCeilingVelocityReset()
@@ -284,8 +289,6 @@ public class PlayerController : MonoBehaviour {
             _isHandlingJumpButton = false;
         }
     }
-
-
 
     private void HandlePhysicsVelocityWhenJumpHandling()
     {
@@ -300,7 +303,7 @@ public class PlayerController : MonoBehaviour {
         if (_isTrigerringJump)
         {
             ResetYVelocityOfPlayerAndGearRigidbodies();
-            if(_physics.IsOnContactWithGearWall() && !_physics.IsGrounded()) _velocity += new Vector2(_gearWallJumpForceVector.y * - _physics.m_gearWallDirection, _gearWallJumpForceVector.y);
+            if(_isGearWallJumping) _velocity += new Vector2(_gearWallJumpForceVector.y * - _physics.m_gearWallDirection, _gearWallJumpForceVector.y);
             else _velocity += new Vector2(0, _jumpForce);
             _hasJumped = true;
             _isTrigerringJump = false;
@@ -337,9 +340,6 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-
-
-
     private void ClampVelocity()
     {
         if(_physics.IsOnContactWithGear())
@@ -355,6 +355,8 @@ public class PlayerController : MonoBehaviour {
                 Mathf.Clamp(_velocity.x, -_velocityXMax, _velocityXMax)
                 , Mathf.Clamp(_velocity.y, _onGearWallVelocityYCap , _velocityYJumpMax)
              );
+
+            if (inputX == 0) _velocity.y = 0;
         }
         else
         {

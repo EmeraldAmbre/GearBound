@@ -14,7 +14,6 @@ public class GearWall : MonoBehaviour
             // Player is right the gear wall
             else collision.gameObject.GetComponent<PlayerCompositePhysics>().m_gearWallDirection = -1;
 
-            Debug.Log("Enter gear wall collision");
         }
     }
 
@@ -25,7 +24,6 @@ public class GearWall : MonoBehaviour
             collision.gameObject.GetComponent<PlayerCompositePhysics>().m_isOnContactWithGearWall = false;
             collision.gameObject.GetComponent<PlayerCompositePhysics>().m_gearWallDirection = 0;
 
-            Debug.Log("Exit gear wall collision");
         }
     }
 }

@@ -454,7 +454,10 @@ MonoBehaviour:
   _onGearWallSpeedMultiplicator: 1
   _onGearWallVelocityYCap: 0
   _gearRotationSpeed: 220
+  _onGearWallGearRotationSpeed: 300
   _gearWallJumpForceVector: {x: 10, y: 10}
+  _airGearWallJumpAcceleration: 3
+  _airGearWallJumpDeceleration: 25
   _body: {fileID: 2560477893739365598}
 --- !u!114 &6106390362826736106
 MonoBehaviour:
