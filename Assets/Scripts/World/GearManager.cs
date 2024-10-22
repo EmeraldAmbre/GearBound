@@ -8,7 +8,7 @@ public class GearManager : MonoBehaviour {
     [SerializeField] bool _isReversingEffectOnMechanism = false;
     [SerializeField] float _detectionAngularRotation = 10f;
     [SerializeField] float _detectionRay = 1f;
-    [SerializeField] LayerMask _detectionLayer = 7;
+    [SerializeField] LayerMask _detectionLayer;
 
     // Linked pulleys and linked interactions
     [SerializeField] PulleySystem _linkedPulley;
