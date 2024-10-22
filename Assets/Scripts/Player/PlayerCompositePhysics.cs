@@ -18,7 +18,6 @@ public class PlayerCompositePhysics : MonoBehaviour {
     [SerializeField] CircleCollider2D _wallCheckerCircleCollider;
 
     [SerializeField] float _slopeCheckLenghtDistance = 0.1f;
-    [SerializeField] Transform _feetPoint;
 
     [SerializeField] LayerMask _plateformLayer;
     [SerializeField] LayerMask _gearLayer;
