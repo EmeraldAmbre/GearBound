@@ -30,6 +30,7 @@ public class PlayerManager : MonoBehaviour {
 
     #region Unity API
     void Awake() {
+        if (instance == null) { instance = this; }
         else { Destroy(gameObject); }
 
         if (_spriteRenderer == null) _spriteRenderer = GetComponent<SpriteRenderer>();
