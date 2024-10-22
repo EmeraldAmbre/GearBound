@@ -31,10 +31,6 @@ public class PlayerGear : MonoBehaviour
         OnExittingCollisionWitGear.Invoke();
     }
 
-    private void OnTri(Collision2D collision)
-    {
-        if(collision.collider.tag == "Gear") m_isCollidingWithGear = true;
-    }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
