@@ -65,11 +65,9 @@ public class PlayerController : MonoBehaviour {
     bool _hasJumped = false;
     bool _isHandlingJumpButton = false;
 
-
     PlayerInputAction _input;
 
-    void Start()
-    {
+    void Start() {
         _physics = GetComponent<PlayerCompositePhysics>();
         _playerManager = GetComponent<PlayerManager>();
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -173,9 +171,9 @@ public class PlayerController : MonoBehaviour {
     #endregion
 
 
-    void FixedUpdate()
-    {
+    void FixedUpdate() {
         // ORDER HAVE IMPORTANCE DON'T CHANGE THE ORDER UNLESS YOU KNOW WHAT YOU DO
+        // ~ I never know what I'm doing .. :3
         //_rigidbody.velocity = Vector2.zero;
 
 
@@ -197,8 +195,6 @@ public class PlayerController : MonoBehaviour {
         ClampVelocity();
 
         //_rigidbody.MovePosition(_rigidbody.position + _velocity * Time.fixedDeltaTime);
-
-        // Debug.Log("Velocity y " + _velocity.y + "Velocity x " + _velocity.x);
         _rigidbody.velocity = _velocity;
         //transform.position = _gear.transform.position;
 
@@ -211,8 +207,8 @@ public class PlayerController : MonoBehaviour {
     }
 
     #region Physics methods for FixedUpdate()
-    private void HandlePhysicsXMovement()
-    {
+    private void HandlePhysicsXMovement() {
+
         // On ground
         if ((_physics.IsGrounded() && _velocity.y <= 0.01f))
         {
@@ -248,26 +244,26 @@ public class PlayerController : MonoBehaviour {
     }
 
 
-    private void HandleCheckSlopePhysicsMaterialReset()
-    {
-        if (_physics.IsOnSlope())
-        {
+    private void HandleCheckSlopePhysicsMaterialReset() {
+
+        if (_physics.IsOnSlope()) {
             if (inputX == 0) _rigidbody.sharedMaterial = _physicMaterialFullFriction;
             else _rigidbody.sharedMaterial = _physicMaterialZeroFriction;
         }
+
         else _rigidbody.sharedMaterial = _physicMaterialZeroFriction;
     }
 
 
 
-    private void UpdateGearTransformAndRotation()
-    {
-        if (_playerManager.m_isInteracting == false)
-        {
-            if (inputX == 0) _currentRotation = Mathf.Lerp(_currentRotation, inputX * _gearRotationSpeed * _playerManager.m_rotationInversion, _groundDeceleration);
-            else _currentRotation = Mathf.Lerp(_currentRotation, inputX * _gearRotationSpeed * _playerManager.m_rotationInversion, _groundAcceleration);
+    private void UpdateGearTransformAndRotation() {
 
-            float rotation = inputX * _gearRotationSpeed * _playerManager.m_rotationInversion;
+        if (_playerManager.m_isInteracting == false) {
+
+            if (inputX == 0) _currentRotation = Mathf.Lerp(_currentRotation, inputX * _gearRotationSpeed, _groundDeceleration);
+            else _currentRotation = Mathf.Lerp(_currentRotation, inputX * _gearRotationSpeed, _groundAcceleration);
+
+            float rotation = inputX * _gearRotationSpeed;
 
             //_gear.transform.Rotate(Vector3.forward, -_currentRotation * Time.deltaTime );
             //_gear.GetComponent<Rigidbody2D>().AddTorque(-rotation * Time.fixedDeltaTime);
@@ -321,9 +317,9 @@ public class PlayerController : MonoBehaviour {
         if (IsOnPeakThresholdJump()) _currentGravity = _initGravity * _peakGravityMultiplicator;
 
         // 
-        if(_physics.IsOnContactWithGear() && !_physics.IsCeiling())
+        if (_physics.IsOnContactWithGear() && !_physics.IsCeiling())
         {
-            Debug.Log("Is colliding with gear");
+            // Debug.Log("Is colliding with gear");
             _hasJumped = false;
             _isCoyoteTimerStarted = false;
             // _currentGravity = _initGravity / 8;

@@ -21,7 +21,6 @@ public class PlayerManager : MonoBehaviour {
     #region Public Variables
     public int m_playerLife;
     public bool m_isInteracting { get; set; }
-    public int m_rotationInversion { get; private set; }
     public bool m_isInvincible { get; private set; }
 
     // Singleton
@@ -36,7 +35,6 @@ public class PlayerManager : MonoBehaviour {
         if (_spriteRenderer == null) _spriteRenderer = GetComponent<SpriteRenderer>();
 
         m_isInteracting = false;
-        m_rotationInversion = 1;
         m_playerLife = _maxLife;
     }
 
@@ -66,10 +64,6 @@ public class PlayerManager : MonoBehaviour {
     #endregion
 
     #region Public Methods
-    public void RotationInversion() {
-        m_rotationInversion *= -1;
-    }
-
     public void TakeDamage(int nb_damage = 1) {
         if (!m_isInvincible) {
             if (m_playerLife > 0) {
