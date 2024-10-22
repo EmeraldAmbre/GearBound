@@ -1877,7 +1877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d31d0dad135ece42b7d909851ec17ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dashForce: 5000
+  _dashForce: 500
   _dashCooldown: 1
 --- !u!62 &2113835953
 PhysicsMaterial2D:
