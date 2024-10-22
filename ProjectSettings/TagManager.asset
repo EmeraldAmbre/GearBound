@@ -9,6 +9,7 @@ TagManager:
   - MechanismToSaveState
   - Wall
   - GearWall
+  - Upgrade
   layers:
   - Default
   - TransparentFX
