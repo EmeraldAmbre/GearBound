@@ -19,7 +19,6 @@ public class PlayerManager : MonoBehaviour {
     [SerializeField] private SpriteRenderer _spriteRenderer;
 
     #region Public Variables
-
     public int m_playerLife;
     public bool m_isInteracting { get; set; }
     public int m_rotationInversion { get; private set; }
@@ -27,12 +26,10 @@ public class PlayerManager : MonoBehaviour {
 
     // Singleton
     public static PlayerManager instance;
-
     #endregion
 
-    private void Awake() {
-
-        if (instance == null) { instance = this; DontDestroyOnLoad(gameObject); }
+    #region Unity API
+    void Awake() {
         else { Destroy(gameObject); }
 
         if (_spriteRenderer == null) _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -40,17 +37,34 @@ public class PlayerManager : MonoBehaviour {
         m_isInteracting = false;
         m_rotationInversion = 1;
         m_playerLife = _maxLife;
-
-        LifeUpdate();
-
     }
 
-    private void Update() {
+    void Start() {
+        LifeUpdate();
+
+        float x = PlayerPrefs.GetFloat("checkpoint_pos_x");
+        float y = PlayerPrefs.GetFloat("checkpoint_pos_y");
+        float z = PlayerPrefs.GetFloat("checkpoint_pos_z");
+        bool isRespawn = false;
+
+        if (PlayerPrefs.HasKey("is_respawn")) {
+            if (PlayerPrefs.GetInt("is_respawn") == 1) isRespawn = true;
+        }
+
+        if ((x != 0 || y != 0 || z != 0) && isRespawn) {
+            transform.position = new Vector3(x, y, z);
+            PlayerPrefs.SetInt("is_respawn", 0);
+            PlayerPrefs.Save();
+            isRespawn = false;
+        }
+    }
+
+    void Update() {
         LifeUpdate();
     }
+    #endregion
 
     #region Public Methods
-
     public void RotationInversion() {
         m_rotationInversion *= -1;
     }
@@ -81,7 +95,7 @@ public class PlayerManager : MonoBehaviour {
         if (!string.IsNullOrEmpty(CheckpointManager.instance.m_lastCheckpointScene)) {
 
             if (SceneManager.GetActiveScene().name != CheckpointManager.instance.m_lastCheckpointScene) {
-
+                PlayerPrefs.SetInt("is_respawn", 1); PlayerPrefs.Save();
                 SceneManager.LoadScene(CheckpointManager.instance.m_lastCheckpointScene);
                 StartCoroutine(RespawnAfterLoading());
             }
