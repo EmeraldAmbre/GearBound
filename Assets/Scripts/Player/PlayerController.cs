@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] Vector2 _gearWallJumpForceVector = Vector2.zero;
     [SerializeField] float _airGearWallJumpAcceleration = 7f;
     [SerializeField] float _airGearWallJumpDeceleration = 17f;
-    bool _isGearWallJumping = false;
+    public bool m_isGearWallJumping = false;
     float _currentRotation = 0;
     [SerializeField] GameObject _body;
     Quaternion _bodyInitialRotation;
@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour {
         if ((_physics.IsGrounded() || _physics.IsOnContactWithGear() || _physics.IsOnContactWithGearWall()) && !_hasJumped)
         {
             _isTrigerringJump = true;
-            if (_physics.IsOnContactWithGearWall() && !_physics.IsGrounded()) _isGearWallJumping = true;
+            if (_physics.IsOnContactWithGearWall() && !_physics.IsGrounded()) m_isGearWallJumping = true;
         }
         if (!(_physics.IsGrounded() || _physics.IsOnContactWithGear() || _physics.IsOnContactWithGearWall()))
         {
@@ -170,7 +170,7 @@ public class PlayerController : MonoBehaviour {
         {
             _hasJumped = false;
             _isCoyoteTimerStarted = false;
-            _isGearWallJumping = false;
+            if (!_physics.IsOnContactWithGearWall()) m_isGearWallJumping = false;
         }
     }
     #endregion
@@ -199,9 +199,7 @@ public class PlayerController : MonoBehaviour {
 
         ClampVelocity();
 
-        //_rigidbody.MovePosition(_rigidbody.position + _velocity * Time.fixedDeltaTime);
         _rigidbody.velocity = _velocity;
-        //transform.position = _gear.transform.position;
 
         UpdateGearRotation();
 
@@ -214,7 +212,6 @@ public class PlayerController : MonoBehaviour {
 
     #region Physics methods for FixedUpdate()
     private void HandlePhysicsXMovement() {
-
         // On ground
         if ((_physics.IsGrounded() && _velocity.y <= 0.01f))
         {
@@ -236,14 +233,17 @@ public class PlayerController : MonoBehaviour {
             else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearSpeedMultiplicator, _groundAcceleration * Time.fixedDeltaTime);
         }
         // On gear wall
-        else if (_physics.IsOnContactWithGearWall())
+        else if (_physics.IsOnContactWithGearWall() && !m_isGearWallJumping)
         {
-            Debug.Log("Should stop moving on gear wall");
-            if (inputX == 0) _velocity.x = 0;
+            if (inputX == 0)
+            {
+                _velocity.x = 0;
+
+            }
             else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearWallSpeedMultiplicator, _groundAcceleration * Time.fixedDeltaTime);    
         }
         // In air when gear wall jumping
-        else if (_isGearWallJumping)
+        else if (m_isGearWallJumping)
         {
             if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearWallSpeedMultiplicator, _airGearWallJumpDeceleration * Time.fixedDeltaTime);
             else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearWallSpeedMultiplicator, _airGearWallJumpAcceleration * Time.fixedDeltaTime);
@@ -303,7 +303,7 @@ public class PlayerController : MonoBehaviour {
         if (_isTrigerringJump)
         {
             ResetYVelocityOfPlayerAndGearRigidbodies();
-            if(_isGearWallJumping) _velocity += new Vector2(_gearWallJumpForceVector.y * - _physics.m_gearWallDirection, _gearWallJumpForceVector.y);
+            if(m_isGearWallJumping) _velocity += new Vector2(_gearWallJumpForceVector.x * - _physics.m_gearWallDirection, _gearWallJumpForceVector.y);
             else _velocity += new Vector2(0, _jumpForce);
             _hasJumped = true;
             _isTrigerringJump = false;
@@ -322,10 +322,8 @@ public class PlayerController : MonoBehaviour {
         // 
         if (_physics.IsOnContactWithGear() && !_physics.IsCeiling())
         {
-            // Debug.Log("Is colliding with gear");
             _hasJumped = false;
             _isCoyoteTimerStarted = false;
-            // _currentGravity = _initGravity / 8;
         }
     }
     private void HandlePhysicsGravity()

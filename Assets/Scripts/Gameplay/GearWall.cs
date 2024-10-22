@@ -13,7 +13,7 @@ public class GearWall : MonoBehaviour
             if (transform.position.x > collision.transform.position.x) collision.gameObject.GetComponent<PlayerCompositePhysics>().m_gearWallDirection = 1;
             // Player is right the gear wall
             else collision.gameObject.GetComponent<PlayerCompositePhysics>().m_gearWallDirection = -1;
-
+            collision.gameObject.GetComponent<PlayerController>().m_isGearWallJumping = false;
         }
     }
 
