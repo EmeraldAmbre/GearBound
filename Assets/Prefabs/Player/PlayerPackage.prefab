@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 8570883367269673777}
+  m_Follow: {fileID: 3843861729468196715}
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 4.39
@@ -1243,8 +1243,20 @@ PrefabInstance:
       value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
+      propertyPath: _gearWallJumpForceVector.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
+      propertyPath: _gearWallJumpForceVector.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _peakXMovementMultiplicator
       value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
+      propertyPath: _onGearWallSpeedMultiplicator
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3812919033788693926, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: m_Mass
@@ -1297,7 +1309,7 @@ PrefabInstance:
     - target: {fileID: 5312793714340410458, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _spriteRenderer
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 3057927119908471181}
     - target: {fileID: 5312793714340410458, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _demiHearts.Array.data[0]
       value: 

@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] float _onGearWallSpeedMultiplicator = 5f;
     [SerializeField] float _onGearWallVelocityYCap = 0;
     [SerializeField] float _gearRotationSpeed = 20f;
+    [SerializeField] Vector2 _gearWallJumpForceVector = Vector2.zero;
     float _currentRotation = 0;
     [SerializeField] GameObject _body;
     Quaternion _bodyInitialRotation;
@@ -163,7 +164,7 @@ public class PlayerController : MonoBehaviour {
 
     private void ResetNeededDataWhenOnGround()
     {
-        if (_physics.IsGrounded() && _velocity.y <= 0.01f)
+        if ((_physics.IsGrounded() && _velocity.y <= 0.01f) || _physics.IsOnContactWithGear() || _physics.IsOnContactWithGearWall())
         {
             _hasJumped = false;
             _isCoyoteTimerStarted = false;
@@ -303,7 +304,8 @@ public class PlayerController : MonoBehaviour {
         if (_isTrigerringJump)
         {
             ResetYVelocityOfPlayerAndGearRigidbodies();
-            _velocity += new Vector2(0, _jumpForce);
+            if(_physics.IsOnContactWithGearWall() && !_physics.IsGrounded()) _velocity += new Vector2(_gearWallJumpForceVector.y * - _physics.m_gearWallDirection, _gearWallJumpForceVector.y);
+            else _velocity += new Vector2(0, _jumpForce);
             _hasJumped = true;
             _isTrigerringJump = false;
         }
