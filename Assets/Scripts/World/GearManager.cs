@@ -4,27 +4,29 @@ using UnityEngine;
 
 public class GearManager : MonoBehaviour {
 
-    [SerializeField] bool _isInteractable;
+    // Allow gears to spin or not, by detecting where's the player and if it can interact
+    [Header("Non optionnal settings")]
+    [SerializeField] bool _isInteractable; // Check it in editor if u want that this gear can spin with player
     [SerializeField] bool _isReversingEffectOnMechanism = false;
-    [SerializeField] float _detectionAngularRotation = 10f;
-    [SerializeField] float _detectionRay = 1f;
-    [SerializeField] LayerMask _detectionLayer = 7;
+    [SerializeField] float _detectionRay = 1f; // Set a value big enough in editor (something near 1f ~ 1.2f)
+    [SerializeField] LayerMask _detectionLayer; // Always set to "player" layer in editor
 
     // Linked pulleys and linked interactions
+    // Drag and drop your linked item(s) in editor
+    [Header("Linked Items")]
     [SerializeField] PulleySystem _linkedPulley;
     [SerializeField] SpinPulleySystem _linkedSpinPulley;
     [SerializeField] DrawbridgeSystem _linkedDrawbridge;
     [SerializeField] HorizontalPulleySystem _linkedHorizontalPulley;
+    [SerializeField] RoomSpinner _linkedRoomToSpin;
 
     bool _isPlayerNear;
-    bool _isInInteraction;
     int _precedentRotation;
     Rigidbody2D _gearRigidbody;
 
     void Start() {
         _gearRigidbody = GetComponent<Rigidbody2D>();
         _precedentRotation = (int)_gearRigidbody.rotation;
-        _isInInteraction = false;
     }
 
     void Update() {
@@ -104,7 +106,23 @@ public class GearManager : MonoBehaviour {
             }
         }
 
+        // Spin the Room !
+        if (_linkedRoomToSpin != null) {
+            if (_precedentRotation < (int)_gearRigidbody.rotation) {
+                _linkedRoomToSpin.m_isSpinningLeft = !_isReversingEffectOnMechanism;
+                _linkedRoomToSpin.m_isSpinningRight = _isReversingEffectOnMechanism;
+            }
+            else if (_precedentRotation > (int)_gearRigidbody.rotation) {
+                _linkedRoomToSpin.m_isSpinningLeft = _isReversingEffectOnMechanism;
+                _linkedRoomToSpin.m_isSpinningRight = !_isReversingEffectOnMechanism;
+            }
+            else {
+                _linkedRoomToSpin.m_isSpinningLeft = false;
+                _linkedRoomToSpin.m_isSpinningRight = false;
+            }
+        }
 
         _precedentRotation = (int)_gearRigidbody.rotation;
+
     }
 }
