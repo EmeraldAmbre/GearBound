@@ -22,7 +22,28 @@ public class GearManager : MonoBehaviour {
 
     bool _isPlayerNear;
     int _precedentRotation;
+    PlayerController _player;
     Rigidbody2D _gearRigidbody;
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Player")
+        {
+            _isPlayerNear = true;
+            _player = collision.gameObject.GetComponent<PlayerController>();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        _isPlayerNear = false;
+        if (collision.gameObject.tag == "Player")
+        {
+            _isPlayerNear = false;
+            _player = null;
+        }
+    }
+
 
     void Start() {
         _gearRigidbody = GetComponent<Rigidbody2D>();
@@ -30,9 +51,9 @@ public class GearManager : MonoBehaviour {
     }
 
     void Update() {
-        Collider2D[] objetsDetectes = Physics2D.OverlapCircleAll(transform.position, _detectionRay, _detectionLayer);
-        if (objetsDetectes.Length == 0 && _isInteractable) _gearRigidbody.freezeRotation = true;
-        else _gearRigidbody.freezeRotation = false;
+
+        if (_isPlayerNear == true && _player != null) _gearRigidbody.freezeRotation = false;
+        else _gearRigidbody.freezeRotation = true;
 
         // Pulley System
         if (_linkedPulley != null) {
