@@ -824,7 +824,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _gearWallJumpForceVector.x
-      value: 15
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _gearWallJumpForceVector.y
@@ -832,11 +832,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _airGearWallJumpAcceleration
-      value: 0.07
+      value: 0.09
       objectReference: {fileID: 0}
     - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _airGearWallJumpDeceleration
-      value: 0.02
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _onGearWallGearRotationSpeed
@@ -973,6 +973,14 @@ PrefabInstance:
     - target: {fileID: 5551378094272751982, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: m_Name
       value: MainPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 6851194340151364688, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
+      propertyPath: m_Radius
+      value: 0.815073
+      objectReference: {fileID: 0}
+    - target: {fileID: 6851194340151364688, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.38607216
       objectReference: {fileID: 0}
     - target: {fileID: 8921624613052102320, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
