@@ -14,6 +14,7 @@ public class Dash : MonoBehaviour {
         if (other.CompareTag("Player")) {
             PlayerPrefs.SetInt(_name, 1);
             PlayerPrefs.Save();
+            gameObject.SetActive(false);
         }
     }
 }

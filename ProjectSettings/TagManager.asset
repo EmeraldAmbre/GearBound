@@ -10,6 +10,7 @@ TagManager:
   - Wall
   - GearWall
   - Upgrade
+  - Magnet
   layers:
   - Default
   - TransparentFX

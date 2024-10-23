@@ -9,7 +9,6 @@ using UnityEngine.UIElements;
 public class PlayerController : MonoBehaviour {
     [Header("Movement")]
     [SerializeField] float _initMoveSpeed = 50f;
-    float _currentSpeed;
     [SerializeField] float _groundAcceleration = 7f;
     [SerializeField] float _groundDeceleration = 17f;
     [SerializeField] float _airAcceleration = 7f;
@@ -17,16 +16,17 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] float _velocityXMax = 20000;
     [SerializeField] float _velocityYJumpMax = 20000;
     [SerializeField] float _velocityYFallMax = -150;
+    public float m_currentSpeed { get; private set; }
+    public bool m_rotationInversion { get; set; }
 
     [Header("Jump values")]
     [SerializeField] float _jumpForce = 7.5f;
     [SerializeField] float _jumpHandlingVelocity = 5;
-
     [SerializeField] float _jumpBufferTime = 0.13f;
-    float _jumpBufferTimer = 5;
-    bool _isCoyoteTimerStarted = false;
     [SerializeField] float _jumpCoyoteTime = 0.13f;
+    float _jumpBufferTimer = 5;
     float _jumpCoyoteTimer = 5;
+    bool _isCoyoteTimerStarted = false;
 
     [Header("Air peak values")]
     [SerializeField] float _yVelocityPeakThreshold = 10f;
@@ -65,8 +65,8 @@ public class PlayerController : MonoBehaviour {
     Quaternion _bodyInitialRotation;
 
     float inputX;
-    bool _isTrigerringJump = false;
     bool _hasJumped = false;
+    bool _isTrigerringJump = false;
     bool _isHandlingJumpButton = false;
 
     PlayerInputAction _input;
@@ -76,9 +76,10 @@ public class PlayerController : MonoBehaviour {
         _playerManager = GetComponent<PlayerManager>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _currentGravity = _initGravity;
-        _currentSpeed = _initMoveSpeed;
+        m_currentSpeed = _initMoveSpeed;
         InitInput();
         _bodyInitialRotation = _body.transform.rotation;
+        m_rotationInversion = false;
     }
 
     #region Input Methods
@@ -209,32 +210,27 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    //private void LateUpdate()
-    //{
-    //    _body.transform.rotation = _bodyInitialRotation;
-    //}
-
     #region Physics methods for FixedUpdate()
     private void HandlePhysicsXMovement() {
         // On ground
         if ((_physics.IsGrounded() && _velocity.y <= 0.01f))
         {
-            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _groundDeceleration);
-            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _groundAcceleration );
+            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * m_currentSpeed, _groundDeceleration);
+            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * m_currentSpeed, _groundAcceleration );
         }
         // On jump peak
         else if (IsOnPeakThresholdJump())
         {
-            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _peakXMovementMultiplicator, _peakDeceleration);
-            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _peakXMovementMultiplicator, _peakAcceleration);
+            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * m_currentSpeed * _peakXMovementMultiplicator, _peakDeceleration);
+            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * m_currentSpeed * _peakXMovementMultiplicator, _peakAcceleration);
         }
         // On gear
         else if (_physics.IsOnContactWithGear())
         {
 
             // _velocity.x = 0;
-            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearSpeedMultiplicator, _groundDeceleration);
-            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearSpeedMultiplicator, _groundAcceleration );
+            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * m_currentSpeed * _onGearSpeedMultiplicator, _groundDeceleration);
+            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * m_currentSpeed * _onGearSpeedMultiplicator, _groundAcceleration );
         }
         // On gear wall
         else if (_physics.IsOnContactWithGearWall() && !m_isGearWallJumping)
@@ -244,22 +240,21 @@ public class PlayerController : MonoBehaviour {
                 _velocity.x = 0;
 
             }
-            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearWallSpeedMultiplicator, _groundAcceleration);    
+            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * m_currentSpeed * _onGearWallSpeedMultiplicator, _groundAcceleration);    
         }
         // In air when gear wall jumping
         else if (m_isGearWallJumping)
         {
-            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearWallSpeedMultiplicator, _airGearWallJumpDeceleration);
-            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearWallSpeedMultiplicator, _airGearWallJumpAcceleration);
+            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * m_currentSpeed * _onGearWallSpeedMultiplicator, _airGearWallJumpDeceleration);
+            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * m_currentSpeed * _onGearWallSpeedMultiplicator, _airGearWallJumpAcceleration);
         }
         // In air
         else
         {
-            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _airDeceleration);
-            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _airAcceleration);
+            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * m_currentSpeed, _airDeceleration);
+            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * m_currentSpeed, _airAcceleration);
         }
     }
-
 
     private void HandleCheckSlopePhysicsMaterialReset() {
 
@@ -271,8 +266,6 @@ public class PlayerController : MonoBehaviour {
         else _rigidbody.sharedMaterial = _physicMaterialZeroFriction;
     }
 
-
-
     private void UpdateGearRotation() {
 
         if (_playerManager.m_isInteracting == false) {
@@ -281,7 +274,8 @@ public class PlayerController : MonoBehaviour {
             else if (_physics.IsOnContactWithGearWall()) _currentRotation = Mathf.Lerp(_currentRotation, inputX * _onGearWallGearRotationSpeed, _groundAcceleration);
             else _currentRotation = Mathf.Lerp(_currentRotation, inputX * _gearRotationSpeed, _groundAcceleration);
 
-            transform.Rotate(Vector3.forward, - _currentRotation);
+            if (!m_rotationInversion) transform.Rotate(Vector3.forward, - _currentRotation);
+            else transform.Rotate(Vector3.forward, _currentRotation);
         }
 
         _body.transform.rotation = _bodyInitialRotation;
@@ -335,6 +329,7 @@ public class PlayerController : MonoBehaviour {
             _isCoyoteTimerStarted = false;
         }
     }
+
     private void HandlePhysicsGravity()
     {
         if (_physics.IsGrounded() && _velocity.y <= 0.01f)
@@ -373,6 +368,7 @@ public class PlayerController : MonoBehaviour {
              );
         }
     }
+
     #endregion
 
     private void ResetYVelocityOfPlayerAndGearRigidbodies()
@@ -381,10 +377,13 @@ public class PlayerController : MonoBehaviour {
         _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, 0);
     }
 
-    bool IsOnPeakThresholdJump()
+    private bool IsOnPeakThresholdJump()
     {
         return (!_physics.IsGrounded() && _velocity.y > 0.01f && _hasJumped && _velocity.y < Mathf.Abs(_yVelocityPeakThreshold));
     }
 
+    public void SetCurrentSpeed(float speed) {
+        m_currentSpeed = speed;
+    }
 
 }
