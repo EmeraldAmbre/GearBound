@@ -5,10 +5,12 @@ using UnityEngine;
 public class GearMechanism : MonoBehaviour
 {
     public bool m_isEnabled { get; private set; } = false;
+    [HideInInspector] public bool m_isPlayerInteracting = false;
 
     public virtual void ActivateOnce(int gearRotationDirection)
     {
         _lastGearRotationDirection = gearRotationDirection;
+        if(!m_isPlayerInteracting) m_isPlayerInteracting = true;
     }
     public int _lastGearRotationDirection;
 
@@ -23,7 +25,7 @@ public class GearMechanism : MonoBehaviour
         m_isEnabled = false;
     }
 
-    public void Update()
+    public virtual void Update()
     {
         if(m_isEnabled)
         {

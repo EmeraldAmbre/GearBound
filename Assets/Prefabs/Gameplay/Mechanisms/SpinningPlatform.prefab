@@ -203,9 +203,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feecf6bfb2fd24c4fa7d30ef34ad5b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_isPlayerInteracting: 0
   _lastGearRotationDirection: 0
-  _spinningSpeed: -0.5
-  _pivotPoint: {fileID: 6114816629979201859}
+  _spinningSpeed: 80
 --- !u!1 &9084901684573811581
 GameObject:
   m_ObjectHideFlags: 0

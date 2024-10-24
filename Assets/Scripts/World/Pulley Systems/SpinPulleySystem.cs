@@ -11,8 +11,8 @@ public class SpinPulleySystem :  GearMechanism
     {
         base.ActivateOnce(gearRotationDirection);
 
-        if (gearRotationDirection == 1) transform.Rotate(0, 0, _spinningSpeed);
-        else if (gearRotationDirection == -1) transform.Rotate(0, 0, -_spinningSpeed);
+        if (gearRotationDirection == 1) transform.Rotate(0, 0, _spinningSpeed * Time.deltaTime);
+        else if (gearRotationDirection == -1) transform.Rotate(0, 0, -_spinningSpeed * Time.deltaTime);
 
 
     }

@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 145bea5a72ccd8a44ba822378ba8d14a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.5707547, b: 0.99338967, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -171,9 +171,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9213f2e6a97f134aa83cfb64ebed3b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_isMovingUp: 0
-  m_isMovingDown: 0
-  _maxHeight: 1.5
-  _minHeight: -2.5
-  _pulleySpeed: 0.005
+  m_isPlayerInteracting: 0
+  _lastGearRotationDirection: 0
+  _maxHeight: 3
+  _minHeight: 0
+  _pulleySpeed: 2.5
   _boxCollider: {fileID: 1256829945132858730}

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5066435172107324393}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pivot
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 7841264577887893038}
   - component: {fileID: 7367498909391686880}
   - component: {fileID: 6037369046372805240}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8781179196003716864}
   - component: {fileID: 1758996315433594875}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Drawbridge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,9 +235,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d73910dd9fec96d47a7084500befed53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_isPlayerInteracting: 0
   _lastGearRotationDirection: 0
-  _minPivot: -15
-  _maxPivot: 75
-  _rotationSpeed: 0.05
+  _minPivot: 0
+  _maxPivot: 60
+  _rotationSpeed: 20
   _boxCollider: {fileID: 6037369046372805240}
   _pivotTransform: {fileID: 5066435172107324393}

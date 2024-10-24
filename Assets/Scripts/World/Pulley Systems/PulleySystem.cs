@@ -25,9 +25,6 @@ public class PulleySystem : GearMechanism
         pulleyHeight = _boxCollider.size.y * transform.localScale.y;
         yMaxheight = _initialPosition.y + _maxHeight + pulleyHeight / 2;
         yMinheight = _initialPosition.y - _minHeight - pulleyHeight / 2;
-
-
-        Debug.Log("Max height drawed : " + yMaxheight);
     }
 
     public override void ActivateOnce(int gearRotationDirection)
@@ -35,12 +32,11 @@ public class PulleySystem : GearMechanism
         base.ActivateOnce(gearRotationDirection);
         if (gearRotationDirection == 1)
         {
-            if (transform.position.y + pulleyHeight / 2 < yMaxheight) transform.Translate(Vector2.up * _pulleySpeed);
-            Debug.Log("transform y : " + transform.position.y + pulleyHeight / 2 + "    limit up transform y : " + yMaxheight);
+            if (transform.position.y + pulleyHeight / 2 < yMaxheight) transform.Translate(Vector2.up * _pulleySpeed * Time.deltaTime);
         }
         else if (gearRotationDirection == -1)
         {
-            if (transform.position.y - pulleyHeight / 2 > yMinheight) transform.Translate(Vector2.down * _pulleySpeed);
+            if (transform.position.y - pulleyHeight / 2 > yMinheight) transform.Translate(Vector2.down * _pulleySpeed * Time.deltaTime);
         }
     }
 

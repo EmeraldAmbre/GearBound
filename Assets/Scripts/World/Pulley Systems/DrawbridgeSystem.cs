@@ -18,9 +18,7 @@ public class DrawbridgeSystem : GearMechanism
 
     void Start()
     {
-
         _currentPivot = _pivotTransform.rotation.z;
-
         if (_currentPivot < _minPivot)
         {
             _currentPivot = _minPivot;
@@ -38,20 +36,19 @@ public class DrawbridgeSystem : GearMechanism
         base.ActivateOnce(gearRotationDirection);
         if (gearRotationDirection == 1)
         {
-
+            Debug.Log("_currentPivot : " + _currentPivot + "    _maxPivot : " + _maxPivot + "    _minPivot : " + _minPivot);
             if (_currentPivot < _maxPivot)
             {
-                _currentPivot += _rotationSpeed;
-                _pivotTransform.Rotate(new(0, 0, _rotationSpeed));
+                _currentPivot += _rotationSpeed * Time.deltaTime;
+                _pivotTransform.Rotate(new(0, 0, _rotationSpeed * Time.deltaTime));
             }
         }
         else if (gearRotationDirection == -1)
         {
-
             if (_currentPivot > _minPivot)
             {
-                _currentPivot -= _rotationSpeed;
-                _pivotTransform.Rotate(new(0, 0, -_rotationSpeed));
+                _currentPivot -= _rotationSpeed * Time.deltaTime;
+                _pivotTransform.Rotate(new(0, 0, -_rotationSpeed * Time.deltaTime));
             }
         }
     }

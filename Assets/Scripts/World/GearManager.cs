@@ -7,7 +7,6 @@ public class GearManager : MonoBehaviour {
     // Allow gears to spin or not, by detecting where's the player and if it can interact
     [Header("Non optionnal settings")]
     [SerializeField] bool _isInteractable; // Check it in editor if u want that this gear can spin with player
-    [SerializeField] bool _isReversingEffectOnMechanism = false;
     [SerializeField] float _detectionRay = 1f; // Set a value big enough in editor (something near 1f ~ 1.2f)
     [SerializeField] LayerMask _detectionLayer; // Always set to "player" layer in editor
 
@@ -21,7 +20,6 @@ public class GearManager : MonoBehaviour {
 
 
     bool _isPlayerNear;
-    int _precedentRotation;
     PlayerController _player;
     Rigidbody2D _gearRigidbody;
 
@@ -36,19 +34,16 @@ public class GearManager : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        _isPlayerNear = false;
         if (collision.gameObject.tag == "Player")
         {
             _isPlayerNear = false;
             _player = null;
-
         }
     }
 
 
     void Start() {
         _gearRigidbody = GetComponent<Rigidbody2D>();
-        _precedentRotation = (int)_gearRigidbody.rotation;
     }
 
     void Update() {
@@ -70,10 +65,32 @@ public class GearManager : MonoBehaviour {
                     else _rightGearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection);
                 }
             }
-
+            else
+            {
+                ResetGearmechinsms();
+            }
         }
-        else _gearRigidbody.freezeRotation = true;
+        else
+        {
+            _gearRigidbody.freezeRotation = true;
+            ResetGearmechinsms();
+        }
 
-        _precedentRotation = (int)_gearRigidbody.rotation;
+    }
+
+    void ResetGearmechinsms()
+    {
+        if (!_isActivatingDifferentMechanismByDirection )
+        {
+            if(_gearMechanismToActivate.m_isPlayerInteracting) _gearMechanismToActivate.m_isPlayerInteracting = false;
+        }
+        else 
+        {
+            if (_leftGearMechanismToActivate.m_isPlayerInteracting || _rightGearMechanismToActivate.m_isPlayerInteracting)
+            {
+                _leftGearMechanismToActivate.m_isPlayerInteracting = false;
+                _rightGearMechanismToActivate.m_isPlayerInteracting = false;
+            }
+        }
     }
 }

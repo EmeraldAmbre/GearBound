@@ -33,15 +33,12 @@ public class HorizontalPulleySystem : GearMechanism
         base.ActivateOnce(gearRotationDirection);
         if (gearRotationDirection == 1)
         {
-            if (currentPosX + boxWidth / 2 < _initialPosition.x + _maxRight + boxWidth / 2) transform.Translate(Vector2.right * _pulleySpeed);
+            if (currentPosX + boxWidth / 2 < _initialPosition.x + _maxRight + boxWidth / 2) transform.Translate(Vector2.right * _pulleySpeed * Time.deltaTime);
         }
         else if (gearRotationDirection == -1)
         {
-            if (currentPosX - boxHeight / 2 > _initialPosition.x - _maxLeft - boxHeight / 2) transform.Translate(Vector2.left * _pulleySpeed);
+            if (currentPosX - boxHeight / 2 > _initialPosition.x - _maxLeft - boxHeight / 2) transform.Translate(Vector2.left * _pulleySpeed * Time.deltaTime);
         }
-            
-
-        Debug.Log("gear rot : " + gearRotationDirection);
         currentPosX = transform.position.x;
 
     }

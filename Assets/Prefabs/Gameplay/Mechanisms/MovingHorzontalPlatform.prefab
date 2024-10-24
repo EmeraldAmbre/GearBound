@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1571974840805412117}
   - component: {fileID: 6502056195106657348}
   - component: {fileID: 4398661195456273277}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MovingHorzontalPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,8 +171,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8635b1f15f32af54ab09fce58272c118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_isPlayerInteracting: 0
   _lastGearRotationDirection: 0
   _maxLeft: 2
-  _maxRight: 2
-  _pulleySpeed: 0.2
+  _maxRight: 0
+  _pulleySpeed: 3
   _boxCollider: {fileID: 6502056195106657348}
