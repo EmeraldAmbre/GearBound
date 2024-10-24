@@ -1,68 +1,109 @@
 using System.Collections;
 using System.Collections.Generic;
+using TreeEditor;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class ControlGearManager : MonoBehaviour {
 
-    // Allow gears to spin or not, by detecting where's the player and if it can interact
-    [Header("Non optionnal settings")]
-    [SerializeField] bool _isInteractable; // Check it in editor if u want that this gear can spin with player
-    [SerializeField] bool _isReversingEffectOnMechanism = false;
-    [SerializeField] float _detectionRay = 1f; // Set a value big enough in editor (something near 1f ~ 1.2f)
-    [SerializeField] LayerMask _detectionLayer; // Always set to "player" layer in editor
-
-    // Linked pulleys and linked interactions
-    // Drag and drop your linked item(s) in editor
-    [Header("Linked Items")]
-    [SerializeField] GearMechanism _gearMechanismToActivate;
-    [SerializeField] bool _isActivatingDifferentMechanismByDirection = false;
-    [SerializeField] GearMechanism _leftGearMechanismToActivate;
-    [SerializeField] GearMechanism _rightGearMechanismToActivate;
+    [SerializeField] float _testRotation;
 
     bool _isPlayerNear;
-    int _precedentRotation;
-    PlayerController _player;
+    bool _isSwitched;
+    float _precedentRotation;
+    float _referenceRotation;
+
+    PlayerController _controller;
+    PlayerUpgrades _upgrades;
     Rigidbody2D _gearRigidbody;
+    
+    [SerializeField] GameObject _player;
+
+    Vector3 _initialPosition;
 
     void Start() {
+        _initialPosition = transform.position;
         _gearRigidbody = GetComponent<Rigidbody2D>();
-        _precedentRotation = (int)_gearRigidbody.rotation;
+        _precedentRotation = _gearRigidbody.rotation;
+        _isSwitched = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.tag == "Player") {
             _isPlayerNear = true;
-            _player = other.gameObject.GetComponent<PlayerController>();
+            _controller = other.gameObject.GetComponent<PlayerController>();
+            _upgrades = other.gameObject.GetComponent<PlayerUpgrades>();
         }
     }
 
     private void OnTriggerExit2D(Collider2D other) {
-        _isPlayerNear = false;
         if (other.gameObject.tag == "Player") {
             _isPlayerNear = false;
-            _player = null;
         }
     }
 
     void Update() {
-        if (_isPlayerNear == true && _player != null) {
-            if (_player.m_inputX != 0) {
+
+        if (_isPlayerNear == true && _controller != null) {
+
+            if (_controller.m_inputX != 0 && _upgrades.m_canPossess && _referenceRotation < _testRotation) {
+
                 _gearRigidbody.freezeRotation = false;
-                int gearPlayerRotationDirection = _player.m_currentGearRotation > 0 ? 1 : -1;
-                if (!_isActivatingDifferentMechanismByDirection) {
-                    _gearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection);
-                }
-                else {
-                    if (gearPlayerRotationDirection == -1) _leftGearMechanismToActivate.Activate(gearPlayerRotationDirection);
-                    else _rightGearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection);
+
+                _referenceRotation += _precedentRotation;
+
+            }
+
+            else if (_controller.m_inputX != 0 && _upgrades.m_canPossess && _referenceRotation >= _testRotation) {
+
+                _gearRigidbody.freezeRotation = false;
+
+                if (_isSwitched == false) {
+
+                    SwitchPositionsAndSprites(gameObject, _player);
+
+                    _isSwitched = true;
+
                 }
             }
         }
 
-        else _gearRigidbody.freezeRotation = true;
+        else {
+            
+            _gearRigidbody.freezeRotation = true;
+        
+        }
 
-        _precedentRotation = (int)_gearRigidbody.rotation;
+        if (_isSwitched == true && _upgrades.m_canPossess == false) {
+
+            SwitchPositionsAndSprites(gameObject, _player);
+
+            gameObject.transform.position = _initialPosition;
+
+            _testRotation = 0;
+
+            _isSwitched = false;
+        
+        }
+
+        _precedentRotation = _gearRigidbody.rotation;
 
     }
+
+    void SwitchPositionsAndSprites(GameObject objectA, GameObject objectB) {
+
+        Vector3 tempPosition = objectA.transform.position;
+        objectA.transform.position = objectB.transform.position;
+        objectB.transform.position = tempPosition;
+
+        SpriteRenderer spriteRendererA = objectA.GetComponent<SpriteRenderer>();
+        SpriteRenderer spriteRendererB = objectB.GetComponent<SpriteRenderer>();
+
+        if (spriteRendererA != null && spriteRendererB != null) {
+            Sprite tempSprite = spriteRendererA.sprite;
+            spriteRendererA.sprite = spriteRendererB.sprite;
+            spriteRendererB.sprite = tempSprite;
+        }
+    }
+
 }

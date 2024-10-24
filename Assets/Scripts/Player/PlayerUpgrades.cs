@@ -28,12 +28,16 @@ public class PlayerUpgrades : MonoBehaviour {
     bool _isAttracted = false;
     bool _canBeAttracted = false;
 
+    // Possession settings
+    public bool m_canPossess { get; private set; }
+
     PlayerController _controller;
     Rigidbody2D _rb;
 
     void Start() {
         _controller = GetComponent<PlayerController>();
         _rb = GetComponent<Rigidbody2D>();
+        m_canPossess = false;
     }
 
     void Update() {
@@ -43,6 +47,10 @@ public class PlayerUpgrades : MonoBehaviour {
 
         if (_dashCooldownRemaining > 0) {
             _dashCooldownRemaining -= Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.H) && PlayerPrefs.HasKey("possession")) {
+            if (PlayerPrefs.GetInt("magnet") == 1) m_canPossess = !m_canPossess;
         }
 
         if (Input.GetKeyDown(KeyCode.G) && PlayerPrefs.HasKey("magnet")) {
