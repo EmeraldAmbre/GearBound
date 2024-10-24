@@ -11,7 +11,7 @@ public class HorizontalPulleySystem : GearMechanism
     [SerializeField] float _maxLeft = 2f;
     [SerializeField] float _maxRight = 2f;
     [SerializeField] float _pulleySpeed = 0.2f;
-    public BoxCollider2D _boxCollider;
+    [SerializeField] BoxCollider2D _boxCollider;
     float boxWidth;
     float boxHeight;
     float currentPosX;

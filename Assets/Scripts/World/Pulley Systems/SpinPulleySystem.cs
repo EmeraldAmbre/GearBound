@@ -16,12 +16,4 @@ public class SpinPulleySystem :  GearMechanism
 
 
     }
-
-    //void Update() {
-
-    //    if (m_isSpinningLeft) transform.Rotate(0, 0, _spinningSpeed);
-
-    //    else if (m_isSpinningRight) transform.Rotate(0, 0, -_spinningSpeed);
-        
-    //}
 }

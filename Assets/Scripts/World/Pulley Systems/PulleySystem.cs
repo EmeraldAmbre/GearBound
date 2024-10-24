@@ -11,44 +11,52 @@ public class PulleySystem : GearMechanism
     Vector2 _initialPosition = new Vector2(0,0);
     float currentHeight;
     [SerializeField] BoxCollider2D _boxCollider;
+    float pulleyHeight;
+    float pulleyWidth;
+    float yMaxheight;
+    float yMinheight;
 
     private void Start()
     {
         _initialPosition = transform.position;
         _boxCollider = GetComponent<BoxCollider2D>();
+
+        pulleyWidth = _boxCollider.size.x * transform.localScale.x;
+        pulleyHeight = _boxCollider.size.y * transform.localScale.y;
+        yMaxheight = _initialPosition.y + _maxHeight + pulleyHeight / 2;
+        yMinheight = _initialPosition.y - _minHeight - pulleyHeight / 2;
+
+
+        Debug.Log("Max height drawed : " + yMaxheight);
     }
 
     public override void ActivateOnce(int gearRotationDirection)
     {
         base.ActivateOnce(gearRotationDirection);
         if (gearRotationDirection == 1)
-            if (transform.position.y < _initialPosition.y + _maxHeight) transform.Translate(Vector2.up * _pulleySpeed);
+        {
+            if (transform.position.y + pulleyHeight / 2 < yMaxheight) transform.Translate(Vector2.up * _pulleySpeed);
+            Debug.Log("transform y : " + transform.position.y + pulleyHeight / 2 + "    limit up transform y : " + yMaxheight);
+        }
         else if (gearRotationDirection == -1)
-            if (transform.position.y > _initialPosition.y - _minHeight) transform.Translate(Vector2.down * _pulleySpeed);
+        {
+            if (transform.position.y - pulleyHeight / 2 > yMinheight) transform.Translate(Vector2.down * _pulleySpeed);
+        }
     }
-
-    //void Update() {
-    //    if (m_isMovingUp) {
-    //        if (transform.position.y < _initialPosition.y + _maxHeight) transform.Translate(Vector2.up * _pulleySpeed);
-    //    }
-
-    //    else if (m_isMovingDown) {
-    //        if (transform.position.y > _initialPosition.y - _minHeight) transform.Translate(Vector2.down * _pulleySpeed);
-    //    }
-    //}
 
     private void OnDrawGizmos()
     {
         if (Application.isEditor && _initialPosition == Vector2.zero) _initialPosition = transform.position;
         Gizmos.color = Color.yellow;
 
-        float doorWidth = _boxCollider.size.x * transform.localScale.x;
-        float doorHeight = _boxCollider.size.y * transform.localScale.y;
+        pulleyWidth = _boxCollider.size.x * transform.localScale.x;
+        pulleyHeight = _boxCollider.size.y * transform.localScale.y;
 
-        float xLineOrigin = _initialPosition.x - doorWidth / 2;
-        float xLineEnd = _initialPosition.x + doorWidth / 2;
-        float yMaxheight = _initialPosition.y + _maxHeight + doorHeight / 2;
-        float yMinheight = _initialPosition.y - _minHeight - doorHeight / 2;
+        yMaxheight = _initialPosition.y + _maxHeight + pulleyHeight / 2;
+        yMinheight = _initialPosition.y - _minHeight - pulleyHeight / 2;
+
+        float xLineOrigin = _initialPosition.x - pulleyWidth / 2;
+        float xLineEnd = _initialPosition.x + pulleyWidth / 2;
 
         // Draw line max height
         Gizmos.DrawLine(new Vector2(xLineOrigin, yMaxheight + 0.01f), new Vector2(xLineEnd, yMaxheight + 0.01f));
@@ -58,8 +66,6 @@ public class PulleySystem : GearMechanism
         Gizmos.DrawLine(new Vector2(xLineOrigin, yMinheight + 0.01f), new Vector2(xLineEnd, yMinheight + 0.01f));
         Gizmos.DrawLine(new Vector2(xLineOrigin, yMinheight), new Vector2(xLineEnd, yMinheight));
         Gizmos.DrawLine(new Vector2(xLineOrigin, yMinheight - 0.01f), new Vector2(xLineEnd, yMinheight - 0.01f));
-
-
     }
 
 }

@@ -9,11 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5066435172107324393}
-  - component: {fileID: 8695691062207787417}
   m_Layer: 0
-  m_Name: Behaviour
+  m_Name: Pivot
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -29,27 +28,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3255594619624397476}
   m_Father: {fileID: 8781179196003716864}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8695691062207787417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1745401367658520352}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d73910dd9fec96d47a7084500befed53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_isMovingUp: 0
-  m_isMovingDown: 0
-  _minPivot: 0
-  _maxPivot: 75
-  _rotationSpeed: 0.05
-  _pivotTransform: {fileID: 8781179196003716864}
 --- !u!1 &7514531426272625878
 GameObject:
   m_ObjectHideFlags: 0
@@ -78,11 +60,11 @@ Transform:
   m_GameObject: {fileID: 7514531426272625878}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.5, y: -0.25, z: 0}
+  m_LocalPosition: {x: 1.5, y: -0.24999878, z: 0}
   m_LocalScale: {x: 4, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8781179196003716864}
+  m_Father: {fileID: 5066435172107324393}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7841264577887893038
 SpriteRenderer:
@@ -195,7 +177,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.21256395}
+  m_Offset: {x: 0, y: 0.24423003}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -206,7 +188,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7, y: 0.27487203}
+  m_Size: {x: 0.7, y: 0.22166823}
   m_EdgeRadius: 0
 --- !u!1 &7869897864836618761
 GameObject:
@@ -217,10 +199,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8781179196003716864}
+  - component: {fileID: 1758996315433594875}
   m_Layer: 0
   m_Name: Drawbridge
   m_TagString: Untagged
-  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -237,7 +220,24 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3255594619624397476}
   - {fileID: 5066435172107324393}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1758996315433594875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7869897864836618761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d73910dd9fec96d47a7084500befed53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lastGearRotationDirection: 0
+  _minPivot: -15
+  _maxPivot: 75
+  _rotationSpeed: 0.05
+  _boxCollider: {fileID: 6037369046372805240}
+  _pivotTransform: {fileID: 5066435172107324393}
