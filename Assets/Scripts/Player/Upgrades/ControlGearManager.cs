@@ -6,47 +6,61 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 public class ControlGearManager : MonoBehaviour {
 
     // Allow gears to spin or not, by detecting where's the player and if it can interact
-    [Header("Général settings")]
+    [Header("Non optionnal settings")]
+    [SerializeField] bool _isInteractable; // Check it in editor if u want that this gear can spin with player
     [SerializeField] bool _isReversingEffectOnMechanism = false;
     [SerializeField] float _detectionRay = 1f; // Set a value big enough in editor (something near 1f ~ 1.2f)
     [SerializeField] LayerMask _detectionLayer; // Always set to "player" layer in editor
-    [SerializeField] GameObject _playerPackage; // Drag and drop the package player here
 
     // Linked pulleys and linked interactions
     // Drag and drop your linked item(s) in editor
     [Header("Linked Items")]
-    [SerializeField] RoomSpinner _linkedRoomToSpin;
+    [SerializeField] GearMechanism _gearMechanismToActivate;
+    [SerializeField] bool _isActivatingDifferentMechanismByDirection = false;
+    [SerializeField] GearMechanism _leftGearMechanismToActivate;
+    [SerializeField] GearMechanism _rightGearMechanismToActivate;
 
     bool _isPlayerNear;
     int _precedentRotation;
+    PlayerController _player;
     Rigidbody2D _gearRigidbody;
 
     void Start() {
         _gearRigidbody = GetComponent<Rigidbody2D>();
         _precedentRotation = (int)_gearRigidbody.rotation;
-        _playerPackage = GameObject.FindWithTag("PlayerPackage");
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject.tag == "Player") {
+            _isPlayerNear = true;
+            _player = other.gameObject.GetComponent<PlayerController>();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other) {
+        _isPlayerNear = false;
+        if (other.gameObject.tag == "Player") {
+            _isPlayerNear = false;
+            _player = null;
+        }
     }
 
     void Update() {
-        Collider2D[] objetsDetectes = Physics2D.OverlapCircleAll(transform.position, _detectionRay, _detectionLayer);
-        if (objetsDetectes.Length == 0) _gearRigidbody.freezeRotation = true;
-        else _gearRigidbody.freezeRotation = false;
-
-        // Spin the Room !
-        if (_linkedRoomToSpin != null) {
-            if (_precedentRotation < (int)_gearRigidbody.rotation) {
-                _linkedRoomToSpin.m_isSpinningLeft = !_isReversingEffectOnMechanism;
-                _linkedRoomToSpin.m_isSpinningRight = _isReversingEffectOnMechanism;
-            }
-            else if (_precedentRotation > (int)_gearRigidbody.rotation) {
-                _linkedRoomToSpin.m_isSpinningLeft = _isReversingEffectOnMechanism;
-                _linkedRoomToSpin.m_isSpinningRight = !_isReversingEffectOnMechanism;
-            }
-            else {
-                _linkedRoomToSpin.m_isSpinningLeft = false;
-                _linkedRoomToSpin.m_isSpinningRight = false;
+        if (_isPlayerNear == true && _player != null) {
+            if (_player.m_inputX != 0) {
+                _gearRigidbody.freezeRotation = false;
+                int gearPlayerRotationDirection = _player.m_currentGearRotation > 0 ? 1 : -1;
+                if (!_isActivatingDifferentMechanismByDirection) {
+                    _gearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection);
+                }
+                else {
+                    if (gearPlayerRotationDirection == -1) _leftGearMechanismToActivate.Activate(gearPlayerRotationDirection);
+                    else _rightGearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection);
+                }
             }
         }
+
+        else _gearRigidbody.freezeRotation = true;
 
         _precedentRotation = (int)_gearRigidbody.rotation;
 

@@ -11,6 +11,7 @@ TagManager:
   - GearWall
   - Upgrade
   - Magnet
+  - PlayerPackage
   layers:
   - Default
   - TransparentFX
