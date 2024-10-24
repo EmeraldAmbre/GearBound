@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 882875648630974044}
   m_Layer: 0
   m_Name: PlayerPackage
-  m_TagString: Untagged
+  m_TagString: PlayerPackage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1099,19 +1099,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d31d0dad135ece42b7d909851ec17ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _detectionRay1: 1.5
-  _detectionLayer1:
+  _detectionRay: 1.5
+  _detectionLayer:
     serializedVersion: 2
     m_Bits: 256
-  _magnetLayer:
-    serializedVersion: 2
-    m_Bits: 8192
   _dashSpeed: 75
   _dashCooldown: 2
   _dashDuration: 0.15
-  _attractionForce: 5
-  _attractionDistance: 5
-  _stopDistance: 0.5
+  _attractionForce: 8
+  _stopDistance: 1
 --- !u!212 &620635519897802109 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 5181676703395562105, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
