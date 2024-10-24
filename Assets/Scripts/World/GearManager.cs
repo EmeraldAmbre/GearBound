@@ -14,11 +14,11 @@ public class GearManager : MonoBehaviour {
     // Linked pulleys and linked interactions
     // Drag and drop your linked item(s) in editor
     [Header("Linked Items")]
-    [SerializeField] PulleySystem _linkedPulley;
-    [SerializeField] SpinPulleySystem _linkedSpinPulley;
-    [SerializeField] DrawbridgeSystem _linkedDrawbridge;
-    [SerializeField] HorizontalPulleySystem _linkedHorizontalPulley;
-    [SerializeField] RoomSpinner _linkedRoomToSpin;
+    [SerializeField] GearMechanism _gearMechanismToActivate;
+    [SerializeField] bool _isActivatingDifferentMechanismByDirection = false;
+    [SerializeField] GearMechanism _leftGearMechanismToActivate;
+    [SerializeField] GearMechanism _rightGearMechanismToActivate;
+
 
     bool _isPlayerNear;
     int _precedentRotation;
@@ -41,6 +41,7 @@ public class GearManager : MonoBehaviour {
         {
             _isPlayerNear = false;
             _player = null;
+
         }
     }
 
@@ -52,96 +53,116 @@ public class GearManager : MonoBehaviour {
 
     void Update() {
 
-        if (_isPlayerNear == true && _player != null) _gearRigidbody.freezeRotation = false;
+        if (_isPlayerNear == true && _player != null)
+        {
+            if (_player.m_inputX != 0)
+            {
+                _gearRigidbody.freezeRotation = false;
+
+                int gearPlayerRotationDirection = _player.m_currentGearRotation > 0 ? 1 : -1;
+                if (!_isActivatingDifferentMechanismByDirection)
+                {
+                    _gearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection);
+                }
+                else
+                {
+                    if (gearPlayerRotationDirection == -1) _leftGearMechanismToActivate.Activate(gearPlayerRotationDirection);
+                    else _rightGearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection);
+                }
+            }
+
+        }
         else _gearRigidbody.freezeRotation = true;
 
-        // Pulley System
-        if (_linkedPulley != null) {
-            if (_precedentRotation < (int)_gearRigidbody.rotation) {
-                _linkedPulley.m_isMovingDown = !_isReversingEffectOnMechanism;
-                _linkedPulley.m_isMovingUp = _isReversingEffectOnMechanism;
-            }
 
-            else if (_precedentRotation > (int)_gearRigidbody.rotation) {
-                _linkedPulley.m_isMovingDown = _isReversingEffectOnMechanism;
-                _linkedPulley.m_isMovingUp = !_isReversingEffectOnMechanism;
-            }
 
-            else {
-                _linkedPulley.m_isMovingDown = false;
-                _linkedPulley.m_isMovingUp = false;
-            }
-        }
+        //// Pulley System
+        //if (_linkedPulley != null) {
+        //    if (_precedentRotation < (int)_gearRigidbody.rotation) {
+        //        _linkedPulley.m_isMovingDown = !_isReversingEffectOnMechanism;
+        //        _linkedPulley.m_isMovingUp = _isReversingEffectOnMechanism;
+        //    }
 
-        // Horizontal Pulley System
-        if (_linkedHorizontalPulley != null) {
-            if (_precedentRotation < (int)_gearRigidbody.rotation) {
-                _linkedHorizontalPulley.m_isMovingLeft = !_isReversingEffectOnMechanism;
-                _linkedHorizontalPulley.m_isMovingRight = _isReversingEffectOnMechanism;
-            }
+        //    else if (_precedentRotation > (int)_gearRigidbody.rotation) {
+        //        _linkedPulley.m_isMovingDown = _isReversingEffectOnMechanism;
+        //        _linkedPulley.m_isMovingUp = !_isReversingEffectOnMechanism;
+        //    }
 
-            else if (_precedentRotation > (int)_gearRigidbody.rotation) {
-                _linkedHorizontalPulley.m_isMovingLeft = _isReversingEffectOnMechanism;
-                _linkedHorizontalPulley.m_isMovingRight = !_isReversingEffectOnMechanism;
-            }
+        //    else {
+        //        _linkedPulley.m_isMovingDown = false;
+        //        _linkedPulley.m_isMovingUp = false;
+        //    }
+        //}
 
-            else {
-                _linkedHorizontalPulley.m_isMovingLeft = false;
-                _linkedHorizontalPulley.m_isMovingRight = false;
-            }
-        }
+        //// Horizontal Pulley System
+        //if (_linkedHorizontalPulley != null) {
+        //    if (_precedentRotation < (int)_gearRigidbody.rotation) {
+        //        _linkedHorizontalPulley.m_isMovingLeft = !_isReversingEffectOnMechanism;
+        //        _linkedHorizontalPulley.m_isMovingRight = _isReversingEffectOnMechanism;
+        //    }
 
-        // Spinning Pulley System
-        if (_linkedSpinPulley != null) {
-            if (_precedentRotation < (int)_gearRigidbody.rotation) {
-                _linkedSpinPulley.m_isSpinningLeft = !_isReversingEffectOnMechanism;
-                _linkedSpinPulley.m_isSpinningRight = _isReversingEffectOnMechanism;
-            }
+        //    else if (_precedentRotation > (int)_gearRigidbody.rotation) {
+        //        _linkedHorizontalPulley.m_isMovingLeft = _isReversingEffectOnMechanism;
+        //        _linkedHorizontalPulley.m_isMovingRight = !_isReversingEffectOnMechanism;
+        //    }
 
-            else if (_precedentRotation > (int)_gearRigidbody.rotation) {
-                _linkedSpinPulley.m_isSpinningLeft = _isReversingEffectOnMechanism;
-                _linkedSpinPulley.m_isSpinningRight = !_isReversingEffectOnMechanism;
-            }
+        //    else {
+        //        _linkedHorizontalPulley.m_isMovingLeft = false;
+        //        _linkedHorizontalPulley.m_isMovingRight = false;
+        //    }
+        //}
 
-            else {
-                _linkedSpinPulley.m_isSpinningLeft = false;
-                _linkedSpinPulley.m_isSpinningRight = false;
-            }
-        }
+        //// Spinning Pulley System
+        //if (_linkedSpinPulley != null) {
+        //    if (_precedentRotation < (int)_gearRigidbody.rotation) {
+        //        _linkedSpinPulley.m_isSpinningLeft = !_isReversingEffectOnMechanism;
+        //        _linkedSpinPulley.m_isSpinningRight = _isReversingEffectOnMechanism;
+        //    }
 
-        // Drawbridge System
-        if (_linkedDrawbridge != null) {
-            if (_precedentRotation < (int)_gearRigidbody.rotation) {
-                _linkedDrawbridge.m_isMovingDown = !_isReversingEffectOnMechanism;
-                _linkedDrawbridge.m_isMovingUp = _isReversingEffectOnMechanism;
-            }
+        //    else if (_precedentRotation > (int)_gearRigidbody.rotation) {
+        //        _linkedSpinPulley.m_isSpinningLeft = _isReversingEffectOnMechanism;
+        //        _linkedSpinPulley.m_isSpinningRight = !_isReversingEffectOnMechanism;
+        //    }
 
-            else if (_precedentRotation > (int)_gearRigidbody.rotation) {
-                _linkedDrawbridge.m_isMovingDown = !_isReversingEffectOnMechanism;
-                _linkedDrawbridge.m_isMovingUp = _isReversingEffectOnMechanism;
-            }
+        //    else {
+        //        _linkedSpinPulley.m_isSpinningLeft = false;
+        //        _linkedSpinPulley.m_isSpinningRight = false;
+        //    }
+        //}
 
-            else {
-                _linkedDrawbridge.m_isMovingDown = false;
-                _linkedDrawbridge.m_isMovingUp = false;
-            }
-        }
+        //// Drawbridge System
+        //if (_linkedDrawbridge != null) {
+        //    if (_precedentRotation < (int)_gearRigidbody.rotation) {
+        //        _linkedDrawbridge.m_isMovingDown = !_isReversingEffectOnMechanism;
+        //        _linkedDrawbridge.m_isMovingUp = _isReversingEffectOnMechanism;
+        //    }
 
-        // Spin the Room !
-        if (_linkedRoomToSpin != null) {
-            if (_precedentRotation < (int)_gearRigidbody.rotation) {
-                _linkedRoomToSpin.m_isSpinningLeft = !_isReversingEffectOnMechanism;
-                _linkedRoomToSpin.m_isSpinningRight = _isReversingEffectOnMechanism;
-            }
-            else if (_precedentRotation > (int)_gearRigidbody.rotation) {
-                _linkedRoomToSpin.m_isSpinningLeft = _isReversingEffectOnMechanism;
-                _linkedRoomToSpin.m_isSpinningRight = !_isReversingEffectOnMechanism;
-            }
-            else {
-                _linkedRoomToSpin.m_isSpinningLeft = false;
-                _linkedRoomToSpin.m_isSpinningRight = false;
-            }
-        }
+        //    else if (_precedentRotation > (int)_gearRigidbody.rotation) {
+        //        _linkedDrawbridge.m_isMovingDown = !_isReversingEffectOnMechanism;
+        //        _linkedDrawbridge.m_isMovingUp = _isReversingEffectOnMechanism;
+        //    }
+
+        //    else {
+        //        _linkedDrawbridge.m_isMovingDown = false;
+        //        _linkedDrawbridge.m_isMovingUp = false;
+        //    }
+        //}
+
+        //// Spin the Room !
+        //if (_linkedRoomToSpin != null) {
+        //    if (_precedentRotation < (int)_gearRigidbody.rotation) {
+        //        _linkedRoomToSpin.m_isSpinningLeft = !_isReversingEffectOnMechanism;
+        //        _linkedRoomToSpin.m_isSpinningRight = _isReversingEffectOnMechanism;
+        //    }
+        //    else if (_precedentRotation > (int)_gearRigidbody.rotation) {
+        //        _linkedRoomToSpin.m_isSpinningLeft = _isReversingEffectOnMechanism;
+        //        _linkedRoomToSpin.m_isSpinningRight = !_isReversingEffectOnMechanism;
+        //    }
+        //    else {
+        //        _linkedRoomToSpin.m_isSpinningLeft = false;
+        //        _linkedRoomToSpin.m_isSpinningRight = false;
+        //    }
+        //}
 
         _precedentRotation = (int)_gearRigidbody.rotation;
 

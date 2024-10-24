@@ -60,11 +60,11 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] float _airGearWallJumpAcceleration = 7f;
     [SerializeField] float _airGearWallJumpDeceleration = 17f;
     public bool m_isGearWallJumping = false;
-    float _currentRotation = 0;
+    public float m_currentGearRotation { get; private set; } = 0;
     [SerializeField] GameObject _body;
     Quaternion _bodyInitialRotation;
 
-    float inputX;
+    public float m_inputX { get; private set; } = 0;
     bool _isTrigerringJump = false;
     bool _hasJumped = false;
     bool _isHandlingJumpButton = false;
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour {
 
     private void OnPerformXAxis(InputAction.CallbackContext context)
     {
-        inputX = context.ReadValue<Vector2>().normalized.x;
+        m_inputX = context.ReadValue<Vector2>().normalized.x;
     }
 
     private void OnPerformJumpCanceled(InputAction.CallbackContext context)
@@ -219,44 +219,44 @@ public class PlayerController : MonoBehaviour {
         // On ground
         if ((_physics.IsGrounded() && _velocity.y <= 0.01f))
         {
-            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _groundDeceleration);
-            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _groundAcceleration );
+            if (m_inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * _currentSpeed, _groundDeceleration);
+            else _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * _currentSpeed, _groundAcceleration );
         }
         // On jump peak
         else if (IsOnPeakThresholdJump())
         {
-            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _peakXMovementMultiplicator, _peakDeceleration);
-            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _peakXMovementMultiplicator, _peakAcceleration);
+            if (m_inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * _currentSpeed * _peakXMovementMultiplicator, _peakDeceleration);
+            else _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * _currentSpeed * _peakXMovementMultiplicator, _peakAcceleration);
         }
         // On gear
         else if (_physics.IsOnContactWithGear())
         {
 
             // _velocity.x = 0;
-            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearSpeedMultiplicator, _groundDeceleration);
-            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearSpeedMultiplicator, _groundAcceleration );
+            if (m_inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * _currentSpeed * _onGearSpeedMultiplicator, _groundDeceleration);
+            else _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * _currentSpeed * _onGearSpeedMultiplicator, _groundAcceleration );
         }
         // On gear wall
         else if (_physics.IsOnContactWithGearWall() && !m_isGearWallJumping)
         {
-            if (inputX == 0)
+            if (m_inputX == 0)
             {
                 _velocity.x = 0;
 
             }
-            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearWallSpeedMultiplicator, _groundAcceleration);    
+            else _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * _currentSpeed * _onGearWallSpeedMultiplicator, _groundAcceleration);    
         }
         // In air when gear wall jumping
         else if (m_isGearWallJumping)
         {
-            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearWallSpeedMultiplicator, _airGearWallJumpDeceleration);
-            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed * _onGearWallSpeedMultiplicator, _airGearWallJumpAcceleration);
+            if (m_inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * _currentSpeed * _onGearWallSpeedMultiplicator, _airGearWallJumpDeceleration);
+            else _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * _currentSpeed * _onGearWallSpeedMultiplicator, _airGearWallJumpAcceleration);
         }
         // In air
         else
         {
-            if (inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _airDeceleration);
-            else _velocity.x = Mathf.Lerp(_velocity.x, inputX * _currentSpeed, _airAcceleration);
+            if (m_inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * _currentSpeed, _airDeceleration);
+            else _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * _currentSpeed, _airAcceleration);
         }
     }
 
@@ -264,7 +264,7 @@ public class PlayerController : MonoBehaviour {
     private void HandleCheckSlopePhysicsMaterialReset() {
 
         if (_physics.IsOnSlope()) {
-            if (inputX == 0) _rigidbody.sharedMaterial = _physicMaterialFullFriction;
+            if (m_inputX == 0) _rigidbody.sharedMaterial = _physicMaterialFullFriction;
             else _rigidbody.sharedMaterial = _physicMaterialZeroFriction;
         }
 
@@ -277,11 +277,11 @@ public class PlayerController : MonoBehaviour {
 
         if (_playerManager.m_isInteracting == false) {
 
-            if (inputX == 0) _currentRotation = Mathf.Lerp(_currentRotation, inputX * _gearRotationSpeed, _groundDeceleration);
-            else if (_physics.IsOnContactWithGearWall()) _currentRotation = Mathf.Lerp(_currentRotation, inputX * _onGearWallGearRotationSpeed, _groundAcceleration);
-            else _currentRotation = Mathf.Lerp(_currentRotation, inputX * _gearRotationSpeed, _groundAcceleration);
+            if (m_inputX == 0) m_currentGearRotation = Mathf.Lerp(m_currentGearRotation, m_inputX * _gearRotationSpeed, _groundDeceleration);
+            else if (_physics.IsOnContactWithGearWall()) m_currentGearRotation = Mathf.Lerp(m_currentGearRotation, m_inputX * _onGearWallGearRotationSpeed, _groundAcceleration);
+            else m_currentGearRotation = Mathf.Lerp(m_currentGearRotation, m_inputX * _gearRotationSpeed, _groundAcceleration);
 
-            transform.Rotate(Vector3.forward, - _currentRotation);
+            transform.Rotate(Vector3.forward, - m_currentGearRotation);
         }
 
         _body.transform.rotation = _bodyInitialRotation;
@@ -363,7 +363,7 @@ public class PlayerController : MonoBehaviour {
                 , Mathf.Clamp(_velocity.y, _onGearWallVelocityYCap , _velocityYJumpMax)
              );
 
-            if (inputX == 0) _velocity.y = 0;
+            if (m_inputX == 0) _velocity.y = 0;
         }
         else
         {

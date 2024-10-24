@@ -2,11 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PulleySystem : MonoBehaviour {
-
-    public bool m_isMovingUp;
-    public bool m_isMovingDown;
-
+public class PulleySystem : GearMechanism
+{
     [SerializeField] float _maxHeight;
     [SerializeField] float _minHeight;
     [SerializeField] float _pulleySpeed;
@@ -21,16 +18,24 @@ public class PulleySystem : MonoBehaviour {
         _boxCollider = GetComponent<BoxCollider2D>();
     }
 
-    void Update() {
-        if (m_isMovingUp) {
+    public override void ActivateOnce(int gearRotationDirection)
+    {
+        base.ActivateOnce(gearRotationDirection);
+        if (gearRotationDirection == 1)
             if (transform.position.y < _initialPosition.y + _maxHeight) transform.Translate(Vector2.up * _pulleySpeed);
-        }
-
-        else if (m_isMovingDown) {
+        else if (gearRotationDirection == -1)
             if (transform.position.y > _initialPosition.y - _minHeight) transform.Translate(Vector2.down * _pulleySpeed);
-        }
-        
     }
+
+    //void Update() {
+    //    if (m_isMovingUp) {
+    //        if (transform.position.y < _initialPosition.y + _maxHeight) transform.Translate(Vector2.up * _pulleySpeed);
+    //    }
+
+    //    else if (m_isMovingDown) {
+    //        if (transform.position.y > _initialPosition.y - _minHeight) transform.Translate(Vector2.down * _pulleySpeed);
+    //    }
+    //}
 
     private void OnDrawGizmos()
     {
@@ -56,8 +61,5 @@ public class PulleySystem : MonoBehaviour {
 
 
     }
-
-
-
 
 }
