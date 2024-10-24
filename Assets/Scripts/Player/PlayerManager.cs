@@ -7,12 +7,12 @@ using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour {
 
-    // UI variables
+    [Header("UI settings")]
     [SerializeField] private List<GameObject> _fullHearts;
     [SerializeField] private List<GameObject> _demiHearts;
     [SerializeField] private List<GameObject> _emptyHearts;
 
-    // Invincibility frame
+    [Header("Invincibility frame")]
     [SerializeField] private float _invincibilityTime = 2f;
     [SerializeField] private float _invincibilityFrame = 0.1f;
     [SerializeField] private SpriteRenderer _spriteRenderer;
@@ -99,7 +99,10 @@ public class PlayerManager : MonoBehaviour {
     }
 
     public void LifeUpgrade() {
-        m_maxLife += 2;
+        if (m_maxLife < (_fullHearts.Count * 2)) {
+            m_maxLife += 2;
+            m_playerLife += 2;
+        }
     }
 
     public void ChangeRoom() {
