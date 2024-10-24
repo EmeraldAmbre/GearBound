@@ -717,11 +717,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5136703360002089239, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: -27.634499
+      value: -14.717499
       objectReference: {fileID: 0}
     - target: {fileID: 5136703360002089239, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 59.630604
+      value: 33.08561
       objectReference: {fileID: 0}
     - target: {fileID: 6142872118175492627, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: m_Color.b
@@ -3473,10 +3473,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2727344b92079bd478b6913cd9a3feca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_isSpinningLeft: 0
-  m_isSpinningRight: 0
+  _lastGearRotationDirection: 0
   _spinAngle: 90
-  _spinningSpeed: 1
+  _spinningSpeed: 0.1
+  _spinAngleToSnap: 90
 --- !u!1001 &706290002
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3561,6 +3561,10 @@ PrefabInstance:
       propertyPath: _linkedHorizontalPulley
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
+      propertyPath: _gearMechanismToActivate
+      value: 
+      objectReference: {fileID: 971276025}
     - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: _detectionAngularRotation
       value: 0.01
@@ -3679,12 +3683,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 148135687}
     - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
+      propertyPath: _gearMechanismToActivate
+      value: 
+      objectReference: {fileID: 148135687}
+    - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: _detectionAngularRotation
       value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: _isReversingEffectOnMechanism
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
+      propertyPath: _isActivatingDifferentMechanismByDirection
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5136703360002089239, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: m_Enabled
@@ -4156,6 +4168,10 @@ PrefabInstance:
       propertyPath: _linkedHorizontalPulley
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
+      propertyPath: _gearMechanismToActivate
+      value: 
+      objectReference: {fileID: 934770032}
     - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: _detectionAngularRotation
       value: 0.01
@@ -4672,32 +4688,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
-      propertyPath: _detectionRay
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: _linkedPulley
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
-      propertyPath: _isInteractable
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: _linkedRoomToSpin
       value: 
       objectReference: {fileID: 655692181}
     - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
-      propertyPath: _detectionLayer.m_Bits
-      value: 128
-      objectReference: {fileID: 0}
+      propertyPath: _gearMechanismToActivate
+      value: 
+      objectReference: {fileID: 655692181}
     - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: _detectionAngularRotation
       value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
-      propertyPath: _isReversingEffectOnMechanism
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5136703360002089239, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: m_Enabled
@@ -6025,11 +6029,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5136703360002089239, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: -14.461498
+      value: -10.785498
       objectReference: {fileID: 0}
     - target: {fileID: 5136703360002089239, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 34.09261
+      value: 33.08461
       objectReference: {fileID: 0}
     - target: {fileID: 6142872118175492627, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: m_Color.b
@@ -6574,11 +6578,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5136703360002089239, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: -24.5625
+      value: 6.8955016
       objectReference: {fileID: 0}
     - target: {fileID: 5136703360002089239, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 26.31661
+      value: 30.236609
       objectReference: {fileID: 0}
     - target: {fileID: 6142872118175492627, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: m_Color.b
@@ -7094,11 +7098,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5136703360002089239, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: -11.392498
+      value: -24.5625
       objectReference: {fileID: 0}
     - target: {fileID: 5136703360002089239, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 64.646614
+      value: 26.31661
       objectReference: {fileID: 0}
     - target: {fileID: 6142872118175492627, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: m_Color.b
@@ -8222,26 +8226,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1219348728548762744, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
-      propertyPath: m_Mass
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1219348728548762744, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
-      propertyPath: m_LinearDrag
-      value: 10000
-      objectReference: {fileID: 0}
-    - target: {fileID: 1219348728548762744, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
-      propertyPath: m_AngularDrag
-      value: 1000000
-      objectReference: {fileID: 0}
-    - target: {fileID: 1219348728548762744, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
-      propertyPath: _detectionRay
-      value: 0.01
-      objectReference: {fileID: 0}
     - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: _linkedPulley
       value: 
@@ -8255,24 +8239,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
+      propertyPath: _gearMechanismToActivate
+      value: 
+      objectReference: {fileID: 646621808}
+    - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: _detectionAngularRotation
       value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
-      propertyPath: _isReversingEffectOnMechanism
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5136703360002089239, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5136703360002089239, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
-      propertyPath: m_ConnectedAnchor.x
-      value: -42.2225
-      objectReference: {fileID: 0}
-    - target: {fileID: 5136703360002089239, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
-      propertyPath: m_ConnectedAnchor.y
-      value: 31.70561
       objectReference: {fileID: 0}
     - target: {fileID: 6142872118175492627, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: m_Color.b
@@ -8971,7 +8943,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4398661195456273277, guid: 2e9a9124cd558054d9bbdbf576a7d5da, type: 3}
       propertyPath: _maxLeft
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4398661195456273277, guid: 2e9a9124cd558054d9bbdbf576a7d5da, type: 3}
       propertyPath: _maxRight
@@ -8979,7 +8951,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4398661195456273277, guid: 2e9a9124cd558054d9bbdbf576a7d5da, type: 3}
       propertyPath: _pulleySpeed
-      value: 0.1
+      value: 0.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9066,6 +9038,10 @@ PrefabInstance:
       propertyPath: _linkedHorizontalPulley
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
+      propertyPath: _gearMechanismToActivate
+      value: 
+      objectReference: {fileID: 105398030}
     - target: {fileID: 3281945421185699270, guid: 7811e21a7d36f8c4b8d30cd5c7dae6e7, type: 3}
       propertyPath: _detectionAngularRotation
       value: 0.01
@@ -22061,11 +22037,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6216067939139519, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -30.47
+      value: -12.19
       objectReference: {fileID: 0}
     - target: {fileID: 6216067939139519, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 47.06
+      value: 32.82
       objectReference: {fileID: 0}
     - target: {fileID: 620635519897802109, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_Color.b
@@ -22201,19 +22177,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7175590481822685745, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -30.477928
+      value: -12.19
       objectReference: {fileID: 0}
     - target: {fileID: 7175590481822685745, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 46.280533
+      value: 32.82
       objectReference: {fileID: 0}
     - target: {fileID: 8570883367269673777, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -30.47
+      value: -12.19
       objectReference: {fileID: 0}
     - target: {fileID: 8570883367269673777, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 47.06
+      value: 32.82
       objectReference: {fileID: 0}
     - target: {fileID: 8570883367269673777, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalRotation.w

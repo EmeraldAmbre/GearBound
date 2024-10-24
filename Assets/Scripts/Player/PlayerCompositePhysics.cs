@@ -80,10 +80,10 @@ public class PlayerCompositePhysics : MonoBehaviour {
 
     private void OnDrawGizmos()
     {
-        DrawCircle(GetGroundCheckerCircleCollider(), _groundCheckerCircleCollider.radius * transform.localScale.x);
-        DrawCircle(GetCeilingCheckerCircleCollider(), (_ceilingCheckerCircleCollider.radius - 0.1f) * transform.localScale.x);
-        DrawCircle(GetWallCheckerCircleCollider(1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x);
-        DrawCircle(GetWallCheckerCircleCollider(-1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x);
+       GizmoDrawer.DrawCircle(GetGroundCheckerCircleCollider(), _groundCheckerCircleCollider.radius * transform.localScale.x);
+       GizmoDrawer.DrawCircle(GetCeilingCheckerCircleCollider(), (_ceilingCheckerCircleCollider.radius - 0.1f) * transform.localScale.x);
+       GizmoDrawer.DrawCircle(GetWallCheckerCircleCollider(1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x);
+       GizmoDrawer.DrawCircle(GetWallCheckerCircleCollider(-1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x);
     }
 
     Vector2 GetGroundCheckerCircleCollider()
@@ -97,24 +97,6 @@ public class PlayerCompositePhysics : MonoBehaviour {
     Vector2 GetWallCheckerCircleCollider(int direction)
     {
         return (_ceilingCheckerCircleCollider.transform.position + new Vector3(_ceilingCheckerCircleCollider.offset.x + direction * _wallCheckOffsetLenght * transform.localScale.x, 0));
-    }
-
-    void DrawCircle(Vector3 center, float radius)
-    {
-        Color gizmoColor = Color.yellow; 
-        int segments = 100;  // Number of segments to smooth the circle
-
-        float angleStep = 360f / segments;
-        Vector3 lastPoint = center + new Vector3(radius, 0, 0);
-
-        for (int i = 1; i <= segments; i++)
-        {
-            float angle = i * angleStep;
-            float radian = angle * Mathf.Deg2Rad;
-            Vector3 nextPoint = center + new Vector3(Mathf.Cos(radian) * radius, Mathf.Sin(radian) * radius, 0);
-            Gizmos.DrawLine(lastPoint, nextPoint);
-            lastPoint = nextPoint;
-        }
     }
 
 

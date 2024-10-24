@@ -171,8 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8635b1f15f32af54ab09fce58272c118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_isMovingLeft: 0
-  m_isMovingRight: 0
+  _lastGearRotationDirection: 0
   _maxLeft: 2
   _maxRight: 2
   _pulleySpeed: 0.2
+  _boxCollider: {fileID: 6502056195106657348}

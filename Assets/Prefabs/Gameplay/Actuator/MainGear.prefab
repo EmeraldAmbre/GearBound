@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1219348728548762744}
   - component: {fileID: 5136703360002089239}
   - component: {fileID: 3281945421185699270}
+  - component: {fileID: 2659416893739044362}
   m_Layer: 8
   m_Name: MainGear
   m_TagString: Gear
@@ -194,9 +195,9 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_LinearDrag: 10000
+  m_AngularDrag: 1000000
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -215,7 +216,7 @@ HingeJoint2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8890635105308364528}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_EnableCollision: 0
   m_ConnectedRigidBody: {fileID: 0}
@@ -224,7 +225,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -0.0089, y: -0.0077}
+  m_ConnectedAnchor: {x: -42.2225, y: 31.70561}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -245,14 +246,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5675f9afa3dfe114a99deb0caf9d2424, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isInteractable: 0
-  _isReversingEffectOnMechanism: 0
-  _detectionAngularRotation: 10
-  _detectionRay: 0.7
+  _isInteractable: 1
+  _isReversingEffectOnMechanism: 1
+  _detectionRay: 1
   _detectionLayer:
     serializedVersion: 2
-    m_Bits: 7
-  _linkedPulley: {fileID: 0}
-  _linkedSpinPulley: {fileID: 0}
-  _linkedDrawbridge: {fileID: 0}
-  _linkedHorizontalPulley: {fileID: 0}
+    m_Bits: 128
+  _gearMechanismToActivate: {fileID: 0}
+  _isActivatingDifferentMechanismByDirection: 0
+  _leftGearMechanismToActivate: {fileID: 0}
+  _rightGearMechanismToActivate: {fileID: 0}
+--- !u!58 &2659416893739044362
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8890635105308364528}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 8055
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.03
