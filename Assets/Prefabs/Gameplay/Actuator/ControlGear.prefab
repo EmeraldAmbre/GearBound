@@ -243,7 +243,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 2.5
+  m_Radius: 1.1
 --- !u!233 &8294254257373841611
 HingeJoint2D:
   m_ObjectHideFlags: 0
@@ -281,13 +281,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f91cd96a08ad984baf4b363bf80a838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isInteractable: 0
-  _isReversingEffectOnMechanism: 0
-  _detectionRay: 1
-  _detectionLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  _gearMechanismToActivate: {fileID: 0}
-  _isActivatingDifferentMechanismByDirection: 0
-  _leftGearMechanismToActivate: {fileID: 0}
-  _rightGearMechanismToActivate: {fileID: 0}
+  _testRotation: 0
+  _targetPosition: {x: 0, y: 0, z: 0}
+  _upgrades: {fileID: 0}
+  _playerPackage: {fileID: 0}
+  _playerRenderer: {fileID: 0}
+  _playerController: {fileID: 0}
