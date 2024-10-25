@@ -81,6 +81,7 @@ public class PlayerController : MonoBehaviour {
         _currentGravity = _initGravity;
         InitInput();
         _bodyInitialRotation = _body.transform.rotation;
+        m_currentSpeed = _initMoveSpeed;
     }
 
     #region Input Methods
