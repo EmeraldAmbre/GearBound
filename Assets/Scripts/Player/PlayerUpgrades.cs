@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,11 +29,16 @@ public class PlayerUpgrades : MonoBehaviour {
     bool _canBeAttracted = false;
 
     [Header("Possession settings")]
+    [SerializeField] Vector3 _intermediatePos = new (1999.9f, 1999.9f, 0);
     [SerializeField] GameObject _gearToControl;
+    [SerializeField] float _xDamping = 4f;
+    [SerializeField] float _yDamping = 4f;
+    [SerializeField] float _zDamping = 4f;
+    [SerializeField] CinemachineVirtualCamera _virtualCamera;
     [SerializeField] SpriteRenderer _spriteRendererFromPlayerPrefab;
     [SerializeField] SpriteRenderer _spriteRendererFromGearToControlPrefab;
-    ControlGearManager _controlGearManager;
     bool _canControl = false;
+    bool _isPossessed = false;
 
     [Header("Sizing settings")]
     [SerializeField] float _growMultiplier = 2f;
@@ -77,7 +83,8 @@ public class PlayerUpgrades : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.H) && _canControl && _gearToControl != null) {
-            Possess(_gearToControl);
+            if (_isPossessed == false) Possess();
+            else Depossess();
         }
 
         if (Input.GetKeyDown(KeyCode.G) && PlayerPrefs.HasKey("magnet")) {
@@ -114,7 +121,7 @@ public class PlayerUpgrades : MonoBehaviour {
         }
 
         if (other.gameObject.CompareTag("ControllableGear") && _canControl) {
-            _canControl = other.gameObject;
+            _gearToControl = other.gameObject;
         }
     }
 
@@ -174,9 +181,40 @@ public class PlayerUpgrades : MonoBehaviour {
     #endregion
 
     #region Possession Methods
-    void Possess(GameObject gear) {
-        _controlGearManager = gear.GetComponent<ControlGearManager>();
+    void Possess() {
+        _virtualCamera.GetComponentInChildren<CinemachineTransposer>().m_XDamping = _xDamping;
+        _virtualCamera.GetComponentInChildren<CinemachineTransposer>().m_YDamping = _yDamping;
+        _virtualCamera.GetComponentInChildren<CinemachineTransposer>().m_ZDamping = _zDamping;
+        Vector3 player_pos = transform.position;
+        Vector3 gear_pos = _gearToControl.transform.position;
+        _gearToControl.transform.position = _intermediatePos;
+        transform.position = gear_pos;
+        _gearToControl.transform.position = player_pos;
+        SpriteRenderer gearSprite = _gearToControl.GetComponent<SpriteRenderer>();
+        gearSprite.sprite = _spriteRendererFromPlayerPrefab.sprite;
+        SpriteRenderer playerSprite = GetComponent<SpriteRenderer>();
+        playerSprite.sprite = _spriteRendererFromGearToControlPrefab.sprite;
+        HingeJoint2D joint = _gearToControl.GetComponent<HingeJoint2D>();
+        joint.enabled = true;
+        _isPossessed = true;
+    }
 
+    void Depossess() {
+        _virtualCamera.GetComponentInChildren<CinemachineTransposer>().m_XDamping = 1;
+        _virtualCamera.GetComponentInChildren<CinemachineTransposer>().m_YDamping = 1;
+        _virtualCamera.GetComponentInChildren<CinemachineTransposer>().m_ZDamping = 1;
+        Vector3 player_pos = transform.position;
+        Vector3 gear_pos = _gearToControl.transform.position;
+        _gearToControl.transform.position = _intermediatePos;
+        transform.position = gear_pos;
+        _gearToControl.transform.position = player_pos;
+        SpriteRenderer gearSprite = _gearToControl.GetComponent<SpriteRenderer>();
+        gearSprite.sprite = _spriteRendererFromGearToControlPrefab.sprite; 
+        SpriteRenderer playerSprite = GetComponent<SpriteRenderer>();
+        playerSprite.sprite = _spriteRendererFromPlayerPrefab.sprite;
+        HingeJoint2D joint = _gearToControl.GetComponent<HingeJoint2D>();
+        joint.enabled = false;
+        _isPossessed = false;
     }
     #endregion
 
