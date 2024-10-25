@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ public class PlayerUpgrades : MonoBehaviour {
     [SerializeField] float _dashCooldown = 1.5f;
     [SerializeField] float _dashDuration = 0.15f;
     bool _isDashing = false;
-    bool _isNextGear = false;
+    bool _isNextGear = false; // Block the dash so the player can't enter in a fixed gear
     float _dashTimeRemaining;
     float _dashCooldownRemaining = 0f;
     float _initialSpeed;
@@ -28,6 +29,14 @@ public class PlayerUpgrades : MonoBehaviour {
     bool _isAttracted = false;
     bool _canBeAttracted = false;
 
+    [Header("Sizing settings")]
+    [SerializeField] float _growMultiplier = 2f;
+    [SerializeField] float _shrinkMultiplier = 0.5f;
+    Vector3 _normalSize;
+    Vector3 _growSize;
+    Vector3 _shrinkSize;
+    int _sizeMode;
+
     // Possession settings
     public bool m_canPossess { get; private set; }
 
@@ -38,6 +47,12 @@ public class PlayerUpgrades : MonoBehaviour {
         _controller = GetComponent<PlayerController>();
         _rb = GetComponent<Rigidbody2D>();
         m_canPossess = false;
+
+        // Sizing Initialization
+        _sizeMode = 1;
+        _normalSize = transform.localScale;
+        _growSize = _normalSize * _growMultiplier;
+        _shrinkSize = _normalSize * _shrinkMultiplier;
     }
 
     void Update() {
@@ -49,8 +64,12 @@ public class PlayerUpgrades : MonoBehaviour {
             _dashCooldownRemaining -= Time.deltaTime;
         }
 
+        if (Input.GetKeyDown(KeyCode.I) && PlayerPrefs.HasKey("sizing")) {
+            if (PlayerPrefs.GetInt("sizing") == 1) Resizing();
+        }
+
         if (Input.GetKeyDown(KeyCode.H) && PlayerPrefs.HasKey("possession")) {
-            if (PlayerPrefs.GetInt("magnet") == 1) m_canPossess = !m_canPossess;
+            if (PlayerPrefs.GetInt("possession") == 1) m_canPossess = !m_canPossess;
         }
 
         if (Input.GetKeyDown(KeyCode.G) && PlayerPrefs.HasKey("magnet")) {
@@ -138,6 +157,25 @@ public class PlayerUpgrades : MonoBehaviour {
                 _rb.constraints = RigidbodyConstraints2D.FreezeAll;
                 _isFreezed = true;
             }
+        }
+    }
+    #endregion
+
+    #region Sizing Methods
+    private void Resizing() {
+        switch (_sizeMode) {
+            case 0:
+                transform.localScale = _normalSize;
+                _sizeMode += 1;
+                break;
+            case 1:
+                transform.localScale = _growSize;
+                _sizeMode += 1;
+                break;
+            case 2:
+                transform.localScale = _shrinkSize;
+                _sizeMode = 0;
+                break;
         }
     }
     #endregion
