@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerUpgrades : MonoBehaviour {
@@ -29,6 +27,13 @@ public class PlayerUpgrades : MonoBehaviour {
     bool _isAttracted = false;
     bool _canBeAttracted = false;
 
+    [Header("Possession settings")]
+    [SerializeField] GameObject _gearToControl;
+    [SerializeField] SpriteRenderer _spriteRendererFromPlayerPrefab;
+    [SerializeField] SpriteRenderer _spriteRendererFromGearToControlPrefab;
+    ControlGearManager _controlGearManager;
+    bool _canControl = false;
+
     [Header("Sizing settings")]
     [SerializeField] float _growMultiplier = 2f;
     [SerializeField] float _shrinkMultiplier = 0.5f;
@@ -38,7 +43,7 @@ public class PlayerUpgrades : MonoBehaviour {
     int _sizeMode;
 
     // Possession settings
-    public bool m_canPossess { get; private set; }
+    
 
     PlayerController _controller;
     Rigidbody2D _rb;
@@ -46,7 +51,6 @@ public class PlayerUpgrades : MonoBehaviour {
     void Start() {
         _controller = GetComponent<PlayerController>();
         _rb = GetComponent<Rigidbody2D>();
-        m_canPossess = false;
 
         // Sizing Initialization
         _sizeMode = 1;
@@ -68,8 +72,12 @@ public class PlayerUpgrades : MonoBehaviour {
             if (PlayerPrefs.GetInt("sizing") == 1) Resizing();
         }
 
-        if (Input.GetKeyDown(KeyCode.H) && PlayerPrefs.HasKey("possession")) {
-            if (PlayerPrefs.GetInt("possession") == 1) m_canPossess = !m_canPossess;
+        if (PlayerPrefs.HasKey("possession")) {
+            if (PlayerPrefs.GetInt("possession") == 1) _canControl = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.H) && _canControl && _gearToControl != null) {
+            Possess(_gearToControl);
         }
 
         if (Input.GetKeyDown(KeyCode.G) && PlayerPrefs.HasKey("magnet")) {
@@ -103,6 +111,10 @@ public class PlayerUpgrades : MonoBehaviour {
         if (other.gameObject.CompareTag("Magnet") && _canBeAttracted) {
             _magnet = other.gameObject;
             _isAttracted = true;
+        }
+
+        if (other.gameObject.CompareTag("ControllableGear") && _canControl) {
+            _canControl = other.gameObject;
         }
     }
 
@@ -158,6 +170,13 @@ public class PlayerUpgrades : MonoBehaviour {
                 _isFreezed = true;
             }
         }
+    }
+    #endregion
+
+    #region Possession Methods
+    void Possess(GameObject gear) {
+        _controlGearManager = gear.GetComponent<ControlGearManager>();
+
     }
     #endregion
 

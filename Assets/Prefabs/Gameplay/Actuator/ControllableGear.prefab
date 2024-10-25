@@ -16,8 +16,8 @@ GameObject:
   - component: {fileID: 8294254257373841611}
   - component: {fileID: 3963081730559069826}
   m_Layer: 8
-  m_Name: ControlGear
-  m_TagString: Gear
+  m_Name: ControllableGear
+  m_TagString: ControllableGear
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 43382411150270347935e9cd895564f9, type: 3}
-  m_Color: {r: 0.4716981, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -243,7 +243,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 2.5
+  m_Radius: 2
 --- !u!233 &8294254257373841611
 HingeJoint2D:
   m_ObjectHideFlags: 0
@@ -251,7 +251,7 @@ HingeJoint2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4400332963258346059}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_EnableCollision: 0
   m_ConnectedRigidBody: {fileID: 0}
@@ -260,7 +260,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 7.39, y: -2.72}
+  m_ConnectedAnchor: {x: 2.53, y: -3}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 48
@@ -281,13 +281,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f91cd96a08ad984baf4b363bf80a838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isInteractable: 0
-  _isReversingEffectOnMechanism: 0
-  _detectionRay: 1
-  _detectionLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  _gearMechanismToActivate: {fileID: 0}
-  _isActivatingDifferentMechanismByDirection: 0
-  _leftGearMechanismToActivate: {fileID: 0}
-  _rightGearMechanismToActivate: {fileID: 0}

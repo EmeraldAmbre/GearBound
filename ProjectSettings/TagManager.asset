@@ -12,6 +12,7 @@ TagManager:
   - Upgrade
   - Magnet
   - PlayerPackage
+  - ControllableGear
   layers:
   - Default
   - TransparentFX
