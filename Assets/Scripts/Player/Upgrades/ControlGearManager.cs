@@ -6,33 +6,32 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class ControlGearManager : MonoBehaviour {
 
-    [SerializeField] float _testRotation;
+    [SerializeField] int _testRotation = 0;
+    [SerializeField] Vector3 _targetPosition;
 
     bool _isPlayerNear;
     bool _isSwitched;
-    float _precedentRotation;
-    float _referenceRotation;
+    int _referenceRotation;
 
-    PlayerController _controller;
-    PlayerUpgrades _upgrades;
     Rigidbody2D _gearRigidbody;
-    
-    [SerializeField] GameObject _player;
+    SpriteRenderer _gearRenderer;
+
+    [SerializeField] PlayerUpgrades _upgrades;
+    [SerializeField] GameObject _playerPackage;
+    [SerializeField] SpriteRenderer _playerRenderer;
+    [SerializeField] PlayerController _playerController;
 
     Vector3 _initialPosition;
 
     void Start() {
         _initialPosition = transform.position;
         _gearRigidbody = GetComponent<Rigidbody2D>();
-        _precedentRotation = _gearRigidbody.rotation;
-        _isSwitched = false;
+        _gearRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.tag == "Player") {
             _isPlayerNear = true;
-            _controller = other.gameObject.GetComponent<PlayerController>();
-            _upgrades = other.gameObject.GetComponent<PlayerUpgrades>();
         }
     }
 
@@ -43,66 +42,54 @@ public class ControlGearManager : MonoBehaviour {
     }
 
     void Update() {
-
-        if (_isPlayerNear == true && _controller != null) {
-
-            if (_controller.m_inputX != 0 && _upgrades.m_canPossess && _referenceRotation < _testRotation) {
-
+        if (_isPlayerNear == true && _playerController != null) {
+            if (_playerController.m_inputX != 0) {
                 _gearRigidbody.freezeRotation = false;
-
-                _referenceRotation += _precedentRotation;
-
-            }
-
-            else if (_controller.m_inputX != 0 && _upgrades.m_canPossess && _referenceRotation >= _testRotation) {
-
-                _gearRigidbody.freezeRotation = false;
-
-                if (_isSwitched == false) {
-
-                    SwitchPositionsAndSprites(gameObject, _player);
-
-                    _isSwitched = true;
-
-                }
+                _referenceRotation += 1;
             }
         }
 
         else {
-            
             _gearRigidbody.freezeRotation = true;
-        
         }
 
-        if (_isSwitched == true && _upgrades.m_canPossess == false) {
+        if (_upgrades != null) {
+            if (_upgrades.m_canPossess == true && _isSwitched == false && _referenceRotation > _testRotation) {
+                SwitchPositionsAndSprites();
+                _isSwitched = true;
+                _referenceRotation = 0;
+                _gearRigidbody.freezeRotation = true;
 
-            SwitchPositionsAndSprites(gameObject, _player);
-
-            gameObject.transform.position = _initialPosition;
-
-            _testRotation = 0;
-
-            _isSwitched = false;
-        
+            }
+            else if (_upgrades.m_canPossess == true && _isSwitched == true) {
+                transform.position = _initialPosition;
+                SwitchPositionsAndSprites();
+                _isSwitched = false;
+            }
         }
-
-        _precedentRotation = _gearRigidbody.rotation;
-
     }
 
-    void SwitchPositionsAndSprites(GameObject objectA, GameObject objectB) {
+    void SwitchPositionsAndSprites() {
 
-        Vector3 tempPosition = objectA.transform.position;
-        objectA.transform.position = objectB.transform.position;
-        objectB.transform.position = tempPosition;
+        Vector3 tempPosition = transform.position;
+        transform.position = _playerPackage.transform.position;
 
-        SpriteRenderer spriteRendererA = objectA.GetComponent<SpriteRenderer>();
-        SpriteRenderer spriteRendererB = objectB.GetComponent<SpriteRenderer>();
+        if (_targetPosition != Vector3.zero) {
+            _playerPackage.transform.position = _targetPosition;
+        }
 
-        if (spriteRendererA != null && spriteRendererB != null) {
-            Sprite tempSprite = spriteRendererA.sprite;
-            spriteRendererA.sprite = spriteRendererB.sprite;
-            spriteRendererB.sprite = tempSprite;
+        else {
+            _playerPackage.transform.position = tempPosition;
+        }
+
+        if (_gearRenderer != null && _playerRenderer != null) {
+            Sprite tempSprite = _gearRenderer.sprite;
+            _gearRenderer.sprite = _playerRenderer.sprite;
+            _playerRenderer.sprite = tempSprite;
+
+            Color tempColor = _gearRenderer.color;
+            _gearRenderer.color = _playerRenderer.color;
+            _playerRenderer.color = tempColor;
         }
     }
 
