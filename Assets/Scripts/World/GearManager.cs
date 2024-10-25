@@ -6,7 +6,7 @@ public class GearManager : MonoBehaviour {
 
     // Allow gears to spin or not, by detecting where's the player and if it can interact
     [Header("Non optionnal settings")]
-    [SerializeField] bool _isInteractable; // Check it in editor if u want that this gear can spin with player
+    [SerializeField] bool _isActivableByOtherGears; // Check it in editor if u want that this gear can spin with player
     [SerializeField] float _detectionRay = 1f; // Set a value big enough in editor (something near 1f ~ 1.2f)
     [SerializeField] LayerMask _detectionLayer; // Always set to "player" layer in editor
 
@@ -55,11 +55,11 @@ public class GearManager : MonoBehaviour {
                 _gearRigidbody.freezeRotation = false;
 
                 int gearPlayerRotationDirection = _player.m_currentGearRotation > 0 ? 1 : -1;
-                if (!_isActivatingDifferentMechanismByDirection)
+                if (!_isActivatingDifferentMechanismByDirection && _gearMechanismToActivate != null)
                 {
                     _gearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection);
                 }
-                else
+                else if (_isActivatingDifferentMechanismByDirection)
                 {
                     if (gearPlayerRotationDirection == -1) _leftGearMechanismToActivate.Activate(gearPlayerRotationDirection);
                     else _rightGearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection);
@@ -67,24 +67,24 @@ public class GearManager : MonoBehaviour {
             }
             else
             {
-                ResetGearmechinsms();
+                ResetGearMechanisms();
             }
         }
         else
         {
-            _gearRigidbody.freezeRotation = true;
-            ResetGearmechinsms();
+            if (_isActivableByOtherGears == false) _gearRigidbody.freezeRotation = true;
+            ResetGearMechanisms();
         }
 
     }
 
-    void ResetGearmechinsms()
+    void ResetGearMechanisms()
     {
-        if (!_isActivatingDifferentMechanismByDirection )
+        if (!_isActivatingDifferentMechanismByDirection && _gearMechanismToActivate != null)
         {
             if(_gearMechanismToActivate.m_isPlayerInteracting) _gearMechanismToActivate.m_isPlayerInteracting = false;
         }
-        else 
+        else if (_isActivatingDifferentMechanismByDirection)
         {
             if (_leftGearMechanismToActivate.m_isPlayerInteracting || _rightGearMechanismToActivate.m_isPlayerInteracting)
             {

@@ -1108,6 +1108,11 @@ MonoBehaviour:
   _dashDuration: 0.15
   _attractionForce: 8
   _stopDistance: 1
+  _gearToControl: {fileID: 0}
+  _spriteRendererFromPlayerPrefab: {fileID: 5181676703395562105, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
+  _spriteRendererFromGearToControlPrefab: {fileID: 4920705600765695900, guid: f76a0493642999c479ed1983d76dc410, type: 3}
+  _growMultiplier: 2
+  _shrinkMultiplier: 0.5
 --- !u!212 &620635519897802109 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 5181676703395562105, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
