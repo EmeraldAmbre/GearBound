@@ -411,10 +411,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  _maxLife: 8
   _invincibilityTime: 2
   _invincibilityFrame: 0.1
   _spriteRenderer: {fileID: 5181676703395562105}
+  m_maxLife: 8
   m_playerLife: 0
 --- !u!114 &3756639636478510469
 MonoBehaviour:
@@ -453,12 +453,17 @@ MonoBehaviour:
   _onGearVelocityYCap: -3
   _onGearWallSpeedMultiplicator: 1
   _onGearWallVelocityYCap: 0
-  _gearRotationSpeed: 220
+  _gearGroundRotationSpeed: 5
+  _gearAirRotationSpeed: 3.5
   _onGearWallGearRotationSpeed: 300
-  _gearWallJumpForceVector: {x: 10, y: 10}
+  _gearRotationAcceleration: 0.2
+  _gearRotationDeceleration: 1
+  _onGearWallGearGravity: 0
   _airGearWallJumpAcceleration: 3
   _airGearWallJumpDeceleration: 25
+  _gearWallJumpForceVector: {x: 10, y: 15}
   _body: {fileID: 2560477893739365598}
+  m_isGearWallJumping: 0
 --- !u!114 &6106390362826736106
 MonoBehaviour:
   m_ObjectHideFlags: 0

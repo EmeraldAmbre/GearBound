@@ -31696,11 +31696,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6216067939139519, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -57.519997
+      value: -2.2000008
       objectReference: {fileID: 0}
     - target: {fileID: 6216067939139519, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 30.05
+      value: 36.4
       objectReference: {fileID: 0}
     - target: {fileID: 882875648630974044, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -31844,19 +31844,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7175590481822685745, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -54.2946
+      value: -5.1890736
       objectReference: {fileID: 0}
     - target: {fileID: 7175590481822685745, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 32.155514
+      value: 36.39669
       objectReference: {fileID: 0}
     - target: {fileID: 8570883367269673777, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -57.52
+      value: -2.2
       objectReference: {fileID: 0}
     - target: {fileID: 8570883367269673777, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 30.05
+      value: 36.4
       objectReference: {fileID: 0}
     - target: {fileID: 8570883367269673777, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -31881,6 +31881,22 @@ PrefabInstance:
     - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: _velocityYOnGearMax
       value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _gearAirRotationSpeed
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _gearGroundRotationSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _gearRotationAcceleration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
+      propertyPath: _gearRotationDeceleration
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

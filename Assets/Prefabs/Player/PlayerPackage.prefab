@@ -911,10 +911,6 @@ PrefabInstance:
       value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
-      propertyPath: _gearWallJumpForceVector.y
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _airGearWallJumpAcceleration
       value: 0.09
       objectReference: {fileID: 0}

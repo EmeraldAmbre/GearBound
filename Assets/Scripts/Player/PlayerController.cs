@@ -55,8 +55,11 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] float _onGearVelocityYCap = -3;
     [SerializeField] float _onGearWallSpeedMultiplicator = 5f;
     [SerializeField] float _onGearWallVelocityYCap = 0;
-    [SerializeField] float _gearRotationSpeed = 20f;
+    [SerializeField] float _gearGroundRotationSpeed = 20f;
+    [SerializeField] float _gearAirRotationSpeed = 20f;
     [SerializeField] float _onGearWallGearRotationSpeed = 300f;
+    [SerializeField] float _gearRotationAcceleration = 7f;
+    [SerializeField] float _gearRotationDeceleration = 17f;
     [SerializeField] float _onGearWallGearGravity = 0;
     [SerializeField] float _airGearWallJumpAcceleration = 7f;
     [SerializeField] float _airGearWallJumpDeceleration = 17f;
@@ -255,10 +258,19 @@ public class PlayerController : MonoBehaviour {
 
         if (_playerManager.m_isInteracting == false) {
 
-            if (m_inputX == 0) m_currentGearRotation = Mathf.Lerp(m_currentGearRotation, m_inputX * _gearRotationSpeed, _groundDeceleration);
-            else if (_physics.IsOnContactWithGearWall()) m_currentGearRotation = Mathf.Lerp(m_currentGearRotation, m_inputX * _onGearWallGearRotationSpeed, _groundAcceleration);
-            else m_currentGearRotation = Mathf.Lerp(m_currentGearRotation, m_inputX * _gearRotationSpeed, _groundAcceleration);
+            float targetRotationSpeed = 0;
 
+            // Check which gear rotation to apply
+            if (_physics.IsOnContactWithGearWall()) targetRotationSpeed = _onGearWallGearRotationSpeed;
+            else if (_physics.IsOnContactWithGear()) targetRotationSpeed = _gearAirRotationSpeed;
+            else if (_physics.IsGrounded()) targetRotationSpeed = _gearGroundRotationSpeed;
+            else targetRotationSpeed = _gearAirRotationSpeed;
+
+            // Set the gear rotation lerp
+            if (m_inputX == 0) m_currentGearRotation = Mathf.Lerp(m_currentGearRotation, m_inputX * targetRotationSpeed, _gearRotationDeceleration);
+            else m_currentGearRotation = Mathf.Lerp(m_currentGearRotation, m_inputX * targetRotationSpeed, _gearRotationAcceleration);
+
+            // Apply the gear rotation
             if (!m_rotationInversion) transform.Rotate(Vector3.forward, -m_currentGearRotation);
             else transform.Rotate(Vector3.forward, m_currentGearRotation);
         }
