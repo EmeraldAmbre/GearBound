@@ -240,11 +240,11 @@ public class PlayerUpgrades : MonoBehaviour {
                 _sizeMode += 1;
                 break;
             case 1:
-                transform.localScale = _growSize;
-                _sizeMode += 1;
+                transform.localScale = _shrinkSize;
+                _sizeMode = 0;
                 break;
             case 2:
-                transform.localScale = _shrinkSize;
+                transform.localScale = _growSize;
                 _sizeMode = 0;
                 break;
         }
