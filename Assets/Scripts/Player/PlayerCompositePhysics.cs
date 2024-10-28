@@ -39,7 +39,7 @@ public class PlayerCompositePhysics : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        _isOnContactWithGear = false;
+        if (collision.tag == "Gear" || collision.tag == "ControllableGear") _isOnContactWithGear = false;
     }
 
     public bool IsGrounded()
