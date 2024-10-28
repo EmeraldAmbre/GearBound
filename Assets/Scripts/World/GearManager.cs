@@ -7,8 +7,6 @@ public class GearManager : MonoBehaviour {
     // Allow gears to spin or not, by detecting where's the player and if it can interact
     [Header("Non optionnal settings")]
     [SerializeField] bool _isActivableByOtherGears; // Check it in editor if u want that this gear can spin with player
-    [SerializeField] float _detectionRay = 1f; // Set a value big enough in editor (something near 1f ~ 1.2f)
-    [SerializeField] LayerMask _detectionLayer; // Always set to "player" layer in editor
 
     // Linked pulleys and linked interactions
     // Drag and drop your linked item(s) in editor
