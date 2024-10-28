@@ -612,7 +612,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4412088410821090744, guid: 42feba8cb5e06ff4ba8b360e81b84f14, type: 3}
       propertyPath: m_SceneNameToConnect
-      value: Room 4
+      value: Room 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
