@@ -34,7 +34,7 @@ public class PlayerCompositePhysics : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Gear") _isOnContactWithGear = true;
+        if (collision.tag == "Gear" || collision.tag == "ControllableGear") _isOnContactWithGear = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
