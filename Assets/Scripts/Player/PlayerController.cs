@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] GameObject _body;
     public bool m_isGearWallJumping = false;
     public float m_currentGearRotation { get; private set; } = 0;
+    public float m_gearRotationDashMultiplier { get; set; } = 1;
 
     Quaternion _bodyInitialRotation;
 
@@ -255,25 +256,22 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void UpdateGearRotation() {
+        
+        float targetRotationSpeed = 0;
+        
+        // Check which gear rotation to apply
+        if (_physics.IsOnContactWithGearWall()) targetRotationSpeed = _onGearWallGearRotationSpeed;
+        else if (_physics.IsOnContactWithGear()) targetRotationSpeed = _gearAirRotationSpeed;
+        else if (_physics.IsGrounded()) targetRotationSpeed = _gearGroundRotationSpeed;
+        else targetRotationSpeed = _gearAirRotationSpeed;
+        
+        // Set the gear rotation lerp
+        if (m_inputX == 0) m_currentGearRotation = Mathf.Lerp(m_currentGearRotation, m_inputX * targetRotationSpeed, _gearRotationDeceleration);
+        else m_currentGearRotation = Mathf.Lerp(m_currentGearRotation, m_inputX * targetRotationSpeed, _gearRotationAcceleration);
 
-        if (_playerManager.m_isInteracting == false) {
-
-            float targetRotationSpeed = 0;
-
-            // Check which gear rotation to apply
-            if (_physics.IsOnContactWithGearWall()) targetRotationSpeed = _onGearWallGearRotationSpeed;
-            else if (_physics.IsOnContactWithGear()) targetRotationSpeed = _gearAirRotationSpeed;
-            else if (_physics.IsGrounded()) targetRotationSpeed = _gearGroundRotationSpeed;
-            else targetRotationSpeed = _gearAirRotationSpeed;
-
-            // Set the gear rotation lerp
-            if (m_inputX == 0) m_currentGearRotation = Mathf.Lerp(m_currentGearRotation, m_inputX * targetRotationSpeed, _gearRotationDeceleration);
-            else m_currentGearRotation = Mathf.Lerp(m_currentGearRotation, m_inputX * targetRotationSpeed, _gearRotationAcceleration);
-
-            // Apply the gear rotation
-            if (!m_rotationInversion) transform.Rotate(Vector3.forward, -m_currentGearRotation);
-            else transform.Rotate(Vector3.forward, m_currentGearRotation);
-        }
+        // Apply the gear rotation
+        if (!m_rotationInversion) transform.Rotate(Vector3.forward, -m_currentGearRotation * m_gearRotationDashMultiplier);
+        else transform.Rotate(Vector3.forward, m_currentGearRotation * m_gearRotationDashMultiplier);
 
         _body.transform.rotation = _bodyInitialRotation;
     }
