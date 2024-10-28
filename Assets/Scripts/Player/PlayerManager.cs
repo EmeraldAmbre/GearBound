@@ -18,7 +18,7 @@ public class PlayerManager : MonoBehaviour {
     [SerializeField] private SpriteRenderer _spriteRenderer;
 
     #region Public Variables
-    public int m_maxLife = 8;
+    public int m_maxLife = 2;
     public int m_playerLife;
     public bool m_isInteracting { get; set; }
     public bool m_isInvincible { get; private set; }

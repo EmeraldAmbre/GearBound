@@ -868,7 +868,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a4d2855301d4bb4981a4189a3d3b343, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -31879,11 +31879,11 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: -39.953487, y: 75.11359}
-      - {x: 6.8391647, y: 75.10061}
-      - {x: 6.663967, y: 96.15495}
-      - {x: -10.187773, y: 96.0488}
-      - {x: -10.32308, y: 110.279396}
-      - {x: 25.59749, y: 110.23823}
+      - {x: 3.5891647, y: 75.10061}
+      - {x: 3.663967, y: 95.15495}
+      - {x: -9.937773, y: 95.2988}
+      - {x: -10.07308, y: 107.779396}
+      - {x: 25.59749, y: 107.23823}
       - {x: 25.622118, y: 31.068882}
       - {x: -40.39204, y: 31.151808}
   m_UseDelaunayMesh: 0
@@ -33562,10 +33562,6 @@ PrefabInstance:
     - target: {fileID: 6216067939139519, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalPosition.y
       value: 33
-      objectReference: {fileID: 0}
-    - target: {fileID: 490653256414978910, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
-      propertyPath: m_maxLife
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 882875648630974044, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalPosition.x
