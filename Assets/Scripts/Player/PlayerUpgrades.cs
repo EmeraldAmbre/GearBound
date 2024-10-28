@@ -243,10 +243,10 @@ public class PlayerUpgrades : MonoBehaviour {
                 transform.localScale = _shrinkSize;
                 _sizeMode = 0;
                 break;
-            case 2:
-                transform.localScale = _growSize;
-                _sizeMode = 0;
-                break;
+            //case 2:
+            //    transform.localScale = _growSize;
+            //    _sizeMode = 0;
+            //    break;
         }
     }
     #endregion
