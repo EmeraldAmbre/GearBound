@@ -14,6 +14,7 @@ public class PlayerUpgrades : MonoBehaviour {
     [SerializeField] float _dashSpeed = 75f;
     [SerializeField] float _dashCooldown = 1.5f;
     [SerializeField] float _dashDuration = 0.15f;
+    [SerializeField] float _gearRotationDashMultiplier = 2.5f;
     bool _isDashing = false;
     bool _isNextGear = false; // Block the dash so the player can't enter in a fixed gear
     float _dashTimeRemaining;
@@ -103,8 +104,12 @@ public class PlayerUpgrades : MonoBehaviour {
         if (_isDashing) {
             _dashTimeRemaining -= Time.deltaTime;
 
-            if (_dashTimeRemaining <= 0 || _isNextGear) {
+            if (_dashTimeRemaining <= 0) {
                 EndDash();
+            }
+
+            if (_isNextGear) {
+                DashNextGear();
             }
         }
 
@@ -151,11 +156,16 @@ public class PlayerUpgrades : MonoBehaviour {
         _dashCooldownRemaining = _dashCooldown;
         _initialSpeed = _controller.m_currentSpeed;
         _controller.SetCurrentSpeed(_dashSpeed);
+        _controller.m_gearRotationDashMultiplier = _gearRotationDashMultiplier;
     }
 
     void EndDash() {
         _controller.SetCurrentSpeed(_initialSpeed);
+        _controller.m_gearRotationDashMultiplier = 1;
         _isDashing = false;
+    }
+    void DashNextGear() {
+        _controller.SetCurrentSpeed(_initialSpeed);
     }
     #endregion
 
@@ -240,13 +250,13 @@ public class PlayerUpgrades : MonoBehaviour {
                 _sizeMode += 1;
                 break;
             case 1:
-                transform.localScale = _growSize;
-                _sizeMode += 1;
-                break;
-            case 2:
                 transform.localScale = _shrinkSize;
                 _sizeMode = 0;
                 break;
+            //case 2:
+            //    transform.localScale = _growSize;
+            //    _sizeMode = 0;
+            //    break;
         }
     }
     #endregion
