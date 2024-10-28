@@ -30,13 +30,14 @@ public class PlayerUpgrades : MonoBehaviour {
 
     [Header("Possession settings")]
     [SerializeField] Vector3 _intermediatePos = new (1999.9f, 1999.9f, 0);
-    [SerializeField] GameObject _gearToControl;
-    [SerializeField] float _xDamping = 4f;
-    [SerializeField] float _yDamping = 4f;
-    [SerializeField] float _zDamping = 4f;
-    [SerializeField] CinemachineVirtualCamera _virtualCamera;
+    [SerializeField] GameObject _gearToControl; // there's no need to drag and drop smthg here, unless you want to customize player experience
+    [SerializeField] float _xDamping = 4f; // damping (speed) following x axis of the virtual camera
+    [SerializeField] float _yDamping = 4f; // damping (speed) following y axis of the virtual camera
+    [SerializeField] float _zDamping = 4f; // useless still this is a 2D game
+    [SerializeField] CinemachineVirtualCamera _virtualCamera; // Drag and drop here the virtual camera from package (do not forget to change the settings to "composer")
     [SerializeField] SpriteRenderer _spriteRendererFromPlayerPrefab;
     [SerializeField] SpriteRenderer _spriteRendererFromGearToControlPrefab;
+    [SerializeField] bool _isPlayerFreezeWhenPossessed; // Check or uncheck this if you want that the player is freezed or not while possessing another gear
     bool _canControl = false;
     bool _isPossessed = false;
 
@@ -123,6 +124,19 @@ public class PlayerUpgrades : MonoBehaviour {
         if (other.gameObject.CompareTag("ControllableGear") && _canControl) {
             _gearToControl = other.gameObject;
         }
+
+        if (other.gameObject.CompareTag("ControllableGear") && _isPossessed) {
+            Rigidbody2D rb = _gearToControl.GetComponent<Rigidbody2D>();
+            rb.constraints = RigidbodyConstraints2D.FreezePosition;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("ControllableGear") && _isPossessed) {
+            Rigidbody2D rb = _gearToControl.GetComponent<Rigidbody2D>();
+            rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+        }
     }
 
     void OnDrawGizmosSelected() {
@@ -194,8 +208,8 @@ public class PlayerUpgrades : MonoBehaviour {
         gearSprite.sprite = _spriteRendererFromPlayerPrefab.sprite;
         SpriteRenderer playerSprite = GetComponent<SpriteRenderer>();
         playerSprite.sprite = _spriteRendererFromGearToControlPrefab.sprite;
-        HingeJoint2D joint = _gearToControl.GetComponent<HingeJoint2D>();
-        joint.enabled = true;
+        Rigidbody2D rb = _gearToControl.GetComponent<Rigidbody2D>();
+        rb.constraints = RigidbodyConstraints2D.FreezePositionX;
         _isPossessed = true;
     }
 
@@ -212,8 +226,8 @@ public class PlayerUpgrades : MonoBehaviour {
         gearSprite.sprite = _spriteRendererFromGearToControlPrefab.sprite; 
         SpriteRenderer playerSprite = GetComponent<SpriteRenderer>();
         playerSprite.sprite = _spriteRendererFromPlayerPrefab.sprite;
-        HingeJoint2D joint = _gearToControl.GetComponent<HingeJoint2D>();
-        joint.enabled = false;
+        Rigidbody2D rb = _gearToControl.GetComponent<Rigidbody2D>();
+        rb.constraints = RigidbodyConstraints2D.FreezePosition;
         _isPossessed = false;
     }
     #endregion

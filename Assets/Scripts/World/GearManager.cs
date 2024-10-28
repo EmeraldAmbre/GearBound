@@ -16,23 +16,22 @@ public class GearManager : MonoBehaviour {
     [SerializeField] GearMechanism _leftGearMechanismToActivate;
     [SerializeField] GearMechanism _rightGearMechanismToActivate;
 
-
     bool _isPlayerNear;
     PlayerController _player;
     Rigidbody2D _gearRigidbody;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if(collision.gameObject.tag == "Player")
+        if(other.gameObject.tag == "Player")
         {
             _isPlayerNear = true;
-            _player = collision.gameObject.GetComponent<PlayerController>();
+            _player = other.gameObject.GetComponent<PlayerController>();
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D other)
     {
-        if (collision.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             _isPlayerNear = false;
             _player = null;
