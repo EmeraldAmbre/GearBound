@@ -9,10 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8755313285032074603}
-  - component: {fileID: 7495860636730522663}
-  - component: {fileID: 4264868371114605092}
-  - component: {fileID: 3414409164004359172}
-  - component: {fileID: 2261408182749982608}
   m_Layer: 6
   m_Name: DoorPulley
   m_TagString: MechanismToSaveState
@@ -30,19 +26,55 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -116.23546, y: 84.03374, z: -0.0591695}
-  m_LocalScale: {x: 3, y: 4.0713, z: 3}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 752636336701107712}
   - {fileID: 2586701379622641968}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &7495860636730522663
+--- !u!1 &6792315080296711374
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 752636336701107712}
+  - component: {fileID: 8155466768743438350}
+  - component: {fileID: 1564485426462964076}
+  - component: {fileID: 6158745813598606566}
+  - component: {fileID: 5022477267217481589}
+  m_Layer: 6
+  m_Name: Door
+  m_TagString: MechanismToSaveState
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &752636336701107712
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6792315080296711374}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 8755313285032074603}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &8155466768743438350
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1071210217304758136}
+  m_GameObject: {fileID: 6792315080296711374}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -88,14 +120,14 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &4264868371114605092
+--- !u!50 &1564485426462964076
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1071210217304758136}
+  m_GameObject: {fileID: 6792315080296711374}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -115,13 +147,13 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 5
---- !u!61 &3414409164004359172
+--- !u!61 &6158745813598606566
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1071210217304758136}
+  m_GameObject: {fileID: 6792315080296711374}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -160,13 +192,13 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.52, y: 0.7}
   m_EdgeRadius: 0
---- !u!114 &2261408182749982608
+--- !u!114 &5022477267217481589
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1071210217304758136}
+  m_GameObject: {fileID: 6792315080296711374}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9213f2e6a97f134aa83cfb64ebed3b8, type: 3}
@@ -177,7 +209,7 @@ MonoBehaviour:
   _maxHeight: 5
   _minHeight: 0
   _pulleySpeed: 4.4
-  _boxCollider: {fileID: 3414409164004359172}
+  _boxCollider: {fileID: 6158745813598606566}
   _isLockingAfterThreshold: 1
   yMaxLockThreshold: -0.5
   yMinLockThreshold: 0

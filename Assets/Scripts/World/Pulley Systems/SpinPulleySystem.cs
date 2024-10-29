@@ -16,4 +16,14 @@ public class SpinPulleySystem :  GearMechanism
 
 
     }
+
+    public override void ActivateOnce(int gearRotationDirection , float gearRotationScale = 1)
+    {
+        base.ActivateOnce(gearRotationDirection , gearRotationScale);
+
+        if (gearRotationDirection == 1) transform.Rotate(0, 0, _spinningSpeed * gearRotationScale * Time.deltaTime);
+        else if (gearRotationDirection == -1) transform.Rotate(0, 0, -_spinningSpeed * gearRotationScale * Time.deltaTime);
+
+
+    }
 }

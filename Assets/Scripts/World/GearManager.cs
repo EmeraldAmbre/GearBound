@@ -16,6 +16,8 @@ public class GearManager : MonoBehaviour {
     [SerializeField] bool _isActivatingDifferentMechanismByDirection = false;
     [SerializeField] GearMechanism _leftGearMechanismToActivate;
     [SerializeField] GearMechanism _rightGearMechanismToActivate;
+    [SerializeField] bool _isActivatingSeveralMechanism = false;
+    [SerializeField] List<GearMechanism> _listSeveralMechanismm = new List<GearMechanism>();
 
     bool _isPlayerNear;
     PlayerController _player;
@@ -55,7 +57,7 @@ public class GearManager : MonoBehaviour {
                 int gearPlayerRotationDirection = _player.m_currentGearRotation > 0 ? 1 : -1;
                 if(_isReversingRotationEffectOnMechanism) gearPlayerRotationDirection *= -1;
 
-                if (!_isActivatingDifferentMechanismByDirection && _gearMechanismToActivate != null)
+                if (!_isActivatingDifferentMechanismByDirection && !_isActivatingSeveralMechanism && _gearMechanismToActivate != null)
                 {
                     _gearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection , _player.m_gearRotationDashMultiplier);
                 }
@@ -63,6 +65,14 @@ public class GearManager : MonoBehaviour {
                 {
                     if (gearPlayerRotationDirection == -1) _leftGearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection , _player.m_gearRotationDashMultiplier);
                     else _rightGearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection , _player.m_gearRotationDashMultiplier);
+                }
+                else if(_isActivatingSeveralMechanism)
+                {
+                    foreach(GearMechanism gearMechanism in _listSeveralMechanismm)
+                    {
+                        if (gearPlayerRotationDirection == -1) gearMechanism.ActivateOnce(gearPlayerRotationDirection, _player.m_gearRotationDashMultiplier);
+                        else gearMechanism.ActivateOnce(gearPlayerRotationDirection, _player.m_gearRotationDashMultiplier);
+                    }
                 }
             }
             else
