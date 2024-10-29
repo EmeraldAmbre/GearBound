@@ -69,6 +69,8 @@ public class PlayerController : MonoBehaviour {
     public float m_currentGearRotation { get; private set; } = 0;
     public float m_gearRotationDashMultiplier { get; set; } = 1;
 
+    int _lastDirection = 0;
+
     Quaternion _bodyInitialRotation;
 
     public float m_inputX { get; private set; } = 0;
@@ -77,6 +79,7 @@ public class PlayerController : MonoBehaviour {
     bool _isHandlingJumpButton = false;
 
     PlayerInputAction _input;
+    PlayerUpgrades _playerUpgrade;
 
     void Start() {
         _physics = GetComponent<PlayerCompositePhysics>();
@@ -86,6 +89,7 @@ public class PlayerController : MonoBehaviour {
         InitInput();
         _bodyInitialRotation = _body.transform.rotation;
         m_currentSpeed = _initMoveSpeed;
+        _playerUpgrade = GetComponent<PlayerUpgrades>();
     }
 
     #region Input Methods
@@ -207,39 +211,53 @@ public class PlayerController : MonoBehaviour {
     #region Physics methods for FixedUpdate()
     private void HandlePhysicsXMovement() {
 
+        if (m_inputX != 0) _lastDirection = (int)m_inputX;
+
+        // On dash
+        if (_playerUpgrade.m_isDashing)
+        {
+            _velocity.x = Mathf.Lerp(_velocity.x, _lastDirection * m_currentSpeed, _groundDeceleration);
+        }
+
         // On ground
-        if ((_physics.IsGrounded() && _velocity.y <= 0.01f)) {
+        else if ((_physics.IsGrounded() && _velocity.y <= 0.01f))
+        {
             if (m_inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * m_currentSpeed, _groundDeceleration);
-            else _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * m_currentSpeed, _groundAcceleration );
+            else _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * m_currentSpeed, _groundAcceleration);
         }
 
         // On jump peak
-        else if (IsOnPeakThresholdJump()) {
+        else if (IsOnPeakThresholdJump())
+        {
             if (m_inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * m_currentSpeed * _peakXMovementMultiplicator, _peakDeceleration);
             else _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * m_currentSpeed * _peakXMovementMultiplicator, _peakAcceleration);
         }
 
         // On gear
-        else if (_physics.IsOnContactWithGear()) {
+        else if (_physics.IsOnContactWithGear())
+        {
             // _velocity.x = 0;
             if (m_inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * m_currentSpeed * _onGearSpeedMultiplicator, _groundDeceleration);
-            else _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * m_currentSpeed * _onGearSpeedMultiplicator, _groundAcceleration );
+            else _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * m_currentSpeed * _onGearSpeedMultiplicator, _groundAcceleration);
         }
 
         // On gear wall
-        else if (_physics.IsOnContactWithGearWall() && !m_isGearWallJumping) {
+        else if (_physics.IsOnContactWithGearWall() && !m_isGearWallJumping)
+        {
             if (m_inputX == 0) { _velocity.x = 0; }
-            else _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * m_currentSpeed * _onGearWallSpeedMultiplicator, _groundAcceleration);    
+            else _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * m_currentSpeed * _onGearWallSpeedMultiplicator, _groundAcceleration);
         }
 
         // In air when gear wall jumping
-        else if (m_isGearWallJumping) {
+        else if (m_isGearWallJumping)
+        {
             if (m_inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * m_currentSpeed * _onGearWallSpeedMultiplicator, _airGearWallJumpDeceleration);
             else _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * m_currentSpeed * _onGearWallSpeedMultiplicator, _airGearWallJumpAcceleration);
         }
 
         // In air
-        else {
+        else
+        {
             if (m_inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * m_currentSpeed, _airDeceleration);
             else _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * m_currentSpeed, _airAcceleration);
         }
@@ -361,6 +379,15 @@ public class PlayerController : MonoBehaviour {
                 Mathf.Clamp(_velocity.x, -_velocityXMax, _velocityXMax)
                 , Mathf.Clamp(_velocity.y, _velocityYFallMax, _velocityYJumpMax)
              );
+        }
+
+        // Disable gravity on dash
+        if(_playerUpgrade.m_isDashing)
+        {
+            _velocity = new Vector2(
+                Mathf.Clamp(_velocity.x, -_velocityXMax, _velocityXMax)
+                , Mathf.Clamp(_velocity.y, 0, 0)
+            );
         }
     }
     #endregion

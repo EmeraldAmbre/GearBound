@@ -15,7 +15,7 @@ public class PlayerUpgrades : MonoBehaviour {
     [SerializeField] float _dashCooldown = 1.5f;
     [SerializeField] float _dashDuration = 0.15f;
     [SerializeField] float _gearRotationDashMultiplier = 2.5f;
-    bool _isDashing = false;
+    [HideInInspector] public bool m_isDashing { get; private set; } = false;
     bool _isNextGear = false; // Block the dash so the player can't enter in a fixed gear
     float _dashTimeRemaining;
     float _dashCooldownRemaining = 0f;
@@ -101,7 +101,7 @@ public class PlayerUpgrades : MonoBehaviour {
             if (PlayerPrefs.GetInt("dash") == 1) StartDash();
         }
 
-        if (_isDashing) {
+        if (m_isDashing) {
             _dashTimeRemaining -= Time.deltaTime;
 
             if (_dashTimeRemaining <= 0) {
@@ -151,7 +151,7 @@ public class PlayerUpgrades : MonoBehaviour {
 
     #region Dash Methods
     void StartDash() {
-        _isDashing = true;
+        m_isDashing = true;
         _dashTimeRemaining = _dashDuration;
         _dashCooldownRemaining = _dashCooldown;
         _initialSpeed = _controller.m_currentSpeed;
@@ -162,7 +162,7 @@ public class PlayerUpgrades : MonoBehaviour {
     void EndDash() {
         _controller.SetCurrentSpeed(_initialSpeed);
         _controller.m_gearRotationDashMultiplier = 1;
-        _isDashing = false;
+        m_isDashing = false;
     }
     void DashNextGear() {
         _controller.SetCurrentSpeed(_initialSpeed);
