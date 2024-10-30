@@ -34,48 +34,39 @@ public class DrawbridgeSystem : GearMechanism
     public override void ActivateOnce(int gearRotationDirection)
     {
         base.ActivateOnce(gearRotationDirection);
-        if (gearRotationDirection == 1)
-        {
-            Debug.Log("gearRotationDirection == 1 =====>    _currentPivot : " + _currentPivot + "    _maxPivot : " + _maxPivot + "    _minPivot : " + _minPivot);
-            if (_currentPivot < _maxPivot)
-            {
-                _currentPivot += _rotationSpeed * Time.deltaTime;
-                _pivotTransform.Rotate(new(0, 0, _rotationSpeed * Time.deltaTime));
-            }
-        }
-        else if (gearRotationDirection == -1)
-        {
-            Debug.Log("gearRotationDirection == 1 =====>     _currentPivot : " + _currentPivot + "    _maxPivot : " + _maxPivot + "    _minPivot : " + _minPivot);
-            if (_currentPivot > _minPivot)
-            {
-                _currentPivot -= _rotationSpeed * Time.deltaTime;
-                _pivotTransform.Rotate(new(0, 0, -_rotationSpeed * Time.deltaTime));
-            }
-        }
+        RotatePivot(gearRotationDirection);
     }
+
 
     public override void ActivateOnce(int gearRotationDirection, float gearRotationScale)
     {
         base.ActivateOnce(gearRotationDirection , gearRotationScale);
+
+        RotatePivot(gearRotationDirection , gearRotationScale);
+    }
+
+
+    private void RotatePivot(int gearRotationDirection, float gearRotationScale = 1)
+    {
+        float rotationToApply = _rotationSpeed * gearRotationScale * Time.deltaTime * gearRotationDirection;
         if (gearRotationDirection == 1)
         {
-            Debug.Log("gearRotationDirection == 1 =====>    _currentPivot : " + _currentPivot + "    _maxPivot : " + _maxPivot + "    _minPivot : " + _minPivot);
             if (_currentPivot < _maxPivot)
             {
-                _currentPivot += _rotationSpeed * Time.deltaTime;
-                _pivotTransform.Rotate(new(0, 0, _rotationSpeed * gearRotationScale * Time.deltaTime));
+                _currentPivot += rotationToApply;
+                _pivotTransform.Rotate(new(0, 0, rotationToApply));
             }
         }
         else if (gearRotationDirection == -1)
         {
-            Debug.Log("gearRotationDirection == 1 =====>     _currentPivot : " + _currentPivot + "    _maxPivot : " + _maxPivot + "    _minPivot : " + _minPivot);
             if (_currentPivot > _minPivot)
             {
-                _currentPivot -= _rotationSpeed * Time.deltaTime;
-                _pivotTransform.Rotate(new(0, 0, -_rotationSpeed * gearRotationScale * Time.deltaTime));
+                _currentPivot += rotationToApply;
+                _pivotTransform.Rotate(new(0, 0, rotationToApply));
             }
         }
     }
+
 
 
     private void OnDrawGizmos()

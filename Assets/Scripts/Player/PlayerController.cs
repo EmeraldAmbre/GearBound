@@ -103,7 +103,9 @@ public class PlayerController : MonoBehaviour {
     }
 
     void OnPerformXAxis(InputAction.CallbackContext context) {
-        m_inputX = context.ReadValue<Vector2>().normalized.x;
+        if (context.ReadValue<Vector2>().normalized.x > 0) m_inputX = 1;
+        else if (context.ReadValue<Vector2>().normalized.x < 0) m_inputX = -1;
+        else m_inputX = 0;
     }
 
     void OnPerformJumpCanceled(InputAction.CallbackContext context) {
@@ -216,7 +218,7 @@ public class PlayerController : MonoBehaviour {
         // On dash
         if (_playerUpgrade.m_isDashing)
         {
-            _velocity.x = Mathf.Lerp(_velocity.x, _lastDirection * m_currentSpeed, _groundDeceleration);
+            _velocity.x = _lastDirection * m_currentSpeed;
         }
 
         // On ground

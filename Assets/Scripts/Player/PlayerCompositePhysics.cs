@@ -72,10 +72,7 @@ public class PlayerCompositePhysics : MonoBehaviour {
 
     private void Update()
     {
-        if(IsOnSlope())
-        {
-            Debug.Log("Is on slope");
-        }
+     
     }
 
     private void OnDrawGizmos()
