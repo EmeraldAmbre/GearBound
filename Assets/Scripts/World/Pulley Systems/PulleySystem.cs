@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PulleySystem : GearMechanism
 {
@@ -23,6 +25,9 @@ public class PulleySystem : GearMechanism
     [SerializeField] float yMinLockThreshold = 0;
     bool _isLocked = false;
 
+    bool _isPulleyWithDynamicRigidBody = false;
+    [SerializeField]  bool _isAddingConstantVelocityToRigidbody = false;
+    Rigidbody2D _dynamicRigidBody;
     private void Start()
     {
         _initialPosition = transform.position;
@@ -36,6 +41,17 @@ public class PulleySystem : GearMechanism
 
         yMaxHeightLockThreshold = _initialPosition.y + yMaxLockThreshold + pulleyHeight / 2;
         yMinHeightLockThreshold = _initialPosition.y - yMinLockThreshold - pulleyHeight / 2;
+
+        if (GetComponent<Rigidbody2D>() != null)
+        {
+            if (GetComponent<Rigidbody2D>().bodyType == RigidbodyType2D.Dynamic)
+            {
+                _isPulleyWithDynamicRigidBody = true;
+                _dynamicRigidBody = GetComponent<Rigidbody2D>();
+            }
+        }
+            
+            
     }
 
     public override void ActivateOnce(int gearRotationDirection, float gearRotationScale = 1)
@@ -60,13 +76,27 @@ public class PulleySystem : GearMechanism
 
     private void Move(int gearRotationDirection, float gearRotationScale)
     {
+        
         if (gearRotationDirection == 1)
         {
-            if (transform.position.y + pulleyHeight / 2 < yMaxheight) transform.Translate(Vector2.up * _pulleySpeed * gearRotationScale * Time.deltaTime);
+            if (transform.position.y + pulleyHeight / 2 < yMaxheight)
+            {
+                if (_isPulleyWithDynamicRigidBody)
+                {
+                    if (_isAddingConstantVelocityToRigidbody is not true) _dynamicRigidBody.velocity = Vector2.up * _pulleySpeed * gearRotationScale;
+                    else _dynamicRigidBody.AddForce(Vector2.up * _pulleySpeed * gearRotationScale);
+                }
+                else transform.Translate(Vector2.up * _pulleySpeed * gearRotationScale * Time.deltaTime);
+            }
         }
         else if (gearRotationDirection == -1)
         {
-            if (transform.position.y - pulleyHeight / 2 > yMinheight) transform.Translate(Vector2.down * _pulleySpeed * gearRotationScale * Time.deltaTime);
+            if (transform.position.y - pulleyHeight / 2 > yMinheight)
+            {
+
+                //if (_isPulleyWithDynamicRigidBody) _dynamicRigidBody.velocity = Vector2.down * _pulleySpeed * gearRotationScale;
+                transform.Translate(Vector2.down * _pulleySpeed * gearRotationScale * Time.deltaTime);
+            } 
         }
     }
 
