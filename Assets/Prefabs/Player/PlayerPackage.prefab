@@ -868,6 +868,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5312793714340410458, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
+      propertyPath: m_maxLife
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312793714340410458, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _spriteRenderer
       value: 
       objectReference: {fileID: 620635519897802109}
@@ -996,9 +1000,10 @@ MonoBehaviour:
   _detectionLayer:
     serializedVersion: 2
     m_Bits: 256
-  _dashSpeed: 75
-  _dashCooldown: 2
-  _dashDuration: 0.15
+  _dashSpeed: 30
+  _dashCooldown: 0.5
+  _dashDuration: 0.18
+  _gearRotationDashMultiplier: 3
   _attractionForce: 8
   _stopDistance: 1
   _intermediatePos: {x: 1999.9, y: 1999.9, z: 0}

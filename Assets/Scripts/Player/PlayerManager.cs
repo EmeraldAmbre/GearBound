@@ -20,7 +20,6 @@ public class PlayerManager : MonoBehaviour {
     #region Public Variables
     public int m_maxLife = 2;
     public int m_playerLife;
-    public bool m_isInteracting { get; set; }
     public bool m_isInvincible { get; private set; }
 
     // Singleton
@@ -33,8 +32,6 @@ public class PlayerManager : MonoBehaviour {
         else { Destroy(gameObject); }
 
         if (_spriteRenderer == null) _spriteRenderer = GetComponent<SpriteRenderer>();
-
-        m_isInteracting = false;
 
         if (PlayerPrefs.HasKey("max_player_life")) m_maxLife = PlayerPrefs.GetInt("max_player_life");
 

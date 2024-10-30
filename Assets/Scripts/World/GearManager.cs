@@ -7,6 +7,7 @@ public class GearManager : MonoBehaviour {
     // Allow gears to spin or not, by detecting where's the player and if it can interact
     [Header("Non optionnal settings")]
     [SerializeField] bool _isActivableByOtherGears; // Check it in editor if u want that this gear can spin with player
+    [SerializeField] bool _isReversingRotationEffectOnMechanism; 
 
     // Linked pulleys and linked interactions
     // Drag and drop your linked item(s) in editor
@@ -15,6 +16,8 @@ public class GearManager : MonoBehaviour {
     [SerializeField] bool _isActivatingDifferentMechanismByDirection = false;
     [SerializeField] GearMechanism _leftGearMechanismToActivate;
     [SerializeField] GearMechanism _rightGearMechanismToActivate;
+    [SerializeField] bool _isActivatingSeveralMechanism = false;
+    [SerializeField] List<GearMechanism> _listSeveralMechanismm = new List<GearMechanism>();
 
     bool _isPlayerNear;
     PlayerController _player;
@@ -52,14 +55,24 @@ public class GearManager : MonoBehaviour {
                 _gearRigidbody.freezeRotation = false;
 
                 int gearPlayerRotationDirection = _player.m_currentGearRotation > 0 ? 1 : -1;
-                if (!_isActivatingDifferentMechanismByDirection && _gearMechanismToActivate != null)
+                if(_isReversingRotationEffectOnMechanism) gearPlayerRotationDirection *= -1;
+
+                if (!_isActivatingDifferentMechanismByDirection && !_isActivatingSeveralMechanism && _gearMechanismToActivate != null)
                 {
-                    _gearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection);
+                    _gearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection , _player.m_gearRotationDashMultiplier);
                 }
                 else if (_isActivatingDifferentMechanismByDirection)
                 {
-                    if (gearPlayerRotationDirection == -1) _leftGearMechanismToActivate.Activate(gearPlayerRotationDirection);
-                    else _rightGearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection);
+                    if (gearPlayerRotationDirection == -1) _leftGearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection , _player.m_gearRotationDashMultiplier);
+                    else _rightGearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection , _player.m_gearRotationDashMultiplier);
+                }
+                else if(_isActivatingSeveralMechanism)
+                {
+                    foreach(GearMechanism gearMechanism in _listSeveralMechanismm)
+                    {
+                        if (gearPlayerRotationDirection == -1) gearMechanism.ActivateOnce(gearPlayerRotationDirection, _player.m_gearRotationDashMultiplier);
+                        else gearMechanism.ActivateOnce(gearPlayerRotationDirection, _player.m_gearRotationDashMultiplier);
+                    }
                 }
             }
             else
