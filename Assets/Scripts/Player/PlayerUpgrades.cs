@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerUpgrades : MonoBehaviour {
 
@@ -50,11 +51,43 @@ public class PlayerUpgrades : MonoBehaviour {
     Vector3 _shrinkSize;
     int _sizeMode;
 
+
+    PlayerInputAction _input;
+
     // Possession settings
-    
+
 
     PlayerController _controller;
     Rigidbody2D _rb;
+
+
+    #region Input Methods
+
+    void InitInput()
+    {
+        _input = new();
+        _input.Player.Dash.performed += OnPerformDashStarted;
+        _input.Enable();
+    }
+
+    void OnPerformDashStarted(InputAction.CallbackContext context)
+    {
+        if (_dashCooldownRemaining <= 0 && (PlayerPrefs.GetInt("dash") == 1 && PlayerPrefs.HasKey("dash")))
+        {
+            StartDash();
+            Debug.Log("StartDash");
+        }
+    }
+
+
+    void OnDestroy()
+    {
+        _input.Player.Dash.started -= OnPerformDashStarted;
+        _input.Player.Disable();
+    }
+    #endregion
+
+
 
     void Start() {
         _controller = GetComponent<PlayerController>();
@@ -65,6 +98,7 @@ public class PlayerUpgrades : MonoBehaviour {
         _normalSize = transform.localScale;
         _growSize = _normalSize * _growMultiplier;
         _shrinkSize = _normalSize * _shrinkMultiplier;
+        InitInput();
     }
 
     void Update() {
@@ -97,9 +131,10 @@ public class PlayerUpgrades : MonoBehaviour {
             if (PlayerPrefs.GetInt("rotation") == 1) InverseRotation();
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && _dashCooldownRemaining <= 0 && PlayerPrefs.HasKey("dash")) {
-            if (PlayerPrefs.GetInt("dash") == 1) StartDash();
-        }
+        //if (Input.GetKeyDown(KeyCode.E) && _dashCooldownRemaining <= 0 && PlayerPrefs.HasKey("dash"))
+        //{
+        //    if (PlayerPrefs.GetInt("dash") == 1) StartDash();
+        //}
 
         if (m_isDashing) {
             _dashTimeRemaining -= Time.deltaTime;
@@ -113,9 +148,9 @@ public class PlayerUpgrades : MonoBehaviour {
             }
         }
 
-        if (_canBeAttracted == false) _isAttracted = false;
+        if (_canBeAttracted is false) _isAttracted = false;
 
-        if (_isAttracted == true && _isFreezed == false) {
+        if (_isAttracted is true && _isFreezed == false) {
             AttractPlayer(_magnet);
         }
     }
@@ -150,7 +185,8 @@ public class PlayerUpgrades : MonoBehaviour {
     }
 
     #region Dash Methods
-    void StartDash() {
+    void StartDash()
+    {
         m_isDashing = true;
         _dashTimeRemaining = _dashDuration;
         _dashCooldownRemaining = _dashCooldown;
