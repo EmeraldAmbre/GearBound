@@ -768,7 +768,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""binding"",
                     ""id"": ""28e269ae-375b-4eb6-a660-e2d53477a465"",
-                    ""path"": ""<Keyboard>/h"",
+                    ""path"": ""<Keyboard>/8"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
