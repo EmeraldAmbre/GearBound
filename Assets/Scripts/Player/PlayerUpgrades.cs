@@ -70,6 +70,11 @@ public class PlayerUpgrades : MonoBehaviour {
         _input.Player.Magnet.performed += OnPerformMagnetStarted;
         _input.Player.Size.performed += OnPerformSizeStarted;
         _input.Player.Possess.performed += OnPerformPossessionStarted;
+        _input.Player.GodModeDash.performed += OnPerformGodModeDash;
+        _input.Player.GodModeMagnet.performed += OnPerformGodModeMagnet;
+        _input.Player.GodModeRotation.performed += OnPerformGodModeRotation;
+        _input.Player.GodModePossess.performed += OnPerformGodModePossession;
+        _input.Player.GodModeSize.performed += OnPerformGodModeSize;
         _input.Enable();
     }
 
@@ -105,8 +110,43 @@ public class PlayerUpgrades : MonoBehaviour {
         }
     }
 
+    void OnPerformGodModeDash(InputAction.CallbackContext context) {
+        PlayerPrefs.SetInt("dash", 1);
+        PlayerPrefs.Save();
+    }
+
+    void OnPerformGodModeMagnet(InputAction.CallbackContext context) {
+        PlayerPrefs.SetInt("magnet", 1);
+        PlayerPrefs.Save();
+    }
+
+    void OnPerformGodModeRotation(InputAction.CallbackContext context) {
+        PlayerPrefs.SetInt("rotation", 1);
+        PlayerPrefs.Save();
+    }
+
+    void OnPerformGodModePossession(InputAction.CallbackContext context)
+    {
+        PlayerPrefs.SetInt("possession", 1);
+        PlayerPrefs.Save();
+    }
+
+    void OnPerformGodModeSize(InputAction.CallbackContext context) {
+        PlayerPrefs.SetInt("sizing", 1);
+        PlayerPrefs.Save();
+    }
+
     void OnDestroy() {
         _input.Player.Dash.started -= OnPerformDashStarted;
+        _input.Player.Rotation.performed -= OnPerformRotationStarted;
+        _input.Player.Magnet.performed -= OnPerformMagnetStarted;
+        _input.Player.Size.performed -= OnPerformSizeStarted;
+        _input.Player.Possess.performed -= OnPerformPossessionStarted;
+        _input.Player.GodModeDash.performed -= OnPerformGodModeDash;
+        _input.Player.GodModeMagnet.performed -= OnPerformGodModeMagnet;
+        _input.Player.GodModeRotation.performed -= OnPerformGodModeRotation;
+        _input.Player.GodModePossess.performed -= OnPerformGodModePossession;
+        _input.Player.GodModeSize.performed -= OnPerformGodModeSize;
         _input.Player.Disable();
     }
     #endregion
