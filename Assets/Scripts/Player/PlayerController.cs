@@ -103,9 +103,12 @@ public class PlayerController : MonoBehaviour {
     }
 
     void OnPerformXAxis(InputAction.CallbackContext context) {
-        if (context.ReadValue<Vector2>().normalized.x > 0) m_inputX = 1;
-        else if (context.ReadValue<Vector2>().normalized.x < 0) m_inputX = -1;
-        else m_inputX = 0;
+        if(_playerUpgrade.m_isDashing is false)
+        {
+            if (context.ReadValue<Vector2>().normalized.x > 0) m_inputX = 1;
+            else if (context.ReadValue<Vector2>().normalized.x < 0) m_inputX = -1;
+            else m_inputX = 0;
+        }
     }
 
     void OnPerformJumpCanceled(InputAction.CallbackContext context) {
