@@ -233,19 +233,19 @@ public class PlayerController : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                moveDirection += Vector3.down;
+                moveDirection += Vector3.up;
             }
             if (Input.GetKey(KeyCode.DownArrow))
             {
-                moveDirection += Vector3.up;
+                moveDirection += Vector3.down;
             }
             if (Input.GetKey(KeyCode.LeftArrow))
             {
-                moveDirection += Vector3.right;
+                moveDirection += Vector3.left;
             }
             if (Input.GetKey(KeyCode.RightArrow))
             {
-                moveDirection += Vector3.left;
+                moveDirection += Vector3.right;
             }
 
             transform.Translate(moveDirection.normalized * m_currentSpeed * Time.deltaTime);
