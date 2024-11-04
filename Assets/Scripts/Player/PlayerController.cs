@@ -201,6 +201,22 @@ public class PlayerController : MonoBehaviour {
     }
     #endregion
 
+    void HandleMagnetAttraction()
+    {
+        //Debug.Log("Player can be attracted : " + _playerUpgrade.m_canBeAttracted);
+        //Debug.Log("Player is attracted : " + _playerUpgrade.m_isAttracted);
+        //Debug.Log("_velocity : " + _velocity);
+
+
+
+        if (_playerUpgrade.m_canBeAttracted is true && _playerUpgrade.m_isAttracted is true)
+        {
+            Vector2 direction = (_playerUpgrade.m_magnet.transform.position - transform.position).normalized ;
+            _velocity = _playerUpgrade.m_attractionForce * direction;
+            
+        }
+    }
+
     void FixedUpdate() {
 
         if (_enableGodMode is false) {
@@ -218,9 +234,18 @@ public class PlayerController : MonoBehaviour {
             HandlePhysicsVelocityWenJumpTriggered();
             HandlePhysicsVelocityWhenJumpHandling();
 
-            HandleCheckCeilingVelocityReset();
 
-            ClampVelocity();
+
+
+        HandleMagnetAttraction();
+
+        ClampVelocity();
+
+
+
+
+        // _rigidbody.MovePosition((Vector2) transform.position + _velocity * Time.fixedDeltaTime);
+        _rigidbody.velocity = _velocity;
 
             // _rigidbody.MovePosition((Vector2) transform.position + _velocity * Time.fixedDeltaTime);
             _rigidbody.velocity = _velocity;
@@ -234,19 +259,19 @@ public class PlayerController : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                moveDirection += Vector3.down;
+                moveDirection += Vector3.up;
             }
             if (Input.GetKey(KeyCode.DownArrow))
             {
-                moveDirection += Vector3.up;
+                moveDirection += Vector3.down;
             }
             if (Input.GetKey(KeyCode.LeftArrow))
             {
-                moveDirection += Vector3.right;
+                moveDirection += Vector3.left;
             }
             if (Input.GetKey(KeyCode.RightArrow))
             {
-                moveDirection += Vector3.left;
+                moveDirection += Vector3.right;
             }
 
             transform.Translate(moveDirection.normalized * m_currentSpeed * Time.deltaTime);
@@ -390,7 +415,7 @@ public class PlayerController : MonoBehaviour {
 
     private void HandlePhysicsGravity()
     {
-        if (_physics.IsGrounded() && _velocity.y <= 0.01f)
+        if (_physics.IsGrounded() && _velocity.y <= 0.01f || (_playerUpgrade.m_canBeAttracted && _playerUpgrade.m_isAttracted))
         {
             _velocity.y = 0;
         }
@@ -449,5 +474,13 @@ public class PlayerController : MonoBehaviour {
 
     public void SetCurrentSpeed(float speed) {
         m_currentSpeed = speed;
+    }
+
+    public void ResetVelocity()
+    {
+        _velocity = Vector2.zero;
+        _rigidbody.velocity = _velocity;
+        Debug.Log("RESET VELOCITY");
+
     }
 }

@@ -22,13 +22,11 @@ public class PlayerUpgrades : MonoBehaviour {
     float _dashCooldownRemaining = 0f;
     float _initialSpeed;
 
-    [Header("Magnet settings")]
-    [SerializeField] float _attractionForce = 5f;
-    [SerializeField] float _stopDistance = 1f;
-    GameObject _magnet;
-    bool _isFreezed = false;
-    bool _isAttracted = false;
-    bool _canBeAttracted = false;
+    //[Header("Magnet settings")]
+    public GameObject m_magnet { get; private set; }
+    public float m_attractionForce { get; private set; } = 6;
+    public bool m_isAttracted { get; private set; } = false;
+    public bool m_canBeAttracted { get; private set; } = false;
 
     [Header("Possession settings")]
     [SerializeField] Vector3 _intermediatePos = new (1999.9f, 1999.9f, 0);
@@ -111,29 +109,58 @@ public class PlayerUpgrades : MonoBehaviour {
     }
 
     void OnPerformGodModeDash(InputAction.CallbackContext context) {
-        PlayerPrefs.SetInt("dash", 1);
-        PlayerPrefs.Save();
+        if (PlayerPrefs.HasKey("dash") && PlayerPrefs.GetInt("dash") == 0) {
+            PlayerPrefs.SetInt("dash", 1);
+            PlayerPrefs.Save();
+        }
+        else if (PlayerPrefs.HasKey("dash") && PlayerPrefs.GetInt("dash") == 1) {
+            PlayerPrefs.SetInt("dash", 0);
+            PlayerPrefs.Save();
+        }
     }
 
     void OnPerformGodModeMagnet(InputAction.CallbackContext context) {
-        PlayerPrefs.SetInt("magnet", 1);
-        PlayerPrefs.Save();
+        if (PlayerPrefs.HasKey("magnet") && PlayerPrefs.GetInt("magnet") == 0) {
+            PlayerPrefs.SetInt("magnet", 1);
+            PlayerPrefs.Save();
+        }
+        else if (PlayerPrefs.HasKey("magnet") && PlayerPrefs.GetInt("magnet") == 1) {
+            PlayerPrefs.SetInt("magnet", 0);
+            PlayerPrefs.Save();
+        }
     }
 
     void OnPerformGodModeRotation(InputAction.CallbackContext context) {
-        PlayerPrefs.SetInt("rotation", 1);
-        PlayerPrefs.Save();
+        if (PlayerPrefs.HasKey("rotation") && PlayerPrefs.GetInt("rotation") == 0) {
+            PlayerPrefs.SetInt("rotation", 1);
+            PlayerPrefs.Save();
+        }
+        else if (PlayerPrefs.HasKey("rotation") && PlayerPrefs.GetInt("rotation") == 1) {
+            PlayerPrefs.SetInt("rotation", 0);
+            PlayerPrefs.Save();
+        }
     }
 
-    void OnPerformGodModePossession(InputAction.CallbackContext context)
-    {
-        PlayerPrefs.SetInt("possession", 1);
-        PlayerPrefs.Save();
+    void OnPerformGodModePossession(InputAction.CallbackContext context) {
+        if (PlayerPrefs.HasKey("possession") && PlayerPrefs.GetInt("possession") == 0) {
+            PlayerPrefs.SetInt("possession", 1);
+            PlayerPrefs.Save();
+        }
+        else if (PlayerPrefs.HasKey("possession") && PlayerPrefs.GetInt("possession") == 1) {
+            PlayerPrefs.SetInt("possession", 0);
+            PlayerPrefs.Save();
+        }
     }
 
     void OnPerformGodModeSize(InputAction.CallbackContext context) {
-        PlayerPrefs.SetInt("sizing", 1);
-        PlayerPrefs.Save();
+        if (PlayerPrefs.HasKey("sizing") && PlayerPrefs.GetInt("sizing") == 0) {
+            PlayerPrefs.SetInt("sizing", 1);
+            PlayerPrefs.Save();
+        }
+        else if (PlayerPrefs.HasKey("sizing") && PlayerPrefs.GetInt("sizing") == 1) {
+            PlayerPrefs.SetInt("sizing", 0);
+            PlayerPrefs.Save();
+        }
     }
 
     void OnDestroy() {
@@ -152,6 +179,9 @@ public class PlayerUpgrades : MonoBehaviour {
     #endregion
 
     void Start() {
+        PlayerPrefs.SetInt("dash", 0);
+        PlayerPrefs.SetInt("sizing", 0);
+        PlayerPrefs.Save();
         _controller = GetComponent<PlayerController>();
         _rb = GetComponent<Rigidbody2D>();
 
@@ -164,6 +194,7 @@ public class PlayerUpgrades : MonoBehaviour {
     }
 
     void Update() {
+
         Collider2D[] objetsDetectes1 = Physics2D.OverlapCircleAll(transform.position, _detectionRay, _detectionLayer);
         if (objetsDetectes1.Length > 0) _isNextGear = true;
         else _isNextGear = false;
@@ -210,17 +241,12 @@ public class PlayerUpgrades : MonoBehaviour {
             }
         }
 
-        if (_canBeAttracted is false) _isAttracted = false;
-
-        if (_isAttracted is true && _isFreezed == false) {
-            AttractPlayer(_magnet);
-        }
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.CompareTag("Magnet") && _canBeAttracted) {
-            _magnet = other.gameObject;
-            _isAttracted = true;
+        if (other.gameObject.CompareTag("Magnet")) {
+            m_canBeAttracted = true;
+            m_magnet = other.gameObject;
         }
 
         if (other.gameObject.CompareTag("ControllableGear") && _canControl) {
@@ -239,6 +265,14 @@ public class PlayerUpgrades : MonoBehaviour {
             Rigidbody2D rb = _gearToControl.GetComponent<Rigidbody2D>();
             rb.constraints = RigidbodyConstraints2D.FreezePositionX;
         }
+
+        if (other.gameObject.CompareTag("Magnet"))
+        {
+            m_magnet = other.gameObject;
+            m_canBeAttracted = false;
+            Debug.Log("Exit magnetic field");
+        }
+
     }
 
     void OnDrawGizmosSelected() {
@@ -275,31 +309,16 @@ public class PlayerUpgrades : MonoBehaviour {
 
     #region Magnet Methods
     void ActivateAttraction() {
-        _canBeAttracted = !_canBeAttracted;
+        m_isAttracted = !m_isAttracted;
 
-        if (_canBeAttracted == false) {
-            _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            _isFreezed = false;
+
+        if (m_canBeAttracted == true)
+        {
+            _controller.ResetVelocity();
         }
     }
 
-    void AttractPlayer(GameObject magnet) {
 
-        Vector3 direction = (magnet.transform.position - transform.position).normalized;
-
-        if (_isFreezed == false) {
-            
-            transform.Translate(direction * _attractionForce * Time.deltaTime, Space.World);
-            
-            float distance = Vector3.Distance(transform.position, magnet.transform.position);
-
-            if (distance < _stopDistance) {
-                transform.position = magnet.transform.position - direction * _stopDistance;
-                _rb.constraints = RigidbodyConstraints2D.FreezeAll;
-                _isFreezed = true;
-            }
-        }
-    }
     #endregion
 
     #region Possession Methods
