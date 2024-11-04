@@ -184,6 +184,22 @@ public class PlayerController : MonoBehaviour {
     }
     #endregion
 
+    void HandleMagnetAttraction()
+    {
+        //Debug.Log("Player can be attracted : " + _playerUpgrade.m_canBeAttracted);
+        //Debug.Log("Player is attracted : " + _playerUpgrade.m_isAttracted);
+        //Debug.Log("_velocity : " + _velocity);
+
+
+
+        if (_playerUpgrade.m_canBeAttracted is true && _playerUpgrade.m_isAttracted is true)
+        {
+            Vector2 direction = (_playerUpgrade.m_magnet.transform.position - transform.position).normalized ;
+            _velocity = _playerUpgrade.m_attractionForce * direction;
+            
+        }
+    }
+
     void FixedUpdate() {
         // ORDER HAVE IMPORTANCE DON'T CHANGE THE ORDER UNLESS YOU KNOW WHAT YOU DO
         // ~ I never know what I'm doing .. :3
@@ -201,7 +217,15 @@ public class PlayerController : MonoBehaviour {
 
         HandleCheckCeilingVelocityReset();
 
+
+
+
+        HandleMagnetAttraction();
+
         ClampVelocity();
+
+
+
 
         // _rigidbody.MovePosition((Vector2) transform.position + _velocity * Time.fixedDeltaTime);
         _rigidbody.velocity = _velocity;
@@ -347,7 +371,7 @@ public class PlayerController : MonoBehaviour {
 
     private void HandlePhysicsGravity()
     {
-        if (_physics.IsGrounded() && _velocity.y <= 0.01f)
+        if (_physics.IsGrounded() && _velocity.y <= 0.01f || (_playerUpgrade.m_canBeAttracted && _playerUpgrade.m_isAttracted))
         {
             _velocity.y = 0;
         }
@@ -406,5 +430,13 @@ public class PlayerController : MonoBehaviour {
 
     public void SetCurrentSpeed(float speed) {
         m_currentSpeed = speed;
+    }
+
+    public void ResetVelocity()
+    {
+        _velocity = Vector2.zero;
+        _rigidbody.velocity = _velocity;
+        Debug.Log("RESET VELOCITY");
+
     }
 }

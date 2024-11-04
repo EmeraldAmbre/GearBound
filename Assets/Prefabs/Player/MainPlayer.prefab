@@ -359,7 +359,7 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 4352
+    m_Bits: 20736
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 3831
@@ -444,7 +444,7 @@ MonoBehaviour:
   - {fileID: 0}
   _invincibilityTime: 2
   _invincibilityFrame: 0.1
-  _spriteRenderer: {fileID: 0}
+  _spriteRenderer: {fileID: 2230544721094278696}
   m_maxLife: 8
   m_playerLife: 0
 --- !u!114 &3756639636478510469
