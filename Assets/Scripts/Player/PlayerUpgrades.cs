@@ -63,31 +63,53 @@ public class PlayerUpgrades : MonoBehaviour {
 
     #region Input Methods
 
-    void InitInput()
-    {
+    void InitInput() {
         _input = new();
         _input.Player.Dash.performed += OnPerformDashStarted;
+        _input.Player.Rotation.performed += OnPerformRotationStarted;
+        _input.Player.Magnet.performed += OnPerformMagnetStarted;
+        _input.Player.Size.performed += OnPerformSizeStarted;
+        _input.Player.Possess.performed += OnPerformPossessionStarted;
         _input.Enable();
     }
 
-    void OnPerformDashStarted(InputAction.CallbackContext context)
-    {
-        if (_dashCooldownRemaining <= 0 && (PlayerPrefs.GetInt("dash") == 1 && PlayerPrefs.HasKey("dash")))
-        {
+    void OnPerformDashStarted(InputAction.CallbackContext context) {
+        if (_dashCooldownRemaining <= 0 && (PlayerPrefs.GetInt("dash") == 1 && PlayerPrefs.HasKey("dash"))) {
             StartDash();
             Debug.Log("StartDash");
         }
     }
 
+    void OnPerformRotationStarted(InputAction.CallbackContext context) {
+        if (PlayerPrefs.GetInt("rotation") == 1 && PlayerPrefs.HasKey("rotation")) {
+            InverseRotation();
+        }
+    }
 
-    void OnDestroy()
-    {
+    void OnPerformMagnetStarted(InputAction.CallbackContext context) {
+        if (PlayerPrefs.GetInt("magnet") == 1 && PlayerPrefs.HasKey("magnet")) {
+            ActivateAttraction();
+        }
+    }
+
+    void OnPerformSizeStarted(InputAction.CallbackContext context) {
+        if (PlayerPrefs.GetInt("sizing") == 1 && PlayerPrefs.HasKey("sizing")) {
+            Resizing();
+        }
+    }
+
+    void OnPerformPossessionStarted(InputAction.CallbackContext context) {
+        if (_canControl && _gearToControl != null) {
+            if (_isPossessed is false) Possess();
+            else Depossess();
+        }
+    }
+
+    void OnDestroy() {
         _input.Player.Dash.started -= OnPerformDashStarted;
         _input.Player.Disable();
     }
     #endregion
-
-
 
     void Start() {
         _controller = GetComponent<PlayerController>();
@@ -110,26 +132,26 @@ public class PlayerUpgrades : MonoBehaviour {
             _dashCooldownRemaining -= Time.deltaTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.I) && PlayerPrefs.HasKey("sizing")) {
-            if (PlayerPrefs.GetInt("sizing") == 1) Resizing();
-        }
-
         if (PlayerPrefs.HasKey("possession")) {
             if (PlayerPrefs.GetInt("possession") == 1) _canControl = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.H) && _canControl && _gearToControl != null) {
-            if (_isPossessed == false) Possess();
-            else Depossess();
-        }
+        //if (Input.GetKeyDown(KeyCode.I) && PlayerPrefs.HasKey("sizing")) {
+        //    if (PlayerPrefs.GetInt("sizing") == 1) Resizing();
+        //}
 
-        if (Input.GetKeyDown(KeyCode.G) && PlayerPrefs.HasKey("magnet")) {
-            if (PlayerPrefs.GetInt("magnet") == 1) ActivateAttraction();
-        }
+        //if (Input.GetKeyDown(KeyCode.H) && _canControl && _gearToControl != null) {
+        //    if (_isPossessed == false) Possess();
+        //    else Depossess();
+        //}
 
-        if (Input.GetKeyDown(KeyCode.F) && PlayerPrefs.HasKey("rotation")) {
-            if (PlayerPrefs.GetInt("rotation") == 1) InverseRotation();
-        }
+        //if (Input.GetKeyDown(KeyCode.G) && PlayerPrefs.HasKey("magnet")) {
+        //    if (PlayerPrefs.GetInt("magnet") == 1) ActivateAttraction();
+        //}
+
+        //if (Input.GetKeyDown(KeyCode.F) && PlayerPrefs.HasKey("rotation")) {
+        //    if (PlayerPrefs.GetInt("rotation") == 1) InverseRotation();
+        //}
 
         //if (Input.GetKeyDown(KeyCode.E) && _dashCooldownRemaining <= 0 && PlayerPrefs.HasKey("dash"))
         //{

@@ -31,7 +31,7 @@ public class PlayerManager : MonoBehaviour {
         if (instance == null) { instance = this; }
         else { Destroy(gameObject); }
 
-        if (_spriteRenderer == null) _spriteRenderer = GetComponent<SpriteRenderer>();
+        if (_spriteRenderer == null) _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         if (PlayerPrefs.HasKey("max_player_life")) m_maxLife = PlayerPrefs.GetInt("max_player_life");
 
@@ -155,6 +155,7 @@ public class PlayerManager : MonoBehaviour {
 
     private IEnumerator Invincibility() {
 
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         m_isInvincible = true;
         float timer = 0f;
 
