@@ -230,6 +230,7 @@ public class PlayerController : MonoBehaviour {
 
         else {
             Vector3 moveDirection = Vector3.zero;
+            transform.rotation = Quaternion.identity;
 
             if (Input.GetKey(KeyCode.UpArrow))
             {
