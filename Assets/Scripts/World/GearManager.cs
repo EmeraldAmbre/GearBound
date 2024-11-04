@@ -52,10 +52,13 @@ public class GearManager : MonoBehaviour {
         {
             if (_player.m_inputX != 0)
             {
+                int directionRotationUpgrade = _player.m_rotationInversion ? -1 : 1;
+
                 _gearRigidbody.freezeRotation = false;
 
                 int gearPlayerRotationDirection = _player.m_currentGearRotation > 0 ? 1 : -1;
                 if(_isReversingRotationEffectOnMechanism) gearPlayerRotationDirection *= -1;
+                gearPlayerRotationDirection *= directionRotationUpgrade;
 
                 if (!_isActivatingDifferentMechanismByDirection && !_isActivatingSeveralMechanism && _gearMechanismToActivate != null)
                 {
