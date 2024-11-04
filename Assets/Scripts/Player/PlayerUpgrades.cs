@@ -109,29 +109,58 @@ public class PlayerUpgrades : MonoBehaviour {
     }
 
     void OnPerformGodModeDash(InputAction.CallbackContext context) {
-        PlayerPrefs.SetInt("dash", 1);
-        PlayerPrefs.Save();
+        if (PlayerPrefs.HasKey("dash") && PlayerPrefs.GetInt("dash") == 0) {
+            PlayerPrefs.SetInt("dash", 1);
+            PlayerPrefs.Save();
+        }
+        else if (PlayerPrefs.HasKey("dash") && PlayerPrefs.GetInt("dash") == 1) {
+            PlayerPrefs.SetInt("dash", 0);
+            PlayerPrefs.Save();
+        }
     }
 
     void OnPerformGodModeMagnet(InputAction.CallbackContext context) {
-        PlayerPrefs.SetInt("magnet", 1);
-        PlayerPrefs.Save();
+        if (PlayerPrefs.HasKey("magnet") && PlayerPrefs.GetInt("magnet") == 0) {
+            PlayerPrefs.SetInt("magnet", 1);
+            PlayerPrefs.Save();
+        }
+        else if (PlayerPrefs.HasKey("magnet") && PlayerPrefs.GetInt("magnet") == 1) {
+            PlayerPrefs.SetInt("magnet", 0);
+            PlayerPrefs.Save();
+        }
     }
 
     void OnPerformGodModeRotation(InputAction.CallbackContext context) {
-        PlayerPrefs.SetInt("rotation", 1);
-        PlayerPrefs.Save();
+        if (PlayerPrefs.HasKey("rotation") && PlayerPrefs.GetInt("rotation") == 0) {
+            PlayerPrefs.SetInt("rotation", 1);
+            PlayerPrefs.Save();
+        }
+        else if (PlayerPrefs.HasKey("rotation") && PlayerPrefs.GetInt("rotation") == 1) {
+            PlayerPrefs.SetInt("rotation", 0);
+            PlayerPrefs.Save();
+        }
     }
 
-    void OnPerformGodModePossession(InputAction.CallbackContext context)
-    {
-        PlayerPrefs.SetInt("possession", 1);
-        PlayerPrefs.Save();
+    void OnPerformGodModePossession(InputAction.CallbackContext context) {
+        if (PlayerPrefs.HasKey("possession") && PlayerPrefs.GetInt("possession") == 0) {
+            PlayerPrefs.SetInt("possession", 1);
+            PlayerPrefs.Save();
+        }
+        else if (PlayerPrefs.HasKey("possession") && PlayerPrefs.GetInt("possession") == 1) {
+            PlayerPrefs.SetInt("possession", 0);
+            PlayerPrefs.Save();
+        }
     }
 
     void OnPerformGodModeSize(InputAction.CallbackContext context) {
-        PlayerPrefs.SetInt("sizing", 1);
-        PlayerPrefs.Save();
+        if (PlayerPrefs.HasKey("sizing") && PlayerPrefs.GetInt("sizing") == 0) {
+            PlayerPrefs.SetInt("sizing", 1);
+            PlayerPrefs.Save();
+        }
+        else if (PlayerPrefs.HasKey("sizing") && PlayerPrefs.GetInt("sizing") == 1) {
+            PlayerPrefs.SetInt("sizing", 0);
+            PlayerPrefs.Save();
+        }
     }
 
     void OnDestroy() {
@@ -150,6 +179,9 @@ public class PlayerUpgrades : MonoBehaviour {
     #endregion
 
     void Start() {
+        PlayerPrefs.SetInt("dash", 0);
+        PlayerPrefs.SetInt("sizing", 0);
+        PlayerPrefs.Save();
         _controller = GetComponent<PlayerController>();
         _rb = GetComponent<Rigidbody2D>();
 

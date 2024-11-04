@@ -713,7 +713,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""binding"",
                     ""id"": ""5f081b83-f66c-4b98-a768-8b2f8bed3390"",
-                    ""path"": ""<Keyboard>/5"",
+                    ""path"": ""<Keyboard>/7"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
