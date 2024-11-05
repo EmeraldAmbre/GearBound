@@ -27,6 +27,10 @@ public class PulleySystem : GearMechanism
     bool _isPulleyWithDynamicRigidBody = false;
     [SerializeField]  bool _isAddingConstantVelocityToRigidbody = false;
     Rigidbody2D _dynamicRigidBody;
+
+
+    Vector2 _forceToApplyOnRigidbody = Vector2.zero;
+
     private void Start()
     {
         _initialPosition = transform.position;
@@ -58,7 +62,8 @@ public class PulleySystem : GearMechanism
         if(_isLocked == false)
         {
             base.ActivateOnce(gearRotationDirection, gearRotationScale);
-            Move(gearRotationDirection, gearRotationScale);
+            if(_dynamicRigidBody != null) ApplyForce(gearRotationDirection, gearRotationScale);
+            else Move(gearRotationDirection, gearRotationScale);
         }
         handleThresholdCheck();
     }
@@ -68,7 +73,8 @@ public class PulleySystem : GearMechanism
         if (_isLocked == false)
         {
             base.ActivateOnce(gearRotationDirection, 1);
-            Move(gearRotationDirection, 1);
+            if (_dynamicRigidBody != null) ApplyForce(gearRotationDirection, 1);
+            else Move(gearRotationDirection, 1);
         }
         handleThresholdCheck();
     }
@@ -80,22 +86,33 @@ public class PulleySystem : GearMechanism
         {
             if (transform.position.y + pulleyHeight / 2 < yMaxheight)
             {
-                if (_isPulleyWithDynamicRigidBody)
-                {
-                    if (_isAddingConstantVelocityToRigidbody is not true) _dynamicRigidBody.velocity = Vector2.up * _pulleySpeed * gearRotationScale;
-                    else _dynamicRigidBody.AddForce(Vector2.up * _pulleySpeed * gearRotationScale);
-                }
-                else transform.Translate(Vector2.up * _pulleySpeed * gearRotationScale * Time.deltaTime);
+                transform.Translate(Vector2.up * _pulleySpeed * gearRotationScale * Time.deltaTime);
             }
         }
         else if (gearRotationDirection == -1)
         {
             if (transform.position.y - pulleyHeight / 2 > yMinheight)
             {
-
-                //if (_isPulleyWithDynamicRigidBody) _dynamicRigidBody.velocity = Vector2.down * _pulleySpeed * gearRotationScale;
                 transform.Translate(Vector2.down * _pulleySpeed * gearRotationScale * Time.deltaTime);
             } 
+        }
+    }
+
+    private void ApplyForce(int gearRotationDirection, float gearRotationScale)
+    {
+        if (gearRotationDirection == 1)
+        {
+            if (transform.position.y + pulleyHeight / 2 < yMaxheight)
+            {
+                _forceToApplyOnRigidbody = Vector2.up * _pulleySpeed * gearRotationScale;
+            }
+        }
+        else if (gearRotationDirection == -1)
+        {
+            if (transform.position.y - pulleyHeight / 2 > yMinheight)
+            {
+                _forceToApplyOnRigidbody = Vector2.up * _pulleySpeed * gearRotationScale;
+            }
         }
     }
 
@@ -115,6 +132,18 @@ public class PulleySystem : GearMechanism
             }
 
         }
+    }
+
+
+    private void FixedUpdate()
+    {
+        if(_dynamicRigidBody != null) Debug.Log("_forceToApplyOnRigidbody : " + _forceToApplyOnRigidbody);
+        if (_forceToApplyOnRigidbody != Vector2.zero && _dynamicRigidBody != null && _forceToApplyOnRigidbody.y  > 0)
+        {
+            if (_isAddingConstantVelocityToRigidbody is true) _dynamicRigidBody.velocity = _forceToApplyOnRigidbody;
+            else _dynamicRigidBody.AddForce(_forceToApplyOnRigidbody ,ForceMode2D.Force) ;
+        }
+        _forceToApplyOnRigidbody = Vector2.zero;
     }
 
     private void OnDrawGizmos()

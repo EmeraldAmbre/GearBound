@@ -21,6 +21,15 @@ public class RoomSpinner : GearMechanism
         else if (gearRotationDirection == -1)transform.Rotate(0, 0, -_spinningSpeed * Time.deltaTime);
     }
 
+    public override void ActivateOnce(int gearRotationDirection, float gearRotationScale)
+    {
+        base.ActivateOnce(gearRotationDirection , gearRotationScale);
+        float rotation = transform.rotation.z;
+
+        if (gearRotationDirection == 1) transform.Rotate(0, 0, _spinningSpeed * gearRotationScale * Time.deltaTime);
+        else if (gearRotationDirection == -1) transform.Rotate(0, 0, -_spinningSpeed * gearRotationScale * Time.deltaTime);
+    }
+
     public override void Update()
     {
         base.Update();

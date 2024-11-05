@@ -81,6 +81,8 @@ public class PlayerController : MonoBehaviour {
     PlayerInputAction _input;
     PlayerUpgrades _playerUpgrade;
 
+    bool _enableGodMode;
+
     void Start() {
         _physics = GetComponent<PlayerCompositePhysics>();
         _playerManager = GetComponent<PlayerManager>();
@@ -99,13 +101,17 @@ public class PlayerController : MonoBehaviour {
         _input.Player.Jump.started += OnPerformJumpStarted;
         _input.Player.Jump.canceled += OnPerformJumpCanceled;
         _input.Player.Movement.performed += OnPerformXAxis;
+        _input.Player.GodModeMove.performed += OnPerformGodModeMove;
         _input.Enable();
     }
 
     void OnPerformXAxis(InputAction.CallbackContext context) {
-        if (context.ReadValue<Vector2>().normalized.x > 0) m_inputX = 1;
-        else if (context.ReadValue<Vector2>().normalized.x < 0) m_inputX = -1;
-        else m_inputX = 0;
+        if(_playerUpgrade.m_isDashing is false)
+        {
+            if (context.ReadValue<Vector2>().normalized.x > 0) m_inputX = 1;
+            else if (context.ReadValue<Vector2>().normalized.x < 0) m_inputX = -1;
+            else m_inputX = 0;
+        }
     }
 
     void OnPerformJumpCanceled(InputAction.CallbackContext context) {
@@ -133,10 +139,21 @@ public class PlayerController : MonoBehaviour {
 
     }
 
+    void OnPerformGodModeMove(InputAction.CallbackContext context) {
+        _enableGodMode = !_enableGodMode;
+        if (_enableGodMode) {
+            _rigidbody.isKinematic = true;
+        }
+        else {
+            _rigidbody.isKinematic = false;
+        }
+    }
+
     void OnDestroy() {
         _input.Player.Jump.started -= OnPerformJumpStarted;
         _input.Player.Jump.canceled -= OnPerformJumpCanceled;
         _input.Player.Movement.performed -= OnPerformXAxis;
+        _input.Player.GodModeMove.performed -= OnPerformGodModeMove;
         _input.Player.Disable();
     } 
     #endregion
@@ -184,30 +201,82 @@ public class PlayerController : MonoBehaviour {
     }
     #endregion
 
+    void HandleMagnetAttraction()
+    {
+        //Debug.Log("Player can be attracted : " + _playerUpgrade.m_canBeAttracted);
+        //Debug.Log("Player is attracted : " + _playerUpgrade.m_isAttracted);
+        //Debug.Log("_velocity : " + _velocity);
+
+
+
+        if (_playerUpgrade.m_canBeAttracted is true && _playerUpgrade.m_isAttracted is true)
+        {
+            Vector2 direction = (_playerUpgrade.m_magnet.transform.position - transform.position).normalized ;
+            _velocity = _playerUpgrade.m_attractionForce * direction;
+            
+        }
+    }
+
     void FixedUpdate() {
-        // ORDER HAVE IMPORTANCE DON'T CHANGE THE ORDER UNLESS YOU KNOW WHAT YOU DO
-        // ~ I never know what I'm doing .. :3
-        //_rigidbody.velocity = Vector2.zero;
 
-        HandleCheckSlopePhysicsMaterialReset();
+        if (_enableGodMode is false) 
+        {
+            // ORDER HAVE IMPORTANCE DON'T CHANGE THE ORDER UNLESS YOU KNOW WHAT YOU DO
+            // ~ I never know what I'm doing .. :3
+            //_rigidbody.velocity = Vector2.zero;
 
-        HandlePhysicsGravityChange();
-        HandlePhysicsGravity();
+            HandleCheckSlopePhysicsMaterialReset();
 
-        HandlePhysicsXMovement();
+            HandlePhysicsGravityChange();
+            HandlePhysicsGravity();
 
-        HandlePhysicsVelocityWenJumpTriggered();
-        HandlePhysicsVelocityWhenJumpHandling();
+            HandlePhysicsXMovement();
 
-        HandleCheckCeilingVelocityReset();
+            HandlePhysicsVelocityWenJumpTriggered();
+            HandlePhysicsVelocityWhenJumpHandling();
 
-        ClampVelocity();
+
+
+            HandleCheckCeilingVelocityReset();
+            HandleMagnetAttraction();
+
+            ClampVelocity();
+
+
+
 
         // _rigidbody.MovePosition((Vector2) transform.position + _velocity * Time.fixedDeltaTime);
         _rigidbody.velocity = _velocity;
 
-        UpdateGearRotation();
+            // _rigidbody.MovePosition((Vector2) transform.position + _velocity * Time.fixedDeltaTime);
+            _rigidbody.velocity = _velocity;
 
+            UpdateGearRotation();
+        }
+
+        else {
+            Vector3 moveDirection = Vector3.zero;
+            transform.rotation = Quaternion.identity;
+
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                moveDirection += Vector3.up;
+            }
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                moveDirection += Vector3.down;
+            }
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                moveDirection += Vector3.left;
+            }
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                moveDirection += Vector3.right;
+            }
+
+            transform.Translate(moveDirection.normalized * m_currentSpeed * Time.deltaTime);
+        }
     }
 
     #region Physics methods for FixedUpdate()
@@ -347,7 +416,7 @@ public class PlayerController : MonoBehaviour {
 
     private void HandlePhysicsGravity()
     {
-        if (_physics.IsGrounded() && _velocity.y <= 0.01f)
+        if (_physics.IsGrounded() && _velocity.y <= 0.01f || (_playerUpgrade.m_canBeAttracted && _playerUpgrade.m_isAttracted))
         {
             _velocity.y = 0;
         }
@@ -406,5 +475,13 @@ public class PlayerController : MonoBehaviour {
 
     public void SetCurrentSpeed(float speed) {
         m_currentSpeed = speed;
+    }
+
+    public void ResetVelocity()
+    {
+        _velocity = Vector2.zero;
+        _rigidbody.velocity = _velocity;
+        Debug.Log("RESET VELOCITY");
+
     }
 }

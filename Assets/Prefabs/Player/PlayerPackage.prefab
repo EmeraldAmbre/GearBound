@@ -184,8 +184,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 1
   m_FollowOffset: {x: 0, y: 0, z: -10}
-  m_XDamping: 1
-  m_YDamping: 1
+  m_XDamping: 0.4
+  m_YDamping: 0.2
   m_ZDamping: 1
   m_AngularDampingMode: 0
   m_PitchDamping: 0
@@ -374,7 +374,7 @@ MonoBehaviour:
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
     m_Style: 2
-    m_Time: 0.5
+    m_Time: 0.8
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []
@@ -872,10 +872,6 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5312793714340410458, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
-      propertyPath: _spriteRenderer
-      value: 
-      objectReference: {fileID: 620635519897802109}
-    - target: {fileID: 5312793714340410458, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _demiHearts.Array.data[0]
       value: 
       objectReference: {fileID: 5090512104282843776}
@@ -1000,16 +996,14 @@ MonoBehaviour:
   _detectionLayer:
     serializedVersion: 2
     m_Bits: 256
-  _dashSpeed: 30
+  _dashSpeed: 22
   _dashCooldown: 0.5
-  _dashDuration: 0.18
+  _dashDuration: 0.15
   _gearRotationDashMultiplier: 3
-  _attractionForce: 8
-  _stopDistance: 1
   _intermediatePos: {x: 1999.9, y: 1999.9, z: 0}
   _gearToControl: {fileID: 0}
-  _xDamping: 4
-  _yDamping: 4
+  _xDamping: 0.4
+  _yDamping: 0.2
   _zDamping: 4
   _virtualCamera: {fileID: 1366588519002608153}
   _spriteRendererFromPlayerPrefab: {fileID: 5181676703395562105, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
@@ -1017,11 +1011,6 @@ MonoBehaviour:
   _isPlayerFreezeWhenPossessed: 0
   _growMultiplier: 2
   _shrinkMultiplier: 0.5
---- !u!212 &620635519897802109 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 5181676703395562105, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
-  m_PrefabInstance: {fileID: 5725749912859105028}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3843861729468196715 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8803922459995369583, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}

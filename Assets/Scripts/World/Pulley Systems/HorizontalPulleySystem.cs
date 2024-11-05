@@ -44,6 +44,22 @@ public class HorizontalPulleySystem : GearMechanism
     }
 
 
+    public override void ActivateOnce(int gearRotationDirection , float gearRotationScale)
+    {
+        base.ActivateOnce(gearRotationDirection);
+        if (gearRotationDirection == 1)
+        {
+            if (currentPosX + boxWidth / 2 < _initialPosition.x + _maxRight + boxWidth / 2) transform.Translate(Vector2.right * _pulleySpeed * gearRotationScale * Time.deltaTime);
+        }
+        else if (gearRotationDirection == -1)
+        {
+            if (currentPosX - boxHeight / 2 > _initialPosition.x - _maxLeft - boxHeight / 2) transform.Translate(Vector2.left * _pulleySpeed * gearRotationScale * Time.deltaTime);
+        }
+        currentPosX = transform.position.x;
+
+    }
+
+
     private void OnDrawGizmos()
     {
         if (Application.isEditor && _initialPosition == Vector2.zero) _initialPosition = transform.position;
