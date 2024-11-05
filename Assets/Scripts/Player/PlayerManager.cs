@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Windows;
 
 public class PlayerManager : MonoBehaviour {
 
@@ -16,6 +18,8 @@ public class PlayerManager : MonoBehaviour {
     [SerializeField] private float _invincibilityTime = 2f;
     [SerializeField] private float _invincibilityFrame = 0.1f;
     [SerializeField] private SpriteRenderer _spriteRenderer;
+
+    PlayerInputAction _input;
 
     #region Public Variables
     public int m_maxLife = 2;
@@ -31,7 +35,7 @@ public class PlayerManager : MonoBehaviour {
         if (instance == null) { instance = this; }
         else { Destroy(gameObject); }
 
-        if (_spriteRenderer == null) _spriteRenderer = GetComponent<SpriteRenderer>();
+        if (_spriteRenderer == null) _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         if (PlayerPrefs.HasKey("max_player_life")) m_maxLife = PlayerPrefs.GetInt("max_player_life");
 
@@ -70,10 +74,48 @@ public class PlayerManager : MonoBehaviour {
             PlayerPrefs.Save();
             isRespawn = false;
         }
+
+        InitInput();
     }
 
     void Update() {
         LifeUpdate();
+    }
+
+    void InitInput() {
+        _input = new();
+        _input.Player.GodModeLifeUp.performed += OnPerformGodModeLifeUp;
+        _input.Player.GodModeLvl1.performed += OnPerformGodModeScene1;
+        _input.Player.GodModeLvl2.performed += OnPerformGodModeScene2;
+        _input.Player.GodModeLvl3.performed += OnPerformGodModeScene3;
+        _input.Enable();
+    }
+
+    void OnDestroy() {
+        _input.Player.GodModeLifeUp.performed -= OnPerformGodModeLifeUp;
+        _input.Player.GodModeLvl1.performed -= OnPerformGodModeScene1;
+        _input.Player.GodModeLvl2.performed -= OnPerformGodModeScene2;
+        _input.Player.GodModeLvl3.performed -= OnPerformGodModeScene3;
+        _input.Player.Disable();
+    }
+
+    void OnPerformGodModeLifeUp(InputAction.CallbackContext context) {
+        LifeUpgrade();
+    }
+
+    void OnPerformGodModeScene1(InputAction.CallbackContext context) {
+        ChangeRoom();
+        SceneManager.LoadScene("Room 1");
+    }
+
+    void OnPerformGodModeScene2(InputAction.CallbackContext context) {
+        ChangeRoom();
+        SceneManager.LoadScene("Room 2");
+    }
+
+    void OnPerformGodModeScene3(InputAction.CallbackContext context) {
+        ChangeRoom();
+        SceneManager.LoadScene("Room 3");
     }
     #endregion
 
@@ -155,6 +197,7 @@ public class PlayerManager : MonoBehaviour {
 
     private IEnumerator Invincibility() {
 
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         m_isInvincible = true;
         float timer = 0f;
 
