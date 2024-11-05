@@ -184,8 +184,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 1
   m_FollowOffset: {x: 0, y: 0, z: -10}
-  m_XDamping: 1
-  m_YDamping: 1
+  m_XDamping: 0.4
+  m_YDamping: 0.2
   m_ZDamping: 1
   m_AngularDampingMode: 0
   m_PitchDamping: 0
@@ -1002,8 +1002,8 @@ MonoBehaviour:
   _gearRotationDashMultiplier: 3
   _intermediatePos: {x: 1999.9, y: 1999.9, z: 0}
   _gearToControl: {fileID: 0}
-  _xDamping: 4
-  _yDamping: 4
+  _xDamping: 0.4
+  _yDamping: 0.2
   _zDamping: 4
   _virtualCamera: {fileID: 1366588519002608153}
   _spriteRendererFromPlayerPrefab: {fileID: 5181676703395562105, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
