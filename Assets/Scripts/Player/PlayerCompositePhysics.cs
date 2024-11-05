@@ -70,6 +70,16 @@ public class PlayerCompositePhysics : MonoBehaviour {
         else return false;
     }
 
+    public bool IsOnWallAndWallGears()
+    {
+        if (Physics2D.OverlapCircle(GetWallCheckerCircleCollider(1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _plateformLayer)
+             || Physics2D.OverlapCircle(GetWallCheckerCircleCollider(1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _gearLayer)
+             || Physics2D.OverlapCircle(GetWallCheckerCircleCollider(-1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _plateformLayer)
+             || Physics2D.OverlapCircle(GetWallCheckerCircleCollider(-1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x, _gearLayer)
+        ) return true;
+        else return false;
+    }
+
     private void Update()
     {
      

@@ -137,7 +137,6 @@ public class PulleySystem : GearMechanism
 
     private void FixedUpdate()
     {
-        if(_dynamicRigidBody != null) Debug.Log("_forceToApplyOnRigidbody : " + _forceToApplyOnRigidbody);
         if (_forceToApplyOnRigidbody != Vector2.zero && _dynamicRigidBody != null && _forceToApplyOnRigidbody.y  > 0)
         {
             if (_isAddingConstantVelocityToRigidbody is true) _dynamicRigidBody.velocity = _forceToApplyOnRigidbody;

@@ -394,7 +394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3732418e5c5e3b74395fd516cf053856, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _groundCheckOffsetLenght: 0.1
+  _groundCheckOffsetLenght: 0.3
   _groundCheckerCircleCollider: {fileID: 6851194340151364688}
   _ceilingCheckOffsetLenght: 0.5
   _ceilingCheckerCircleCollider: {fileID: 2600229863370230145}
@@ -406,7 +406,7 @@ MonoBehaviour:
     m_Bits: 64
   _gearLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4352
   m_isOnContactWithGearWall: 0
   m_gearWallDirection: 0
 --- !u!114 &5312793714340410458
@@ -461,7 +461,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _initMoveSpeed: 7
   _groundAcceleration: 7
-  _groundDeceleration: 12
+  _groundDeceleration: 0.7
   _airAcceleration: 6
   _airDeceleration: 1
   _velocityXMax: 20000
@@ -488,7 +488,7 @@ MonoBehaviour:
   _gearAirRotationSpeed: 3.5
   _onGearWallGearRotationSpeed: 300
   _gearRotationAcceleration: 0.3
-  _gearRotationDeceleration: 1
+  _gearRotationDeceleration: 0.3
   _onGearWallGearGravity: 0
   _airGearWallJumpAcceleration: 3
   _airGearWallJumpDeceleration: 25
