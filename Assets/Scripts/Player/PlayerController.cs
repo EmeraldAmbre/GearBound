@@ -219,7 +219,8 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate() {
 
-        if (_enableGodMode is false) {
+        if (_enableGodMode is false) 
+        {
             // ORDER HAVE IMPORTANCE DON'T CHANGE THE ORDER UNLESS YOU KNOW WHAT YOU DO
             // ~ I never know what I'm doing .. :3
             //_rigidbody.velocity = Vector2.zero;
@@ -236,10 +237,10 @@ public class PlayerController : MonoBehaviour {
 
 
 
+            HandleCheckCeilingVelocityReset();
+            HandleMagnetAttraction();
 
-        HandleMagnetAttraction();
-
-        ClampVelocity();
+            ClampVelocity();
 
 
 
