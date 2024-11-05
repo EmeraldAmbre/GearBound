@@ -377,18 +377,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3622188333969508532, guid: 14996210a876e3b4e991b3d325a4b68a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4357335451521817746, guid: 14996210a876e3b4e991b3d325a4b68a, type: 3}
       propertyPath: m_Name
       value: Upgrade - Sizing
       objectReference: {fileID: 0}
     - target: {fileID: 4357335451521817746, guid: 14996210a876e3b4e991b3d325a4b68a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6561605848900433907, guid: 14996210a876e3b4e991b3d325a4b68a, type: 3}
       propertyPath: _textBox
       value: 
       objectReference: {fileID: 1439495440}
+    - target: {fileID: 8695193368934085532, guid: 14996210a876e3b4e991b3d325a4b68a, type: 3}
+      propertyPath: m_text
+      value: 'TO MODIFY YOUR SIZE :
+
+        PRESS I
+
+        (L2 BUTTON ON GAMEPAD)'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
