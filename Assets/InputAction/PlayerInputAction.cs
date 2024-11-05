@@ -179,6 +179,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CloseBoxText"",
+                    ""type"": ""Button"",
+                    ""id"": ""dac5bd59-dabe-4df5-b19e-0f8887d81be0"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -984,6 +993,28 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""GodModeMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bac43b0a-61bb-481a-a038-44b8ecbd1946"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CloseBoxText"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f52a2c6b-eb0e-4175-8393-7f9e42c3d7d0"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CloseBoxText"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1009,6 +1040,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_GodModeLvl2 = m_Player.FindAction("GodModeLvl2", throwIfNotFound: true);
         m_Player_GodModeLvl3 = m_Player.FindAction("GodModeLvl3", throwIfNotFound: true);
         m_Player_GodModeMove = m_Player.FindAction("GodModeMove", throwIfNotFound: true);
+        m_Player_CloseBoxText = m_Player.FindAction("CloseBoxText", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
@@ -1092,6 +1124,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_GodModeLvl2;
     private readonly InputAction m_Player_GodModeLvl3;
     private readonly InputAction m_Player_GodModeMove;
+    private readonly InputAction m_Player_CloseBoxText;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -1113,6 +1146,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @GodModeLvl2 => m_Wrapper.m_Player_GodModeLvl2;
         public InputAction @GodModeLvl3 => m_Wrapper.m_Player_GodModeLvl3;
         public InputAction @GodModeMove => m_Wrapper.m_Player_GodModeMove;
+        public InputAction @CloseBoxText => m_Wrapper.m_Player_CloseBoxText;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1173,6 +1207,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @GodModeMove.started += instance.OnGodModeMove;
             @GodModeMove.performed += instance.OnGodModeMove;
             @GodModeMove.canceled += instance.OnGodModeMove;
+            @CloseBoxText.started += instance.OnCloseBoxText;
+            @CloseBoxText.performed += instance.OnCloseBoxText;
+            @CloseBoxText.canceled += instance.OnCloseBoxText;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1228,6 +1265,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @GodModeMove.started -= instance.OnGodModeMove;
             @GodModeMove.performed -= instance.OnGodModeMove;
             @GodModeMove.canceled -= instance.OnGodModeMove;
+            @CloseBoxText.started -= instance.OnCloseBoxText;
+            @CloseBoxText.performed -= instance.OnCloseBoxText;
+            @CloseBoxText.canceled -= instance.OnCloseBoxText;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1264,5 +1304,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnGodModeLvl2(InputAction.CallbackContext context);
         void OnGodModeLvl3(InputAction.CallbackContext context);
         void OnGodModeMove(InputAction.CallbackContext context);
+        void OnCloseBoxText(InputAction.CallbackContext context);
     }
 }
