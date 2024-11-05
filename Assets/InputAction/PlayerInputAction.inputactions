@@ -157,6 +157,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CloseBoxText",
+                    "type": "Button",
+                    "id": "dac5bd59-dabe-4df5-b19e-0f8887d81be0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -962,6 +971,28 @@
                     "action": "GodModeMove",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "bac43b0a-61bb-481a-a038-44b8ecbd1946",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CloseBoxText",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f52a2c6b-eb0e-4175-8393-7f9e42c3d7d0",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CloseBoxText",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
