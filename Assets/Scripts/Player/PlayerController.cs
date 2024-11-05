@@ -416,14 +416,16 @@ public class PlayerController : MonoBehaviour {
 
     private void HandlePhysicsGravity()
     {
-        if (_physics.IsGrounded() && _velocity.y <= 0.01f || (_playerUpgrade.m_canBeAttracted && _playerUpgrade.m_isAttracted))
-        {
-            _velocity.y = 0;
-        }
-        else
-        {
-            _velocity.y = (_velocity.y - _currentGravity);
-        }
+        // Commented to avoid strange player not jumping behavior
+        //if (_physics.IsGrounded() && _velocity.y <= 0.01f || (_playerUpgrade.m_canBeAttracted && _playerUpgrade.m_isAttracted))
+        //{
+        //    _velocity.y = 0;
+        //}
+        //else
+        //{
+        //    _velocity.y = (_velocity.y - _currentGravity);
+        //}
+        _velocity.y = (_velocity.y - _currentGravity);
     }
 
     private void ClampVelocity()

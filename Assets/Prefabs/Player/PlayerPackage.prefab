@@ -780,10 +780,6 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
-      propertyPath: _groundDeceleration
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _jumpHandlingVelocity
       value: 1.485
       objectReference: {fileID: 0}
