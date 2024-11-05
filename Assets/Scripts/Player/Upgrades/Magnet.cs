@@ -8,7 +8,7 @@ public class Magnet : MonoBehaviour {
 
     static int _id = 2;
     static string _name = "magnet";
-    bool _isMagnetTextIsActive = true;
+    bool _isMagnetTextIsActive = false;
 
     PlayerInputAction _input;
 
