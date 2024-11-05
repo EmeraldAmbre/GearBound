@@ -377,40 +377,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3622188333969508532, guid: 14996210a876e3b4e991b3d325a4b68a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4357335451521817746, guid: 14996210a876e3b4e991b3d325a4b68a, type: 3}
       propertyPath: m_Name
       value: Upgrade - Sizing
-      objectReference: {fileID: 0}
-    - target: {fileID: 4357335451521817746, guid: 14996210a876e3b4e991b3d325a4b68a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6561605848900433907, guid: 14996210a876e3b4e991b3d325a4b68a, type: 3}
-      propertyPath: _textBox
-      value: 
-      objectReference: {fileID: 1439495440}
-    - target: {fileID: 8695193368934085532, guid: 14996210a876e3b4e991b3d325a4b68a, type: 3}
-      propertyPath: m_text
-      value: 'TO MODIFY YOUR SIZE :
-
-        PRESS I
-
-        (L2 BUTTON ON GAMEPAD)'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14996210a876e3b4e991b3d325a4b68a, type: 3}
---- !u!1 &1439495440 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3622188333969508532, guid: 14996210a876e3b4e991b3d325a4b68a, type: 3}
-  m_PrefabInstance: {fileID: 1439495439}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1822520662
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1868,10 +1843,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3261709930253767814, guid: d0c22dfaed40fb043bc3fd084c333520, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5298561769498447387, guid: d0c22dfaed40fb043bc3fd084c333520, type: 3}
       propertyPath: m_Name
       value: Upgrade - Dash
@@ -1933,14 +1904,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Upgrade - Rotation
       objectReference: {fileID: 0}
-    - target: {fileID: 1199351884898323860, guid: 85dae1323dacc1d4a8e58e59ffa2ae98, type: 3}
-      propertyPath: m_text
-      value: 'TO INVERSE ROTATION :
-
-        PRESS F
-
-        (LEFT BUTTON ON GAMEPAD)'
-      objectReference: {fileID: 0}
     - target: {fileID: 2996126155660658669, guid: 85dae1323dacc1d4a8e58e59ffa2ae98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.6285033
@@ -1980,50 +1943,6 @@ PrefabInstance:
     - target: {fileID: 2996126155660658669, guid: 85dae1323dacc1d4a8e58e59ffa2ae98, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4893546199101611765, guid: 85dae1323dacc1d4a8e58e59ffa2ae98, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4893546199101611765, guid: 85dae1323dacc1d4a8e58e59ffa2ae98, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4893546199101611765, guid: 85dae1323dacc1d4a8e58e59ffa2ae98, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4893546199101611765, guid: 85dae1323dacc1d4a8e58e59ffa2ae98, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4893546199101611765, guid: 85dae1323dacc1d4a8e58e59ffa2ae98, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7642449632211824656, guid: 85dae1323dacc1d4a8e58e59ffa2ae98, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7642449632211824656, guid: 85dae1323dacc1d4a8e58e59ffa2ae98, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7642449632211824656, guid: 85dae1323dacc1d4a8e58e59ffa2ae98, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7642449632211824656, guid: 85dae1323dacc1d4a8e58e59ffa2ae98, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 7846016630787953314, guid: 85dae1323dacc1d4a8e58e59ffa2ae98, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8757078589335929130, guid: 85dae1323dacc1d4a8e58e59ffa2ae98, type: 3}
-      propertyPath: m_text
-      value: 'UPGRADE UNLOCKED : ROTATION'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
