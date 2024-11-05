@@ -287,7 +287,7 @@ public class PlayerController : MonoBehaviour {
         // On dash
         if (_playerUpgrade.m_isDashing)
         {
-            _velocity.x = _lastDirection * m_currentSpeed;
+            _velocity.x = _lastDirection * m_currentSpeed * _initMoveSpeed;
         }
 
         // On ground

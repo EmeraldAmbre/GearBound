@@ -27,6 +27,7 @@ public class PlayerUpgrades : MonoBehaviour {
     public float m_attractionForce { get; private set; } = 6;
     public bool m_isAttracted { get; private set; } = false;
     public bool m_canBeAttracted { get; private set; } = false;
+    PlayerCompositePhysics _physics;
 
     [Header("Possession settings")]
     [SerializeField] Vector3 _intermediatePos = new (1999.9f, 1999.9f, 0);
@@ -184,6 +185,7 @@ public class PlayerUpgrades : MonoBehaviour {
         PlayerPrefs.Save();
         _controller = GetComponent<PlayerController>();
         _rb = GetComponent<Rigidbody2D>();
+        _physics = GetComponent<PlayerCompositePhysics>();
 
         // Sizing Initialization
         _sizeMode = 1;
@@ -232,12 +234,8 @@ public class PlayerUpgrades : MonoBehaviour {
         if (m_isDashing) {
             _dashTimeRemaining -= Time.deltaTime;
 
-            if (_dashTimeRemaining <= 0) {
+            if (_dashTimeRemaining <= 0 || _physics.IsOnWall()) {
                 EndDash();
-            }
-
-            if (_isNextGear) {
-                DashNextGear();
             }
         }
 
@@ -296,9 +294,7 @@ public class PlayerUpgrades : MonoBehaviour {
         _controller.m_gearRotationDashMultiplier = 1;
         m_isDashing = false;
     }
-    void DashNextGear() {
-        _controller.SetCurrentSpeed(_initialSpeed);
-    }
+
     #endregion
 
     #region Rotation Methods

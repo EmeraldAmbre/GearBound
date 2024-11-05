@@ -406,7 +406,7 @@ MonoBehaviour:
     m_Bits: 64
   _gearLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4352
   m_isOnContactWithGearWall: 0
   m_gearWallDirection: 0
 --- !u!114 &5312793714340410458

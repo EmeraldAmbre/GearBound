@@ -996,7 +996,7 @@ MonoBehaviour:
   _detectionLayer:
     serializedVersion: 2
     m_Bits: 256
-  _dashSpeed: 22
+  _dashSpeed: 4
   _dashCooldown: 0.5
   _dashDuration: 0.15
   _gearRotationDashMultiplier: 3
