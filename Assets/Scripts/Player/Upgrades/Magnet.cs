@@ -8,6 +8,7 @@ public class Magnet : MonoBehaviour {
 
     static int _id = 2;
     static string _name = "magnet";
+    bool _isMagnetTextIsActive = true;
 
     PlayerInputAction _input;
 
@@ -31,6 +32,7 @@ public class Magnet : MonoBehaviour {
         if (other.CompareTag("Player")) {
             PlayerPrefs.SetInt(_name, 1);
             PlayerPrefs.Save();
+            _isMagnetTextIsActive = true;
             _textBox.SetActive(true);
         }
     }
@@ -41,7 +43,10 @@ public class Magnet : MonoBehaviour {
     }
 
     void OnPerformCloseText(InputAction.CallbackContext context) {
-        _textBox.SetActive(false);
-        gameObject.SetActive(false);
+        if (_isMagnetTextIsActive) {
+            _textBox.SetActive(false);
+            gameObject.SetActive(false);
+            _isMagnetTextIsActive = false;
+        }
     }
 }

@@ -7,6 +7,7 @@ public class Dash : MonoBehaviour {
 
     static int _id = 0;
     static string _name = "dash";
+    bool _isDashTextIsActive = false;
 
     PlayerInputAction _input;
 
@@ -30,6 +31,7 @@ public class Dash : MonoBehaviour {
         if (other.CompareTag("Player")) {
             PlayerPrefs.SetInt(_name, 1);
             PlayerPrefs.Save();
+            _isDashTextIsActive = true;
             _textBox.SetActive(true);
         }
     }
@@ -40,7 +42,10 @@ public class Dash : MonoBehaviour {
     }
 
     void OnPerformCloseText(InputAction.CallbackContext context) {
-        _textBox.SetActive(false);
-        gameObject.SetActive(false);
+        if (_isDashTextIsActive) {
+            _textBox.SetActive(false);
+            gameObject.SetActive(false);
+            _isDashTextIsActive = false;
+        }
     }
 }
