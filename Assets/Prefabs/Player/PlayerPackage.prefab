@@ -864,10 +864,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5312793714340410458, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
-      propertyPath: m_maxLife
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5312793714340410458, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _demiHearts.Array.data[0]
       value: 
       objectReference: {fileID: 5090512104282843776}

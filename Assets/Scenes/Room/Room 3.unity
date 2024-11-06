@@ -37359,56 +37359,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6430631248292919757, guid: 559501edd3849e34cb6d32446321ee75, type: 3}
   m_PrefabInstance: {fileID: 1105797560}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1139345950 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7853528027406504922, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
-  m_PrefabInstance: {fileID: 924742777769919912}
-  m_PrefabAsset: {fileID: 0}
---- !u!61 &1139345953
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1139345950}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 32695
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.008110046, y: -0.9694195}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.4532318, y: 0.30789566}
-  m_EdgeRadius: 0
 --- !u!1001 &1167052137
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42094,18 +42044,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 63.68
       objectReference: {fileID: 0}
-    - target: {fileID: 232337798081199270, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
-      propertyPath: _groundCheckOffsetLenght
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 232337798081199270, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
-      propertyPath: _groundCheckerBoxCollider
-      value: 
-      objectReference: {fileID: 1139345953}
-    - target: {fileID: 490653256414978910, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
-      propertyPath: m_maxLife
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 882875648630974044, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 24.047373
@@ -42144,10 +42082,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 882875648630974044, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1180409027391347540, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1702186717977941831, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
@@ -42298,29 +42232,10 @@ PrefabInstance:
       propertyPath: _velocityYOnGearMax
       value: -3
       objectReference: {fileID: 0}
-    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
-      propertyPath: _gearAirRotationSpeed
-      value: 3.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
-      propertyPath: _gearGroundRotationSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
-      propertyPath: _gearRotationAcceleration
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
-      propertyPath: _gearRotationDeceleration
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7853528027406504922, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1139345953}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
 --- !u!1001 &3589437603033558261
 PrefabInstance:
