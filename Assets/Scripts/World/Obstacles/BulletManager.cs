@@ -8,7 +8,7 @@ public class BulletManager : MonoBehaviour {
     public float m_lifeTime = 10f;
 
     float _timer;
-    float _speed = 2f;
+    [SerializeField] float _speed = 2f;
     bool _rotated;
 
     GameObject _player;
@@ -41,8 +41,26 @@ public class BulletManager : MonoBehaviour {
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        _manager.TakeDamage();
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if(other.CompareTag("Player"))
+        {
+            _manager.TakeDamage();
+        }
+        if (other.CompareTag("BulletDestroyable"))
+        {
+            Destroy(other.gameObject);
+        }
         Destroy(gameObject);
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("BulletDestroyable"))
+        {
+            Destroy(collision.gameObject);
+        }
+        Destroy(gameObject);
+    }
+
 }

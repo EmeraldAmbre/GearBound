@@ -27,16 +27,7 @@ public class PlayerCompositePhysics : MonoBehaviour {
     public bool m_isOnContactWithGearWall;
     public int m_gearWallDirection = 0;
 
-
-
-
-    private void FixedUpdate()
-    {
-        if(Physics2D.OverlapBox(GetGroundCheckerBoxCollider(), _groundCheckerBoxCollider.size * transform.localScale.x, 0, _plateformLayer))
-        {
-            Debug.Log("Box is colliding with plateform");
-        }
-    }
+ 
     void Start() {
         m_playerRigidbody = GetComponent<Rigidbody2D>();
     }

@@ -165,7 +165,7 @@ public class PlayerUpgrades : MonoBehaviour {
     }
 
     void OnDestroy() {
-        _input.Player.Dash.started -= OnPerformDashStarted;
+        _input.Player.Dash.performed -= OnPerformDashStarted;
         _input.Player.Rotation.performed -= OnPerformRotationStarted;
         _input.Player.Magnet.performed -= OnPerformMagnetStarted;
         _input.Player.Size.performed -= OnPerformSizeStarted;
@@ -245,6 +245,7 @@ public class PlayerUpgrades : MonoBehaviour {
         if (other.gameObject.CompareTag("Magnet")) {
             m_canBeAttracted = true;
             m_magnet = other.gameObject;
+            Debug.Log("Enter magnet name : " + m_magnet.name);
         }
 
         if (other.gameObject.CompareTag("ControllableGear") && _canControl) {
@@ -266,9 +267,10 @@ public class PlayerUpgrades : MonoBehaviour {
 
         if (other.gameObject.CompareTag("Magnet"))
         {
-            m_magnet = other.gameObject;
+            // m_magnet = null;
             m_canBeAttracted = false;
-            Debug.Log("Exit magnetic field");
+            //Debug.Log("Enter magnet name : " + m_magnet.name);
+
         }
 
     }

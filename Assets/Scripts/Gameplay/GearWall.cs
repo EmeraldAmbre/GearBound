@@ -29,8 +29,6 @@ public class GearWall : MonoBehaviour
             {
                 collision.gameObject.GetComponent<PlayerCompositePhysics>().m_isOnContactWithGearWall = false;
                 collision.gameObject.GetComponent<PlayerCompositePhysics>().m_gearWallDirection = 0;
-
-                Debug.Log("Loose contact");
             }
 
         }
