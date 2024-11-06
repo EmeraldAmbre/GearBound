@@ -11,7 +11,7 @@ public class PlayerCompositePhysics : MonoBehaviour {
     public Rigidbody2D m_playerRigidbody { get; private set; }
 
     [SerializeField] float _groundCheckOffsetLenght = 0.1f;
-    [SerializeField] CircleCollider2D _groundCheckerCircleCollider;
+    [SerializeField] BoxCollider2D _groundCheckerBoxCollider;
     [SerializeField] float _ceilingCheckOffsetLenght = 0.1f;
     [SerializeField] CircleCollider2D _ceilingCheckerCircleCollider;
     [SerializeField] float _wallCheckOffsetLenght = 0.1f;
@@ -28,6 +28,15 @@ public class PlayerCompositePhysics : MonoBehaviour {
     public int m_gearWallDirection = 0;
 
 
+
+
+    private void FixedUpdate()
+    {
+        if(Physics2D.OverlapBox(GetGroundCheckerBoxCollider(), _groundCheckerBoxCollider.size * transform.localScale.x, 0, _plateformLayer))
+        {
+            Debug.Log("Box is colliding with plateform");
+        }
+    }
     void Start() {
         m_playerRigidbody = GetComponent<Rigidbody2D>();
     }
@@ -44,7 +53,7 @@ public class PlayerCompositePhysics : MonoBehaviour {
 
     public bool IsGrounded()
     {
-        if ( Physics2D.OverlapCircle(GetGroundCheckerCircleCollider(), _groundCheckerCircleCollider.radius * transform.localScale.x, _plateformLayer)
+        if ( Physics2D.OverlapBox(GetGroundCheckerBoxCollider(), _groundCheckerBoxCollider.size * transform.localScale.x, 0, _plateformLayer)
         || (IsOnSlope() && _isCollidingWithPlateform)
         ) return true;
         else return false;
@@ -87,15 +96,15 @@ public class PlayerCompositePhysics : MonoBehaviour {
 
     private void OnDrawGizmos()
     {
-       GizmoDrawer.DrawCircle(GetGroundCheckerCircleCollider(), _groundCheckerCircleCollider.radius * transform.localScale.x);
+       GizmoDrawer.DrawBox(GetGroundCheckerBoxCollider(), _groundCheckerBoxCollider.size * transform.localScale.x);
        GizmoDrawer.DrawCircle(GetCeilingCheckerCircleCollider(), (_ceilingCheckerCircleCollider.radius - 0.1f) * transform.localScale.x);
        GizmoDrawer.DrawCircle(GetWallCheckerCircleCollider(1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x);
        GizmoDrawer.DrawCircle(GetWallCheckerCircleCollider(-1), (_wallCheckerCircleCollider.radius - 0.1f) * transform.localScale.x);
     }
 
-    Vector2 GetGroundCheckerCircleCollider()
+    Vector2 GetGroundCheckerBoxCollider()
     {
-        return (_groundCheckerCircleCollider.transform.position + new Vector3(0, (_groundCheckerCircleCollider.offset.y - _groundCheckOffsetLenght) * transform.localScale.x));
+        return (_groundCheckerBoxCollider.transform.position + new Vector3(0, (_groundCheckerBoxCollider.offset.y - _groundCheckOffsetLenght) * transform.localScale.x));
     }
     Vector2 GetCeilingCheckerCircleCollider()
     {
