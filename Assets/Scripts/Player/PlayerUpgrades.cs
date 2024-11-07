@@ -27,9 +27,9 @@ public class PlayerUpgrades : MonoBehaviour {
     public float m_attractionForce { get; private set; } = 6;
     public bool m_isAttracted { get; private set; } = false;
     public bool m_canBeAttracted { get; private set; } = false;
-    PlayerCompositePhysics _physics;
 
     [Header("Possession settings")]
+    [SerializeField] Color _intermediateColor = Color.white;
     [SerializeField] Vector3 _intermediatePos = new (1999.9f, 1999.9f, 0);
     [SerializeField] GameObject _gearToControl; // there's no need to drag and drop smthg here, unless you want to customize player experience
     [SerializeField] float _xDamping = 4f; // damping (speed) following x axis of the virtual camera
@@ -50,15 +50,10 @@ public class PlayerUpgrades : MonoBehaviour {
     Vector3 _shrinkSize;
     int _sizeMode;
 
-
-    PlayerInputAction _input;
-
-    // Possession settings
-
-
-    PlayerController _controller;
     Rigidbody2D _rb;
-
+    PlayerInputAction _input;
+    PlayerController _controller;
+    PlayerCompositePhysics _physics;
 
     #region Input Methods
 
@@ -68,7 +63,7 @@ public class PlayerUpgrades : MonoBehaviour {
         _input.Player.Rotation.performed += OnPerformRotationStarted;
         _input.Player.Magnet.performed += OnPerformMagnetStarted;
         _input.Player.Size.performed += OnPerformSizeStarted;
-        _input.Player.Possess.performed += OnPerformPossessionStarted;
+        _input.Player.Possess.started += OnPerformPossessionStarted;
         _input.Player.GodModeDash.performed += OnPerformGodModeDash;
         _input.Player.GodModeMagnet.performed += OnPerformGodModeMagnet;
         _input.Player.GodModeRotation.performed += OnPerformGodModeRotation;
@@ -169,7 +164,7 @@ public class PlayerUpgrades : MonoBehaviour {
         _input.Player.Rotation.performed -= OnPerformRotationStarted;
         _input.Player.Magnet.performed -= OnPerformMagnetStarted;
         _input.Player.Size.performed -= OnPerformSizeStarted;
-        _input.Player.Possess.performed -= OnPerformPossessionStarted;
+        _input.Player.Possess.started -= OnPerformPossessionStarted;
         _input.Player.GodModeDash.performed -= OnPerformGodModeDash;
         _input.Player.GodModeMagnet.performed -= OnPerformGodModeMagnet;
         _input.Player.GodModeRotation.performed -= OnPerformGodModeRotation;
@@ -321,38 +316,56 @@ public class PlayerUpgrades : MonoBehaviour {
 
     #region Possession Methods
     void Possess() {
+        // Camera
         _virtualCamera.GetComponentInChildren<CinemachineTransposer>().m_XDamping = _xDamping;
         _virtualCamera.GetComponentInChildren<CinemachineTransposer>().m_YDamping = _yDamping;
         _virtualCamera.GetComponentInChildren<CinemachineTransposer>().m_ZDamping = _zDamping;
+
+        // Positions
         Vector3 player_pos = transform.position;
         Vector3 gear_pos = _gearToControl.transform.position;
         _gearToControl.transform.position = _intermediatePos;
         transform.position = gear_pos;
         _gearToControl.transform.position = player_pos;
-        SpriteRenderer gearSprite = _gearToControl.GetComponent<SpriteRenderer>();
-        gearSprite.sprite = _spriteRendererFromPlayerPrefab.sprite;
-        SpriteRenderer playerSprite = GetComponent<SpriteRenderer>();
-        playerSprite.sprite = _spriteRendererFromGearToControlPrefab.sprite;
+
+        // Sprites colors
+        SpriteRenderer gear_sprite = _gearToControl.GetComponentInChildren<SpriteRenderer>();
+        SpriteRenderer player_sprite = GetComponentInChildren<SpriteRenderer>();
+        _intermediateColor = gear_sprite.color;
+        gear_sprite.color = player_sprite.color;
+        player_sprite.color = _intermediateColor;
+
+        // Rigidbodies
         Rigidbody2D rb = _gearToControl.GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+
         _isPossessed = true;
     }
 
     void Depossess() {
+        // Camera
         _virtualCamera.GetComponentInChildren<CinemachineTransposer>().m_XDamping = 1;
         _virtualCamera.GetComponentInChildren<CinemachineTransposer>().m_YDamping = 1;
         _virtualCamera.GetComponentInChildren<CinemachineTransposer>().m_ZDamping = 1;
+
+        // Positions
         Vector3 player_pos = transform.position;
         Vector3 gear_pos = _gearToControl.transform.position;
         _gearToControl.transform.position = _intermediatePos;
         transform.position = gear_pos;
         _gearToControl.transform.position = player_pos;
-        SpriteRenderer gearSprite = _gearToControl.GetComponent<SpriteRenderer>();
-        gearSprite.sprite = _spriteRendererFromGearToControlPrefab.sprite; 
-        SpriteRenderer playerSprite = GetComponent<SpriteRenderer>();
-        playerSprite.sprite = _spriteRendererFromPlayerPrefab.sprite;
+
+        // Sprites colors
+        SpriteRenderer gear_sprite = _gearToControl.GetComponentInChildren<SpriteRenderer>();
+        SpriteRenderer player_sprite = GetComponentInChildren<SpriteRenderer>();
+        _intermediateColor = gear_sprite.color;
+        gear_sprite.color = player_sprite.color;
+        player_sprite.color = _intermediateColor;
+
+        // Rigidbodies
         Rigidbody2D rb = _gearToControl.GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezePosition;
+
         _isPossessed = false;
     }
     #endregion

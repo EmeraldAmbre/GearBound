@@ -188,6 +188,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Map"",
+                    ""type"": ""Button"",
+                    ""id"": ""f87a1164-d201-44a8-9390-e28137949fb1"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1015,6 +1024,28 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""CloseBoxText"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fedd7881-a48d-4294-825c-522888816f67"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Map"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""28802095-4bc4-4578-afc2-ee861af30096"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Map"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1041,6 +1072,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_GodModeLvl3 = m_Player.FindAction("GodModeLvl3", throwIfNotFound: true);
         m_Player_GodModeMove = m_Player.FindAction("GodModeMove", throwIfNotFound: true);
         m_Player_CloseBoxText = m_Player.FindAction("CloseBoxText", throwIfNotFound: true);
+        m_Player_Map = m_Player.FindAction("Map", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
@@ -1125,6 +1157,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_GodModeLvl3;
     private readonly InputAction m_Player_GodModeMove;
     private readonly InputAction m_Player_CloseBoxText;
+    private readonly InputAction m_Player_Map;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -1147,6 +1180,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @GodModeLvl3 => m_Wrapper.m_Player_GodModeLvl3;
         public InputAction @GodModeMove => m_Wrapper.m_Player_GodModeMove;
         public InputAction @CloseBoxText => m_Wrapper.m_Player_CloseBoxText;
+        public InputAction @Map => m_Wrapper.m_Player_Map;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1210,6 +1244,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @CloseBoxText.started += instance.OnCloseBoxText;
             @CloseBoxText.performed += instance.OnCloseBoxText;
             @CloseBoxText.canceled += instance.OnCloseBoxText;
+            @Map.started += instance.OnMap;
+            @Map.performed += instance.OnMap;
+            @Map.canceled += instance.OnMap;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1268,6 +1305,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @CloseBoxText.started -= instance.OnCloseBoxText;
             @CloseBoxText.performed -= instance.OnCloseBoxText;
             @CloseBoxText.canceled -= instance.OnCloseBoxText;
+            @Map.started -= instance.OnMap;
+            @Map.performed -= instance.OnMap;
+            @Map.canceled -= instance.OnMap;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1305,5 +1345,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnGodModeLvl3(InputAction.CallbackContext context);
         void OnGodModeMove(InputAction.CallbackContext context);
         void OnCloseBoxText(InputAction.CallbackContext context);
+        void OnMap(InputAction.CallbackContext context);
     }
 }
