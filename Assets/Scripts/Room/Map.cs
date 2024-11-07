@@ -7,15 +7,27 @@ using UnityEngine.Windows;
 
 public class Map : MonoBehaviour {
 
-    [SerializeField] GameObject _miniMap;
-    [SerializeField] GameObject[] _redspotsMinimap;
-    [SerializeField] GameObject _map;
-    [SerializeField] GameObject[] _redspotsMap;
+    [Header("Mini map")]
+    [SerializeField] GameObject[] _miniMap_room_1;
+    [SerializeField] GameObject[] _miniMap_room_2;
+    [SerializeField] GameObject[] _miniMap_room_3;
+    [SerializeField] GameObject[] _miniMap_room_4;
+    [SerializeField] GameObject[] _miniMap_room_5;
+    [SerializeField] GameObject[] _miniMap_room_6;
+    [SerializeField] GameObject[] _miniMap_room_7;
+
+    [Header("Fullscreen map")]
+    [SerializeField] GameObject[] _fullscreenMap_room_1;
+    [SerializeField] GameObject[] _fullscreenMap_room_2;
+    [SerializeField] GameObject[] _fullscreenMap_room_3;
+    [SerializeField] GameObject[] _fullscreenMap_room_4;
+    [SerializeField] GameObject[] _fullscreenMap_room_5;
+    [SerializeField] GameObject[] _fullscreenMap_room_6;
+    [SerializeField] GameObject[] _fullscreenMap_room_7;
 
     PlayerInputAction _input;
 
-    bool _isMinimapEnable = false;
-    bool _isMapEnable = false;
+    [SerializeField] int _mapMode = 0;
     string _sceneName;
 
     void InitInput() {
@@ -26,61 +38,128 @@ public class Map : MonoBehaviour {
 
     void Start() {
         InitInput();
-        _sceneName = SceneManager.GetActiveScene().name;
     }
 
     void OnDestroy() {
-        _input.Player.CloseBoxText.performed -= OnPerformMap;
+        _input.Player.Map.performed -= OnPerformMap;
         _input.Player.Disable();
     }
 
+    void VisitedScene() {
+        switch (_sceneName) {
+            case "Room 1":
+                if (PlayerPrefs.HasKey("visited_room") is false) {
+                    PlayerPrefs.SetInt("visited_room", 1);
+                    PlayerPrefs.Save();
+                } break;
+            case "Room 2":
+                if (PlayerPrefs.GetInt("visited_room") < 2) {
+                    PlayerPrefs.SetInt("visited_room", 2);
+                    PlayerPrefs.Save();
+                } break;
+            case "Room 3":
+                if (PlayerPrefs.GetInt("visited_room") < 3) {
+                    PlayerPrefs.SetInt("visited_room", 3);
+                    PlayerPrefs.Save();
+                } break;
+            case "Room 4":
+                if (PlayerPrefs.GetInt("visited_room") < 4) {
+                    PlayerPrefs.SetInt("visited_room", 4);
+                    PlayerPrefs.Save();
+                } break;
+            case "Room 5":
+                if (PlayerPrefs.GetInt("visited_room") < 5) {
+                    PlayerPrefs.SetInt("visited_room", 5);
+                    PlayerPrefs.Save();
+                } break;
+            case "Room 6":
+                if (PlayerPrefs.GetInt("visited_room") < 6) {
+                    PlayerPrefs.SetInt("visited_room", 6);
+                    PlayerPrefs.Save();
+                } break;
+            case "Room 7":
+                if (PlayerPrefs.GetInt("visited_room") < 7) {
+                    PlayerPrefs.SetInt("visited_room", 7);
+                    PlayerPrefs.Save();
+                } break;
+        }
+    }
+
     void OnPerformMap(InputAction.CallbackContext context) {
+        VisitedScene();
+        _sceneName = SceneManager.GetActiveScene().name;
+        int index = PlayerPrefs.GetInt("visited_room");
 
-        if (_isMapEnable) {
-            _isMapEnable = false;
-            _map.SetActive(false);
-            foreach (var redspot in _redspotsMap) { redspot.SetActive(false); }
-        }
-
-        else if (_isMinimapEnable) {
-            _isMinimapEnable = false;
-            _isMapEnable = true;
-            _map.SetActive(true);
-            _miniMap.SetActive(false);
-            foreach (var redspot in _redspotsMinimap) { redspot.SetActive(false); }
+        if (_mapMode == 0) {
+            _mapMode = 1;
             switch (_sceneName) {
                 case "Room 1":
-                    _redspotsMap[0].SetActive(true);
+                    _fullscreenMap_room_1[index-1].SetActive(true);
                     break;
                 case "Room 2":
-                    _redspotsMap[1].SetActive(true);
+                    _fullscreenMap_room_2[index-2].SetActive(true);
                     break;
                 case "Room 3":
-                    _redspotsMap[2].SetActive(true);
+                    _fullscreenMap_room_3[index - 3].SetActive(true);
                     break;
                 case "Room 4":
-                    _redspotsMap[3].SetActive(true);
+                    _fullscreenMap_room_4[index - 4].SetActive(true);
+                    break;
+                case "Room 5":
+                    _fullscreenMap_room_5[index - 5].SetActive(true);
+                    break;
+                case "Room 6":
+                    _fullscreenMap_room_6[index - 6].SetActive(true);
+                    break;
+                case "Room 7":
+                    _fullscreenMap_room_7[0].SetActive(true);
                     break;
             }
         }
 
-        else {
-            _isMinimapEnable = true;
-            _miniMap.SetActive(true);
+        else if (_mapMode == 1) {
+            _mapMode = 2;
+            foreach (var item in _fullscreenMap_room_1) item.SetActive(false);
+            foreach (var item in _fullscreenMap_room_2) item.SetActive(false);
+            foreach (var item in _fullscreenMap_room_3) item.SetActive(false);
+            foreach (var item in _fullscreenMap_room_4) item.SetActive(false);
+            foreach (var item in _fullscreenMap_room_5) item.SetActive(false);
+            foreach (var item in _fullscreenMap_room_6) item.SetActive(false);
+            foreach (var item in _fullscreenMap_room_7) item.SetActive(false);
             switch (_sceneName) {
                 case "Room 1":
-                    _redspotsMinimap[0].SetActive(true);
+                    _miniMap_room_1[index - 1].SetActive(true);
                     break;
                 case "Room 2":
-                    _redspotsMinimap[1].SetActive(true);
+                    _miniMap_room_2[index - 2].SetActive(true);
                     break;
                 case "Room 3":
-                    _redspotsMinimap[2].SetActive(true);
+                    _miniMap_room_3[index - 3].SetActive(true);
                     break;
                 case "Room 4":
-                    _redspotsMinimap[3].SetActive(true);
+                    _miniMap_room_4[index - 4].SetActive(true);
+                    break;
+                case "Room 5":
+                    _miniMap_room_5[index - 5].SetActive(true);
+                    break;
+                case "Room 6":
+                    _miniMap_room_6[index - 6].SetActive(true);
+                    break;
+                case "Room 7":
+                    _miniMap_room_7[0].SetActive(true);
                     break;
             }
+        }
+
+        else if (_mapMode == 2) {
+            _mapMode = 0;
+            foreach (var item in _miniMap_room_1) item.SetActive(false);
+            foreach (var item in _miniMap_room_2) item.SetActive(false);
+            foreach (var item in _miniMap_room_3) item.SetActive(false);
+            foreach (var item in _miniMap_room_4) item.SetActive(false);
+            foreach (var item in _miniMap_room_5) item.SetActive(false);
+            foreach (var item in _miniMap_room_6) item.SetActive(false);
+            foreach (var item in _miniMap_room_7) item.SetActive(false);
         }
     }
 }
