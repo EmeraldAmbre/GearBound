@@ -57,9 +57,6 @@ public class RoomSpinner : GearMechanism
                 Quaternion targetRotation = Quaternion.Euler(0, 0, _angleToSnap);
                 transform.rotation = Quaternion.RotateTowards(currentRotation, targetRotation, _snapingSnapSpeed * Time.deltaTime);
             }
-
-
-            Debug.Log("Current rotation : " + transform.eulerAngles.z + "    _angleToSnap " + _angleToSnap);
         }
 
      

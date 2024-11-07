@@ -66,8 +66,8 @@ public class GearManager : MonoBehaviour {
                 }
                 else if (_isActivatingDifferentMechanismByDirection)
                 {
-                    if (gearPlayerRotationDirection == -1) _leftGearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection , _player.m_gearRotationDashMultiplier);
-                    else _rightGearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection , _player.m_gearRotationDashMultiplier);
+                    if (gearPlayerRotationDirection == -1 && _leftGearMechanismToActivate != null) _leftGearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection , _player.m_gearRotationDashMultiplier);
+                    else if (_rightGearMechanismToActivate != null) _rightGearMechanismToActivate.ActivateOnce(gearPlayerRotationDirection , _player.m_gearRotationDashMultiplier);
                 }
                 else if(_isActivatingSeveralMechanism)
                 {
@@ -97,12 +97,23 @@ public class GearManager : MonoBehaviour {
         {
             if(_gearMechanismToActivate.m_isPlayerInteracting) _gearMechanismToActivate.m_isPlayerInteracting = false;
         }
-        else if (_isActivatingDifferentMechanismByDirection)
+        else if (_isActivatingDifferentMechanismByDirection )
         {
-            if (_leftGearMechanismToActivate.m_isPlayerInteracting || _rightGearMechanismToActivate.m_isPlayerInteracting)
+            if(_leftGearMechanismToActivate != null )
             {
-                _leftGearMechanismToActivate.m_isPlayerInteracting = false;
-                _rightGearMechanismToActivate.m_isPlayerInteracting = false;
+
+                if (_leftGearMechanismToActivate.m_isPlayerInteracting )
+                {
+                    _leftGearMechanismToActivate.m_isPlayerInteracting = false;
+                }
+            }
+            if(_rightGearMechanismToActivate != null)
+            {
+
+                if ( _rightGearMechanismToActivate.m_isPlayerInteracting)
+                {
+                    _rightGearMechanismToActivate.m_isPlayerInteracting = false;
+                }
             }
         }
     }

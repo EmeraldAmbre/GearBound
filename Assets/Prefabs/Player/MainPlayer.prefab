@@ -395,8 +395,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3732418e5c5e3b74395fd516cf053856, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _groundCheckOffsetLenght: 0.3
-  _groundCheckerCircleCollider: {fileID: 6851194340151364688}
+  _groundCheckOffsetLenght: 0.1
+  _groundCheckerBoxCollider: {fileID: 0}
   _ceilingCheckOffsetLenght: 0.6
   _ceilingCheckerCircleCollider: {fileID: 2600229863370230145}
   _wallCheckOffsetLenght: 0.5
@@ -532,13 +532,13 @@ MonoBehaviour:
   _dashCooldown: 0.5
   _dashDuration: 0.15
   _gearRotationDashMultiplier: 3
+  _intermediateColor: {r: 1, g: 1, b: 1, a: 1}
   _intermediatePos: {x: 1999.9, y: 1999.9, z: 0}
   _gearToControl: {fileID: 0}
   _xDamping: 0.4
   _yDamping: 0.2
   _zDamping: 4
   _virtualCamera: {fileID: 0}
-  _spriteRendererFromPlayer: {fileID: 2230544721094278696}
   _spriteRendererFromPlayerPrefab: {fileID: 6866806946364343436, guid: abed20e33aa155b4aa1a44ae4c73c422, type: 3}
   _spriteRendererFromGearToControlPrefab: {fileID: 7732187984882450632, guid: 491f508930eba1042b7957048ed2e3cc, type: 3}
   _isPlayerFreezeWhenPossessed: 0

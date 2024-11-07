@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9124604025390520480}
   - component: {fileID: 943373864768472263}
-  m_Layer: 14
+  m_Layer: 6
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ BoxCollider2D:
     m_Bits: 128
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 32631
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

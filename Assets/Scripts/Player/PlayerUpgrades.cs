@@ -105,62 +105,62 @@ public class PlayerUpgrades : MonoBehaviour {
     }
 
     void OnPerformGodModeDash(InputAction.CallbackContext context) {
-        if (PlayerPrefs.HasKey("dash") && PlayerPrefs.GetInt("dash") == 0) {
+        if (PlayerPrefs.GetInt("dash") == 0) {
             PlayerPrefs.SetInt("dash", 1);
             PlayerPrefs.Save();
         }
-        else if (PlayerPrefs.HasKey("dash") && PlayerPrefs.GetInt("dash") == 1) {
+        else if (PlayerPrefs.GetInt("dash") == 1) {
             PlayerPrefs.SetInt("dash", 0);
             PlayerPrefs.Save();
         }
     }
 
     void OnPerformGodModeMagnet(InputAction.CallbackContext context) {
-        if (PlayerPrefs.HasKey("magnet") && PlayerPrefs.GetInt("magnet") == 0) {
+        if (PlayerPrefs.GetInt("magnet") == 0) {
             PlayerPrefs.SetInt("magnet", 1);
             PlayerPrefs.Save();
         }
-        else if (PlayerPrefs.HasKey("magnet") && PlayerPrefs.GetInt("magnet") == 1) {
+        else if (PlayerPrefs.GetInt("magnet") == 1) {
             PlayerPrefs.SetInt("magnet", 0);
             PlayerPrefs.Save();
         }
     }
 
     void OnPerformGodModeRotation(InputAction.CallbackContext context) {
-        if (PlayerPrefs.HasKey("rotation") && PlayerPrefs.GetInt("rotation") == 0) {
+        if (PlayerPrefs.GetInt("rotation") == 0) {
             PlayerPrefs.SetInt("rotation", 1);
             PlayerPrefs.Save();
         }
-        else if (PlayerPrefs.HasKey("rotation") && PlayerPrefs.GetInt("rotation") == 1) {
+        else if (PlayerPrefs.GetInt("rotation") == 1) {
             PlayerPrefs.SetInt("rotation", 0);
             PlayerPrefs.Save();
         }
     }
 
     void OnPerformGodModePossession(InputAction.CallbackContext context) {
-        if (PlayerPrefs.HasKey("possession") && PlayerPrefs.GetInt("possession") == 0) {
+        if (PlayerPrefs.GetInt("possession") == 0) {
             PlayerPrefs.SetInt("possession", 1);
             PlayerPrefs.Save();
         }
-        else if (PlayerPrefs.HasKey("possession") && PlayerPrefs.GetInt("possession") == 1) {
+        else if ( PlayerPrefs.GetInt("possession") == 1) {
             PlayerPrefs.SetInt("possession", 0);
             PlayerPrefs.Save();
         }
     }
 
     void OnPerformGodModeSize(InputAction.CallbackContext context) {
-        if (PlayerPrefs.HasKey("sizing") && PlayerPrefs.GetInt("sizing") == 0) {
+        if (PlayerPrefs.GetInt("sizing") == 0) {
             PlayerPrefs.SetInt("sizing", 1);
             PlayerPrefs.Save();
         }
-        else if (PlayerPrefs.HasKey("sizing") && PlayerPrefs.GetInt("sizing") == 1) {
+        else if (PlayerPrefs.GetInt("sizing") == 1) {
             PlayerPrefs.SetInt("sizing", 0);
             PlayerPrefs.Save();
         }
     }
 
     void OnDestroy() {
-        _input.Player.Dash.started -= OnPerformDashStarted;
+        _input.Player.Dash.performed -= OnPerformDashStarted;
         _input.Player.Rotation.performed -= OnPerformRotationStarted;
         _input.Player.Magnet.performed -= OnPerformMagnetStarted;
         _input.Player.Size.performed -= OnPerformSizeStarted;
@@ -240,6 +240,7 @@ public class PlayerUpgrades : MonoBehaviour {
         if (other.gameObject.CompareTag("Magnet")) {
             m_canBeAttracted = true;
             m_magnet = other.gameObject;
+            Debug.Log("Enter magnet name : " + m_magnet.name);
         }
 
         if (other.gameObject.CompareTag("ControllableGear") && _canControl) {
@@ -261,9 +262,10 @@ public class PlayerUpgrades : MonoBehaviour {
 
         if (other.gameObject.CompareTag("Magnet"))
         {
-            m_magnet = other.gameObject;
+            // m_magnet = null;
             m_canBeAttracted = false;
-            Debug.Log("Exit magnetic field");
+            //Debug.Log("Enter magnet name : " + m_magnet.name);
+
         }
 
     }
