@@ -13,6 +13,7 @@ TagManager:
   - Magnet
   - PlayerPackage
   - ControllableGear
+  - BulletDestroyable
   layers:
   - Default
   - TransparentFX
@@ -29,7 +30,7 @@ TagManager:
   - GearWall
   - DoorGround
   - Magnet
-  - 
+  - Bullet
   - 
   - 
   - 

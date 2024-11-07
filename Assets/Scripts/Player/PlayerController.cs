@@ -289,6 +289,11 @@ public class PlayerController : MonoBehaviour {
         {
             _velocity.x = _lastDirection * m_currentSpeed * _initMoveSpeed;
         }
+        else if (_physics.IsOnSlope() && _physics.IsGrounded() && _velocity.y <= 0.01f)
+        {
+            if (m_inputX == 0) _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * m_currentSpeed, _groundDeceleration);
+            else _velocity.x = Mathf.Lerp(_velocity.x, m_inputX * m_currentSpeed, _groundAcceleration);
+        }
 
         // On ground
         else if ((_physics.IsGrounded() && _velocity.y <= 0.01f))
@@ -417,15 +422,15 @@ public class PlayerController : MonoBehaviour {
     private void HandlePhysicsGravity()
     {
         // Commented to avoid strange player not jumping behavior
-        //if (_physics.IsGrounded() && _velocity.y <= 0.01f || (_playerUpgrade.m_canBeAttracted && _playerUpgrade.m_isAttracted))
-        //{
-        //    _velocity.y = 0;
-        //}
-        //else
-        //{
-        //    _velocity.y = (_velocity.y - _currentGravity);
-        //}
-        _velocity.y = (_velocity.y - _currentGravity);
+        if (_physics.IsGrounded() && _velocity.y <= 0.01f || (_playerUpgrade.m_canBeAttracted && _playerUpgrade.m_isAttracted))
+        {
+            _velocity.y = 0;
+        }
+        else
+        {
+            _velocity.y = (_velocity.y - _currentGravity);
+        }
+        //_velocity.y = (_velocity.y - _currentGravity);
     }
 
     private void ClampVelocity()
