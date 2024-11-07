@@ -372,7 +372,7 @@ public class PlayerController : MonoBehaviour {
 
     private void HandleCheckCeilingVelocityReset()
     {
-        if (_physics.IsCeiling() && _velocity.y > 0.1)
+        if (_physics.IsCeiling() && _velocity.y > 0.1 && (! _physics.IsGrounded() && ! _physics.IsOnWallAndWallGears() ) )
         {
             _velocity.y = 0;
             _isHandlingJumpButton = false;

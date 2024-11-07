@@ -485,11 +485,11 @@ MonoBehaviour:
   _onGearVelocityYCap: -3
   _onGearWallSpeedMultiplicator: 1
   _onGearWallVelocityYCap: 1.5
-  _gearGroundRotationSpeed: 5
+  _gearGroundRotationSpeed: 5.5
   _gearAirRotationSpeed: 3.5
   _onGearWallGearRotationSpeed: 5
-  _gearRotationAcceleration: 0.3
-  _gearRotationDeceleration: 0.3
+  _gearRotationAcceleration: 1
+  _gearRotationDeceleration: 1
   _onGearWallGearGravity: 0
   _airGearWallJumpAcceleration: 0.09
   _airGearWallJumpDeceleration: 0.05
