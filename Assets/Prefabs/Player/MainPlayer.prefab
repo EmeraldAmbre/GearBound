@@ -397,10 +397,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _groundCheckOffsetLenght: 0.1
   _groundCheckerBoxCollider: {fileID: 0}
-  _ceilingCheckOffsetLenght: 0.6
+  _ceilingCheckOffsetLenght: 0.4
   _ceilingCheckerCircleCollider: {fileID: 2600229863370230145}
-  _wallCheckOffsetLenght: 0.5
-  _wallCheckerCircleCollider: {fileID: 2600229863370230145}
+  _wallCheckOffsetLenght: 0.4
+  _wallCheckerCircleCollider: {fileID: 0}
   _slopeCheckLenghtDistance: 1
   _plateformLayer:
     serializedVersion: 2
