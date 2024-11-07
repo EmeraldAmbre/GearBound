@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2858406030950472267}
   - component: {fileID: 2579148377346255677}
   - component: {fileID: 6713790807828493024}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: BulletPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,10 +100,10 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 448
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 65079
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -136,7 +136,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_isGoingRight: 0
-  m_lifeTime: 10
+  m_lifeTime: 15
+  _speed: 2
 --- !u!58 &2579148377346255677
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -149,10 +150,10 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 32631
+    m_Bits: 448
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 65079
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
