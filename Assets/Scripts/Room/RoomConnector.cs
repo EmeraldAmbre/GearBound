@@ -54,8 +54,20 @@ public class RoomConnector : MonoBehaviour {
             roomMechanismData.m_SceneRoomName = SceneManager.GetActiveScene().name;
             roomMechanismData.m_ListMechanismStateSaved = listMechanismDataToSave;
             RoomData.Instance.m_ListRoomMechanismData.Add(roomMechanismData);
+        }
+        else
+        {
+            RoomMechanismData data = RoomData.Instance.m_ListRoomMechanismData.Find(data => data.m_SceneRoomName == SceneManager.GetActiveScene().name);
+            data.m_ListMechanismStateSaved.Clear();
 
+            List<GameObject> listMechanismToSaveState = new List<GameObject>();
+            listMechanismToSaveState.AddRange(GameObject.FindGameObjectsWithTag("MechanismToSaveState"));
 
+            for (int i = 0; i < listMechanismToSaveState.Count; i++)
+            {
+                MechanismData mechanismData = new MechanismData(listMechanismToSaveState.ElementAt(i));
+                data.m_ListMechanismStateSaved.Add(mechanismData);
+            }
         }
     }
 }

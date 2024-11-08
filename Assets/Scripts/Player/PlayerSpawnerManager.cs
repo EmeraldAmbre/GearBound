@@ -36,16 +36,29 @@ public class PlayerSpawnerManager : MonoBehaviour {
             List<GameObject> listMechanismToChangeState = new List<GameObject>();
             listMechanismToChangeState.AddRange(GameObject.FindGameObjectsWithTag("MechanismToSaveState"));
 
+
+
+
             for (int i = 0; i < listMechanismToChangeState.Count; i++) {
 
                 GameObject mechanismToChange = listMechanismToChangeState.ElementAt(i);
+
+                if (mechanismToChange.name == "Door")
+                {
+                    Debug.Log("LOADING THE ROOM : ");
+                    Debug.Log("mechanismToChange.transform.position : " + mechanismToChange.transform.position);
+                    Debug.Log("mechanismStateSaved.name : " + mechanismToChange.name);
+                }
 
                 for (int j = 0; j < roomMechanismData.m_ListMechanismStateSaved.Count; j++) {
 
                     MechanismData mechanismStateSaved = roomMechanismData.m_ListMechanismStateSaved.ElementAt(i);
 
+                        
                     if (mechanismToChange.name == mechanismStateSaved.name) {
                         mechanismToChange.transform.position = mechanismStateSaved.position;
+                        mechanismToChange.transform.rotation = mechanismStateSaved.rotation;
+
                     }
                 }
             }

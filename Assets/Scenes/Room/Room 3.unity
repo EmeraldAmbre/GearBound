@@ -573,9 +573,17 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6702164203957820493, guid: 5fe2ab2a876525041bf1f4855685f7a2, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
+      objectReference: {fileID: 0}
     - target: {fileID: 7434394856651241150, guid: 5fe2ab2a876525041bf1f4855685f7a2, type: 3}
       propertyPath: m_Name
       value: SpinningPlatform
+      objectReference: {fileID: 0}
+    - target: {fileID: 7434394856651241150, guid: 5fe2ab2a876525041bf1f4855685f7a2, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
       objectReference: {fileID: 0}
     - target: {fileID: 7563465779161520579, guid: 5fe2ab2a876525041bf1f4855685f7a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -997,6 +1005,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1745401367658520352, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
+      propertyPath: m_Name
+      value: PivotDB3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745401367658520352, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
+      objectReference: {fileID: 0}
     - target: {fileID: 1758996315433594875, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
       propertyPath: _maxPivot
       value: 90
@@ -1919,6 +1935,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1745401367658520352, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
+      propertyPath: m_Name
+      value: PivotDB1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745401367658520352, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
+      objectReference: {fileID: 0}
     - target: {fileID: 1758996315433594875, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
       propertyPath: _maxPivot
       value: 90
@@ -1926,6 +1950,10 @@ PrefabInstance:
     - target: {fileID: 1758996315433594875, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
       propertyPath: _rotationSpeed
       value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7514531426272625878, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
       objectReference: {fileID: 0}
     - target: {fileID: 7869897864836618761, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
       propertyPath: m_Name
@@ -34508,8 +34536,6 @@ Tilemap:
     m_Data: {fileID: 493981675, guid: 2fcd529e460bbac47ac1a258b9433200, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: -762886004, guid: 2fcd529e460bbac47ac1a258b9433200, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
   m_TileMatrixArray:
   - m_RefCount: 3157
     m_Data:
@@ -35994,6 +36020,10 @@ PrefabInstance:
       propertyPath: _isAddingConstantVelocityToRigidbody
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6792315080296711374, guid: 4c47da31f1485254492765ecb61d019b, type: 3}
+      propertyPath: m_Name
+      value: DoorEnigma1
+      objectReference: {fileID: 0}
     - target: {fileID: 8755313285032074603, guid: 4c47da31f1485254492765ecb61d019b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -110.725
@@ -36047,6 +36077,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1745401367658520352, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
+      propertyPath: m_Name
+      value: PivotDB4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745401367658520352, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
+      objectReference: {fileID: 0}
     - target: {fileID: 1758996315433594875, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
       propertyPath: _maxPivot
       value: 90
@@ -36605,6 +36643,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpinningPlatformSpikeMedium
       objectReference: {fileID: 0}
+    - target: {fileID: 7434394856651241150, guid: d411e8963dfbd5345bcb1e7c892ba6d3, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
+      objectReference: {fileID: 0}
     - target: {fileID: 7563465779161520579, guid: d411e8963dfbd5345bcb1e7c892ba6d3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -185.286
@@ -37018,9 +37060,17 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6581989973470026539, guid: 798b541bbac387f409dbd052df7fbe9e, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
+      objectReference: {fileID: 0}
     - target: {fileID: 7434394856651241150, guid: 798b541bbac387f409dbd052df7fbe9e, type: 3}
       propertyPath: m_Name
       value: SpinningPlatformDoorground
+      objectReference: {fileID: 0}
+    - target: {fileID: 7434394856651241150, guid: 798b541bbac387f409dbd052df7fbe9e, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
       objectReference: {fileID: 0}
     - target: {fileID: 7522400313169447191, guid: 798b541bbac387f409dbd052df7fbe9e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -37477,6 +37527,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1745401367658520352, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
+      propertyPath: m_Name
+      value: PivotDB7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745401367658520352, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
+      objectReference: {fileID: 0}
     - target: {fileID: 1758996315433594875, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
       propertyPath: _maxPivot
       value: 0
@@ -38428,6 +38486,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1745401367658520352, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
+      propertyPath: m_Name
+      value: PivotDB5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745401367658520352, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
+      objectReference: {fileID: 0}
     - target: {fileID: 1758996315433594875, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
       propertyPath: _maxPivot
       value: 0
@@ -38559,9 +38625,21 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.38732398
       objectReference: {fileID: 0}
+    - target: {fileID: 6581989973470026539, guid: 5fe2ab2a876525041bf1f4855685f7a2, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 6702164203957820493, guid: 5fe2ab2a876525041bf1f4855685f7a2, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
+      objectReference: {fileID: 0}
     - target: {fileID: 7434394856651241150, guid: 5fe2ab2a876525041bf1f4855685f7a2, type: 3}
       propertyPath: m_Name
       value: SpinningPlatform (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7434394856651241150, guid: 5fe2ab2a876525041bf1f4855685f7a2, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
       objectReference: {fileID: 0}
     - target: {fileID: 7563465779161520579, guid: 5fe2ab2a876525041bf1f4855685f7a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -39230,9 +39308,21 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6581989973470026539, guid: 5fe2ab2a876525041bf1f4855685f7a2, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
+      objectReference: {fileID: 0}
+    - target: {fileID: 6702164203957820493, guid: 5fe2ab2a876525041bf1f4855685f7a2, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
+      objectReference: {fileID: 0}
     - target: {fileID: 7434394856651241150, guid: 5fe2ab2a876525041bf1f4855685f7a2, type: 3}
       propertyPath: m_Name
       value: SpinningPlatform (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7434394856651241150, guid: 5fe2ab2a876525041bf1f4855685f7a2, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
       objectReference: {fileID: 0}
     - target: {fileID: 7563465779161520579, guid: 5fe2ab2a876525041bf1f4855685f7a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -42245,6 +42335,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1745401367658520352, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
+      propertyPath: m_Name
+      value: PivotDB6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745401367658520352, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
+      objectReference: {fileID: 0}
     - target: {fileID: 1758996315433594875, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
       propertyPath: _maxPivot
       value: 0
@@ -42780,6 +42878,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1745401367658520352, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
+      propertyPath: m_Name
+      value: PivotDB2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745401367658520352, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
+      objectReference: {fileID: 0}
     - target: {fileID: 1758996315433594875, guid: a9b70767d9860a746a7200adca5c32c1, type: 3}
       propertyPath: _maxPivot
       value: 0
@@ -43134,6 +43240,10 @@ PrefabInstance:
     - target: {fileID: 7434394856651241150, guid: d411e8963dfbd5345bcb1e7c892ba6d3, type: 3}
       propertyPath: m_Name
       value: SpinningPlatformSpikeMedium (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7434394856651241150, guid: d411e8963dfbd5345bcb1e7c892ba6d3, type: 3}
+      propertyPath: m_TagString
+      value: MechanismToSaveState
       objectReference: {fileID: 0}
     - target: {fileID: 7563465779161520579, guid: d411e8963dfbd5345bcb1e7c892ba6d3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -43705,10 +43815,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 239992079}
   - {fileID: 910048220}
-  - {fileID: 122957421}
-  - {fileID: 1370440922}
   - {fileID: 1376943765}
-  - {fileID: 1182594532}
   - {fileID: 1278301547}
   - {fileID: 1465661357}
   - {fileID: 257941440}
@@ -43726,7 +43833,12 @@ SceneRoots:
   - {fileID: 833666461}
   - {fileID: 860842849}
   - {fileID: 707973749}
+  - {fileID: 122957421}
+  - {fileID: 1370440922}
+  - {fileID: 1182594532}
   - {fileID: 838049373}
+  - {fileID: 819124902}
+  - {fileID: 2092943838}
   - {fileID: 311837617}
   - {fileID: 2041103942}
   - {fileID: 189542099}
@@ -43734,8 +43846,6 @@ SceneRoots:
   - {fileID: 1167193997}
   - {fileID: 1870916869}
   - {fileID: 905366027}
-  - {fileID: 819124902}
-  - {fileID: 2092943838}
   - {fileID: 236504880}
   - {fileID: 255869727}
   - {fileID: 340775351}
