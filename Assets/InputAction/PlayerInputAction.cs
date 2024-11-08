@@ -172,6 +172,33 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""GodModeLvl4"",
+                    ""type"": ""Button"",
+                    ""id"": ""44ee7a48-7218-4d7d-b52d-11b1e01aec3e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GodModeLvl5"",
+                    ""type"": ""Button"",
+                    ""id"": ""89007463-f326-4995-b87d-2855050fe203"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GodModeLvl6"",
+                    ""type"": ""Button"",
+                    ""id"": ""8cb95229-a29c-47cb-b09f-48618dc9680d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""GodModeMove"",
                     ""type"": ""Button"",
                     ""id"": ""8a732a27-3db3-4f3b-8828-8d8f763e7f09"",
@@ -961,6 +988,171 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""960ccaad-cded-4e61-8d94-810b5462dd0b"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GodModeLvl4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Two Modifiers"",
+                    ""id"": ""6dc583b1-6190-47ed-87a8-416f8293b5c8"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GodModeLvl4"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""d4148d5f-ce6d-45cd-b807-d961f63f62a6"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GodModeLvl4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""bef2a390-7364-48cc-b773-191e413c9575"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GodModeLvl4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""fcbe98ba-003f-4e86-a3a6-30cb37b199c4"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GodModeLvl4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4b789d7-a5da-414f-a1d1-8d0ed4866691"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GodModeLvl5"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Two Modifiers"",
+                    ""id"": ""a5701eb0-50d6-4e07-aea0-1b0498f4bb81"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GodModeLvl5"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""2c59a8fa-b7a3-43bf-b4ff-85bb203f6952"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GodModeLvl5"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""f4bd56f4-7df4-4115-90ef-d66aae60cb14"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GodModeLvl5"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""85ca7f5f-884b-4e45-8faa-b898d4005bc5"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GodModeLvl5"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4520020c-d78e-450c-b374-067cdec07114"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GodModeLvl6"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Two Modifiers"",
+                    ""id"": ""94b150ac-65e3-4696-bc27-5317bb256d16"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GodModeLvl6"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""b9c61405-c5b3-42fb-90aa-9e2ee7150670"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GodModeLvl6"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""2fd920df-e0a7-495e-9c8a-b19cba460630"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GodModeLvl6"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""f7abbf18-0479-4662-b0ca-4dfaf5fb9d35"",
+                    ""path"": ""<Keyboard>/6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GodModeLvl6"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
                     ""id"": ""3ca295a5-0146-45e7-b2f8-a77ab19c0d82"",
                     ""path"": """",
                     ""interactions"": """",
@@ -1070,6 +1262,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_GodModeLvl1 = m_Player.FindAction("GodModeLvl1", throwIfNotFound: true);
         m_Player_GodModeLvl2 = m_Player.FindAction("GodModeLvl2", throwIfNotFound: true);
         m_Player_GodModeLvl3 = m_Player.FindAction("GodModeLvl3", throwIfNotFound: true);
+        m_Player_GodModeLvl4 = m_Player.FindAction("GodModeLvl4", throwIfNotFound: true);
+        m_Player_GodModeLvl5 = m_Player.FindAction("GodModeLvl5", throwIfNotFound: true);
+        m_Player_GodModeLvl6 = m_Player.FindAction("GodModeLvl6", throwIfNotFound: true);
         m_Player_GodModeMove = m_Player.FindAction("GodModeMove", throwIfNotFound: true);
         m_Player_CloseBoxText = m_Player.FindAction("CloseBoxText", throwIfNotFound: true);
         m_Player_Map = m_Player.FindAction("Map", throwIfNotFound: true);
@@ -1155,6 +1350,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_GodModeLvl1;
     private readonly InputAction m_Player_GodModeLvl2;
     private readonly InputAction m_Player_GodModeLvl3;
+    private readonly InputAction m_Player_GodModeLvl4;
+    private readonly InputAction m_Player_GodModeLvl5;
+    private readonly InputAction m_Player_GodModeLvl6;
     private readonly InputAction m_Player_GodModeMove;
     private readonly InputAction m_Player_CloseBoxText;
     private readonly InputAction m_Player_Map;
@@ -1178,6 +1376,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @GodModeLvl1 => m_Wrapper.m_Player_GodModeLvl1;
         public InputAction @GodModeLvl2 => m_Wrapper.m_Player_GodModeLvl2;
         public InputAction @GodModeLvl3 => m_Wrapper.m_Player_GodModeLvl3;
+        public InputAction @GodModeLvl4 => m_Wrapper.m_Player_GodModeLvl4;
+        public InputAction @GodModeLvl5 => m_Wrapper.m_Player_GodModeLvl5;
+        public InputAction @GodModeLvl6 => m_Wrapper.m_Player_GodModeLvl6;
         public InputAction @GodModeMove => m_Wrapper.m_Player_GodModeMove;
         public InputAction @CloseBoxText => m_Wrapper.m_Player_CloseBoxText;
         public InputAction @Map => m_Wrapper.m_Player_Map;
@@ -1238,6 +1439,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @GodModeLvl3.started += instance.OnGodModeLvl3;
             @GodModeLvl3.performed += instance.OnGodModeLvl3;
             @GodModeLvl3.canceled += instance.OnGodModeLvl3;
+            @GodModeLvl4.started += instance.OnGodModeLvl4;
+            @GodModeLvl4.performed += instance.OnGodModeLvl4;
+            @GodModeLvl4.canceled += instance.OnGodModeLvl4;
+            @GodModeLvl5.started += instance.OnGodModeLvl5;
+            @GodModeLvl5.performed += instance.OnGodModeLvl5;
+            @GodModeLvl5.canceled += instance.OnGodModeLvl5;
+            @GodModeLvl6.started += instance.OnGodModeLvl6;
+            @GodModeLvl6.performed += instance.OnGodModeLvl6;
+            @GodModeLvl6.canceled += instance.OnGodModeLvl6;
             @GodModeMove.started += instance.OnGodModeMove;
             @GodModeMove.performed += instance.OnGodModeMove;
             @GodModeMove.canceled += instance.OnGodModeMove;
@@ -1299,6 +1509,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @GodModeLvl3.started -= instance.OnGodModeLvl3;
             @GodModeLvl3.performed -= instance.OnGodModeLvl3;
             @GodModeLvl3.canceled -= instance.OnGodModeLvl3;
+            @GodModeLvl4.started -= instance.OnGodModeLvl4;
+            @GodModeLvl4.performed -= instance.OnGodModeLvl4;
+            @GodModeLvl4.canceled -= instance.OnGodModeLvl4;
+            @GodModeLvl5.started -= instance.OnGodModeLvl5;
+            @GodModeLvl5.performed -= instance.OnGodModeLvl5;
+            @GodModeLvl5.canceled -= instance.OnGodModeLvl5;
+            @GodModeLvl6.started -= instance.OnGodModeLvl6;
+            @GodModeLvl6.performed -= instance.OnGodModeLvl6;
+            @GodModeLvl6.canceled -= instance.OnGodModeLvl6;
             @GodModeMove.started -= instance.OnGodModeMove;
             @GodModeMove.performed -= instance.OnGodModeMove;
             @GodModeMove.canceled -= instance.OnGodModeMove;
@@ -1343,6 +1562,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnGodModeLvl1(InputAction.CallbackContext context);
         void OnGodModeLvl2(InputAction.CallbackContext context);
         void OnGodModeLvl3(InputAction.CallbackContext context);
+        void OnGodModeLvl4(InputAction.CallbackContext context);
+        void OnGodModeLvl5(InputAction.CallbackContext context);
+        void OnGodModeLvl6(InputAction.CallbackContext context);
         void OnGodModeMove(InputAction.CallbackContext context);
         void OnCloseBoxText(InputAction.CallbackContext context);
         void OnMap(InputAction.CallbackContext context);

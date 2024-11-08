@@ -88,6 +88,9 @@ public class PlayerManager : MonoBehaviour {
         _input.Player.GodModeLvl1.performed += OnPerformGodModeScene1;
         _input.Player.GodModeLvl2.performed += OnPerformGodModeScene2;
         _input.Player.GodModeLvl3.performed += OnPerformGodModeScene3;
+        _input.Player.GodModeLvl4.performed += OnPerformGodModeScene4;
+        _input.Player.GodModeLvl5.performed += OnPerformGodModeScene5;
+        _input.Player.GodModeLvl6.performed += OnPerformGodModeScene6;
         _input.Enable();
     }
 
@@ -96,6 +99,9 @@ public class PlayerManager : MonoBehaviour {
         _input.Player.GodModeLvl1.performed -= OnPerformGodModeScene1;
         _input.Player.GodModeLvl2.performed -= OnPerformGodModeScene2;
         _input.Player.GodModeLvl3.performed -= OnPerformGodModeScene3;
+        _input.Player.GodModeLvl4.performed -= OnPerformGodModeScene4;
+        _input.Player.GodModeLvl5.performed -= OnPerformGodModeScene5;
+        _input.Player.GodModeLvl6.performed -= OnPerformGodModeScene6;
         _input.Player.Disable();
     }
 
@@ -116,6 +122,24 @@ public class PlayerManager : MonoBehaviour {
     void OnPerformGodModeScene3(InputAction.CallbackContext context) {
         ChangeRoom();
         SceneManager.LoadScene("Room 3");
+    }
+
+    void OnPerformGodModeScene4(InputAction.CallbackContext context)
+    {
+        ChangeRoom();
+        SceneManager.LoadScene("Room 4");
+    }
+
+    void OnPerformGodModeScene5(InputAction.CallbackContext context)
+    {
+        ChangeRoom();
+        SceneManager.LoadScene("Room 5");
+    }
+
+    void OnPerformGodModeScene6(InputAction.CallbackContext context)
+    {
+        ChangeRoom();
+        SceneManager.LoadScene("Room 6");
     }
     #endregion
 
