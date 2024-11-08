@@ -175,9 +175,6 @@ public class PlayerUpgrades : MonoBehaviour {
     #endregion
 
     void Start() {
-        PlayerPrefs.SetInt("dash", 0);
-        PlayerPrefs.SetInt("sizing", 0);
-        PlayerPrefs.Save();
         _controller = GetComponent<PlayerController>();
         _rb = GetComponent<Rigidbody2D>();
         _physics = GetComponent<PlayerCompositePhysics>();
