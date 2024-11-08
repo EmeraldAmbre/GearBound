@@ -22,10 +22,12 @@ public class MechanismData
 {
     public string name;
     public Vector3 position;
+    public Quaternion rotation;
 
     public MechanismData(GameObject gameObject)
     {
         name = gameObject.name;
         position = gameObject.transform.position;
+        rotation = gameObject.transform.rotation;
     }
 }
