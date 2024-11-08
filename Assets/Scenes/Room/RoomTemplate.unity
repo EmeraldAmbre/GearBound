@@ -1948,23 +1948,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8570883367269673777, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9939257
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8570883367269673777, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8570883367269673777, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8570883367269673777, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.11005368
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8570883367269673777, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 12.637
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8887766921957905025, guid: fe1fa9a8d2cb98f47b240c44074d7bc4, type: 3}
       propertyPath: _velocityYOnGearMax

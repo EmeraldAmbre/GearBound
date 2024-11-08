@@ -34,7 +34,7 @@ public class PulleySystem : GearMechanism
     private void Start()
     {
         _initialPosition = transform.position;
-        _boxCollider = GetComponent<BoxCollider2D>();
+        if(_boxCollider == null) _boxCollider = GetComponent<BoxCollider2D>();
         _body = GetComponent<Rigidbody2D>();
 
         pulleyWidth = _boxCollider.size.x * transform.localScale.x;

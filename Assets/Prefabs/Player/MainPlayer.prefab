@@ -397,10 +397,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _groundCheckOffsetLenght: 0.1
   _groundCheckerBoxCollider: {fileID: 0}
-  _ceilingCheckOffsetLenght: 0.6
+  _ceilingCheckOffsetLenght: 0.4
   _ceilingCheckerCircleCollider: {fileID: 2600229863370230145}
-  _wallCheckOffsetLenght: 0.5
-  _wallCheckerCircleCollider: {fileID: 2600229863370230145}
+  _wallCheckOffsetLenght: 0.4
+  _wallCheckerCircleCollider: {fileID: 0}
   _slopeCheckLenghtDistance: 1
   _plateformLayer:
     serializedVersion: 2
@@ -485,11 +485,11 @@ MonoBehaviour:
   _onGearVelocityYCap: -3
   _onGearWallSpeedMultiplicator: 1
   _onGearWallVelocityYCap: 1.5
-  _gearGroundRotationSpeed: 5
+  _gearGroundRotationSpeed: 5.5
   _gearAirRotationSpeed: 3.5
   _onGearWallGearRotationSpeed: 5
-  _gearRotationAcceleration: 0.3
-  _gearRotationDeceleration: 0.3
+  _gearRotationAcceleration: 1
+  _gearRotationDeceleration: 1
   _onGearWallGearGravity: 0
   _airGearWallJumpAcceleration: 0.09
   _airGearWallJumpDeceleration: 0.05

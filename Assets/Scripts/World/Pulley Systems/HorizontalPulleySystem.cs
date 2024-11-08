@@ -18,7 +18,7 @@ public class HorizontalPulleySystem : GearMechanism
 
     public void Start()
     {
-        _boxCollider = GetComponent<BoxCollider2D>();
+        if(_boxCollider == null) _boxCollider = GetComponent<BoxCollider2D>();
         _initialPosition = transform.position;
 
         currentPosX = transform.position.x;
