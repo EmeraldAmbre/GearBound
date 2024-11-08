@@ -11,6 +11,8 @@ public class TitleMenu : MonoBehaviour {
 
     public void StartGame() {
         if (_startScene != null) {
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.Save();
             StartCoroutine(LoadSceneWithDelay(_sceneTransitionDelay, _startScene));
         }
     }
