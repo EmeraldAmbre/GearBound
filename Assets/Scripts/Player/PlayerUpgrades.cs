@@ -75,7 +75,6 @@ public class PlayerUpgrades : MonoBehaviour {
     void OnPerformDashStarted(InputAction.CallbackContext context) {
         if (_dashCooldownRemaining <= 0 && (PlayerPrefs.GetInt("dash") == 1 && PlayerPrefs.HasKey("dash"))) {
             StartDash();
-            Debug.Log("StartDash");
         }
     }
 
@@ -201,27 +200,6 @@ public class PlayerUpgrades : MonoBehaviour {
             if (PlayerPrefs.GetInt("possession") == 1) _canControl = true;
         }
 
-        //if (Input.GetKeyDown(KeyCode.I) && PlayerPrefs.HasKey("sizing")) {
-        //    if (PlayerPrefs.GetInt("sizing") == 1) Resizing();
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.H) && _canControl && _gearToControl != null) {
-        //    if (_isPossessed == false) Possess();
-        //    else Depossess();
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.G) && PlayerPrefs.HasKey("magnet")) {
-        //    if (PlayerPrefs.GetInt("magnet") == 1) ActivateAttraction();
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.F) && PlayerPrefs.HasKey("rotation")) {
-        //    if (PlayerPrefs.GetInt("rotation") == 1) InverseRotation();
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.E) && _dashCooldownRemaining <= 0 && PlayerPrefs.HasKey("dash"))
-        //{
-        //    if (PlayerPrefs.GetInt("dash") == 1) StartDash();
-        //}
 
         if (m_isDashing) {
             _dashTimeRemaining -= Time.deltaTime;
@@ -237,7 +215,6 @@ public class PlayerUpgrades : MonoBehaviour {
         if (other.gameObject.CompareTag("Magnet")) {
             m_canBeAttracted = true;
             m_magnet = other.gameObject;
-            Debug.Log("Enter magnet name : " + m_magnet.name);
         }
 
         if (other.gameObject.CompareTag("ControllableGear") && _canControl) {
@@ -261,7 +238,6 @@ public class PlayerUpgrades : MonoBehaviour {
         {
             // m_magnet = null;
             m_canBeAttracted = false;
-            //Debug.Log("Enter magnet name : " + m_magnet.name);
 
         }
 

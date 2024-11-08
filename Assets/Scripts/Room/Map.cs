@@ -36,6 +36,12 @@ public class Map : MonoBehaviour {
         _input.Enable();
     }
 
+    private void Awake()
+    {
+        PlayerPrefs.SetInt("visited_room", 1);
+        PlayerPrefs.Save();
+    }
+
     void Start() {
         InitInput();
     }
