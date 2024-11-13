@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RoomSpinner : GearMechanism
@@ -30,17 +31,16 @@ public class RoomSpinner : GearMechanism
         else if (gearRotationDirection == -1) transform.Rotate(0, 0, -_spinningSpeed * gearRotationScale * Time.deltaTime);
     }
 
-    public override void Update()
-    {
-        base.Update();
+ 
 
-        if(!m_isPlayerInteracting && (transform.eulerAngles.z % _spinAngleToSnap != 0))
+    public void LateUpdate()
+    {
+
+        if (!m_isPlayerInteracting && (transform.eulerAngles.z % _spinAngleToSnap != 0))
         {
             if (transform.eulerAngles.z % _spinAngleToSnap < _spinAngleToSnap / 2)
             {
                 _angleToSnap = transform.eulerAngles.z - transform.eulerAngles.z % _spinAngleToSnap;
-
-
 
                 Quaternion currentRotation = transform.rotation;
                 Quaternion targetRotation = Quaternion.Euler(0, 0, _angleToSnap);

@@ -93,11 +93,11 @@ public class GearManager : MonoBehaviour {
 
     void ResetGearMechanisms()
     {
-        if (!_isActivatingDifferentMechanismByDirection && _gearMechanismToActivate != null)
+        if (!_isActivatingDifferentMechanismByDirection && !_isActivatingSeveralMechanism && _gearMechanismToActivate != null)
         {
             if(_gearMechanismToActivate.m_isPlayerInteracting) _gearMechanismToActivate.m_isPlayerInteracting = false;
         }
-        else if (_isActivatingDifferentMechanismByDirection )
+        else if (_isActivatingDifferentMechanismByDirection && !_isActivatingSeveralMechanism)
         {
             if(_leftGearMechanismToActivate != null )
             {
@@ -114,6 +114,13 @@ public class GearManager : MonoBehaviour {
                 {
                     _rightGearMechanismToActivate.m_isPlayerInteracting = false;
                 }
+            }
+        }
+        else if (_isActivatingSeveralMechanism)
+        {
+            foreach (GearMechanism gearMechanism in _listSeveralMechanismm)
+            {
+                if (gearMechanism.m_isPlayerInteracting) gearMechanism.m_isPlayerInteracting = false;
             }
         }
     }
