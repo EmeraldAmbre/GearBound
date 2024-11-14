@@ -31,11 +31,13 @@ public class BulletManager : MonoBehaviour {
         }
 
         if (_timer > 0) {
-            if (m_isGoingRight) {
+            if (m_isGoingRight) 
+            {
                 transform.Translate(Vector2.right * _speed * Time.deltaTime);
             }
 
-            else {
+            else 
+            {
                 transform.Translate(Vector2.left * _speed * Time.deltaTime);
             }
         }

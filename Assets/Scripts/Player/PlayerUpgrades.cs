@@ -31,7 +31,7 @@ public class PlayerUpgrades : MonoBehaviour {
     [Header("Possession settings")]
     [SerializeField] Color _intermediateColor = Color.white;
     [SerializeField] Vector3 _intermediatePos = new (1999.9f, 1999.9f, 0);
-    [SerializeField] GameObject _gearToControl; // there's no need to drag and drop smthg here, unless you want to customize player experience
+    public GameObject m_gearToControl; // there's no need to drag and drop smthg here, unless you want to customize player experience
     [SerializeField] float _xDamping = 4f; // damping (speed) following x axis of the virtual camera
     [SerializeField] float _yDamping = 4f; // damping (speed) following y axis of the virtual camera
     [SerializeField] float _zDamping = 4f; // useless still this is a 2D game
@@ -39,8 +39,8 @@ public class PlayerUpgrades : MonoBehaviour {
     [SerializeField] SpriteRenderer _spriteRendererFromPlayerPrefab;
     [SerializeField] SpriteRenderer _spriteRendererFromGearToControlPrefab;
     [SerializeField] bool _isPlayerFreezeWhenPossessed; // Check or uncheck this if you want that the player is freezed or not while possessing another gear
-    bool _canControl = false;
-    bool _isPossessed = false;
+    [HideInInspector] public bool m_canControl = false;
+    public bool m_isPossessed { private set; get; } = false;
 
     [Header("Sizing settings")]
     [SerializeField] float _growMultiplier = 2f;
@@ -97,8 +97,8 @@ public class PlayerUpgrades : MonoBehaviour {
     }
 
     void OnPerformPossessionStarted(InputAction.CallbackContext context) {
-        if (_canControl && _gearToControl != null) {
-            if (_isPossessed is false) Possess();
+        if (m_canControl && m_gearToControl != null) {
+            if (m_isPossessed is false) Possess();
             else Depossess();
         }
     }
@@ -197,7 +197,7 @@ public class PlayerUpgrades : MonoBehaviour {
         }
 
         if (PlayerPrefs.HasKey("possession")) {
-            if (PlayerPrefs.GetInt("possession") == 1) _canControl = true;
+            if (PlayerPrefs.GetInt("possession") == 1) m_canControl = true;
         }
 
 
@@ -217,22 +217,12 @@ public class PlayerUpgrades : MonoBehaviour {
             m_magnet = other.gameObject;
         }
 
-        if (other.gameObject.CompareTag("ControllableGear") && _canControl) {
-            _gearToControl = other.gameObject;
-        }
 
-        if (other.gameObject.CompareTag("ControllableGear") && _isPossessed) {
-            Rigidbody2D rb = _gearToControl.GetComponent<Rigidbody2D>();
-            rb.constraints = RigidbodyConstraints2D.FreezePosition;
-        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("ControllableGear") && _isPossessed) {
-            Rigidbody2D rb = _gearToControl.GetComponent<Rigidbody2D>();
-            rb.constraints = RigidbodyConstraints2D.FreezePositionX;
-        }
+  
 
         if (other.gameObject.CompareTag("Magnet"))
         {
@@ -296,23 +286,23 @@ public class PlayerUpgrades : MonoBehaviour {
 
         // Positions
         Vector3 player_pos = transform.position;
-        Vector3 gear_pos = _gearToControl.transform.position;
-        _gearToControl.transform.position = _intermediatePos;
+        Vector3 gear_pos = m_gearToControl.transform.position;
+        m_gearToControl.transform.position = _intermediatePos;
         transform.position = gear_pos;
-        _gearToControl.transform.position = player_pos;
+        m_gearToControl.transform.position = player_pos;
 
         // Sprites colors
-        SpriteRenderer gear_sprite = _gearToControl.GetComponentInChildren<SpriteRenderer>();
+        SpriteRenderer gear_sprite = m_gearToControl.GetComponentInChildren<SpriteRenderer>();
         SpriteRenderer player_sprite = GetComponentInChildren<SpriteRenderer>();
         _intermediateColor = gear_sprite.color;
         gear_sprite.color = player_sprite.color;
         player_sprite.color = _intermediateColor;
 
         // Rigidbodies
-        Rigidbody2D rb = _gearToControl.GetComponent<Rigidbody2D>();
-        rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+        Rigidbody2D rb = m_gearToControl.GetComponent<Rigidbody2D>();
+        rb.constraints = RigidbodyConstraints2D.None;
 
-        _isPossessed = true;
+        m_isPossessed = true;
     }
 
     void Depossess() {
@@ -323,23 +313,23 @@ public class PlayerUpgrades : MonoBehaviour {
 
         // Positions
         Vector3 player_pos = transform.position;
-        Vector3 gear_pos = _gearToControl.transform.position;
-        _gearToControl.transform.position = _intermediatePos;
+        Vector3 gear_pos = m_gearToControl.transform.position;
+        m_gearToControl.transform.position = _intermediatePos;
         transform.position = gear_pos;
-        _gearToControl.transform.position = player_pos;
+        m_gearToControl.transform.position = player_pos;
 
         // Sprites colors
-        SpriteRenderer gear_sprite = _gearToControl.GetComponentInChildren<SpriteRenderer>();
+        SpriteRenderer gear_sprite = m_gearToControl.GetComponentInChildren<SpriteRenderer>();
         SpriteRenderer player_sprite = GetComponentInChildren<SpriteRenderer>();
         _intermediateColor = gear_sprite.color;
         gear_sprite.color = player_sprite.color;
         player_sprite.color = _intermediateColor;
 
         // Rigidbodies
-        Rigidbody2D rb = _gearToControl.GetComponent<Rigidbody2D>();
+        Rigidbody2D rb = m_gearToControl.GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezePosition;
 
-        _isPossessed = false;
+        m_isPossessed = false;
     }
     #endregion
 
