@@ -84,9 +84,14 @@ public class PlayerUpgrades : MonoBehaviour {
         }
     }
 
-    void OnPerformMagnetStarted(InputAction.CallbackContext context) {
-        if (PlayerPrefs.GetInt("magnet") == 1 && PlayerPrefs.HasKey("magnet")) {
-            ActivateAttraction();
+    void OnPerformMagnetStarted(InputAction.CallbackContext context)
+    {
+        if (m_isPossessed is false)
+        {
+            if (PlayerPrefs.GetInt("magnet") == 1 && PlayerPrefs.HasKey("magnet"))
+            {
+                ActivateAttraction();
+            }
         }
     }
 
@@ -97,6 +102,8 @@ public class PlayerUpgrades : MonoBehaviour {
     }
 
     void OnPerformPossessionStarted(InputAction.CallbackContext context) {
+
+
         if (m_canControl && m_gearToControl != null) {
             if (m_isPossessed is false) Possess();
             else Depossess();
@@ -115,14 +122,18 @@ public class PlayerUpgrades : MonoBehaviour {
     }
 
     void OnPerformGodModeMagnet(InputAction.CallbackContext context) {
-        if (PlayerPrefs.GetInt("magnet") == 0) {
+
+        if (PlayerPrefs.GetInt("magnet") == 0)
+        {
             PlayerPrefs.SetInt("magnet", 1);
             PlayerPrefs.Save();
         }
-        else if (PlayerPrefs.GetInt("magnet") == 1) {
+        else if (PlayerPrefs.GetInt("magnet") == 1)
+        {
             PlayerPrefs.SetInt("magnet", 0);
             PlayerPrefs.Save();
         }
+        
     }
 
     void OnPerformGodModeRotation(InputAction.CallbackContext context) {
@@ -327,10 +338,11 @@ public class PlayerUpgrades : MonoBehaviour {
 
         // Rigidbodies
         Rigidbody2D rb = m_gearToControl.GetComponent<Rigidbody2D>();
-        rb.constraints = RigidbodyConstraints2D.FreezePosition;
+        if(m_gearToControl.name.Contains("Magnet")) rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        else rb.constraints = RigidbodyConstraints2D.FreezePosition;
 
         m_isPossessed = false;
-    }
+    }   
     #endregion
 
     #region Sizing Methods

@@ -30,11 +30,11 @@ public class PlayerGearPossesionDetector : MonoBehaviour
                 emission.enabled = true;
 
             }
-            if (collision.gameObject.CompareTag("ControllableGear") && _upgrade.m_isPossessed)
-            {
-                Rigidbody2D rb = _upgrade.m_gearToControl.GetComponent<Rigidbody2D>();
-                rb.constraints = RigidbodyConstraints2D.FreezePosition;
-            }
+            //if (collision.gameObject.CompareTag("ControllableGear") && _upgrade.m_isPossessed)
+            //{
+            //    Rigidbody2D rb = _upgrade.m_gearToControl.GetComponent<Rigidbody2D>();
+            //    rb.constraints = RigidbodyConstraints2D.FreezePosition;
+            //}
         }
         else if (_upgrade.m_gearToControl != null)
         {
