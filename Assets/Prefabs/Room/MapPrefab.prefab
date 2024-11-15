@@ -125,9 +125,9 @@ MonoBehaviour:
   _mapWorldSize: {x: 100, y: 100}
   _miniMapSize: {x: 500, y: 500}
   _offsetRoom1: {x: 1400, y: 260}
-  _offsetRoom2: {x: 10, y: 10}
-  _offsetRoom3: {x: 10, y: 10}
-  _offsetRoom4: {x: 10, y: 10}
+  _offsetRoom2: {x: 1150, y: -100}
+  _offsetRoom3: {x: 1200, y: 325}
+  _offsetRoom4: {x: 100, y: 355}
   _offsetRoom5: {x: 10, y: 10}
   _offsetRoom6: {x: 10, y: 10}
   _room1: {fileID: 2581193970223054764}
@@ -136,7 +136,7 @@ MonoBehaviour:
   _room4: {fileID: 540969730639337453}
   _room5: {fileID: 3286422096863994302}
   _room6: {fileID: 2785277639179208239}
-  _playerImage: {fileID: 3621558954623048447}
+  _playerImage: {fileID: 3639392670299831391}
 --- !u!1 &2581193970223054764
 GameObject:
   m_ObjectHideFlags: 0

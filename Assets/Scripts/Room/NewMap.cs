@@ -106,7 +106,9 @@ public class NewMap : MonoBehaviour {
                     break;
 
             }
+
             _isMapActive = true;
+
         }
 
         else {
