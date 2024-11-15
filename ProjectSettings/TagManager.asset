@@ -31,8 +31,8 @@ TagManager:
   - DoorGround
   - Magnet
   - Bullet
-  - 
-  - 
+  - ControllableGear
+  - AreaPossesionDetection
   - 
   - 
   - 
