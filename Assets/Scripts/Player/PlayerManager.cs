@@ -139,7 +139,7 @@ public class PlayerManager : MonoBehaviour {
     void OnPerformGodModeScene6(InputAction.CallbackContext context)
     {
         ChangeRoom();
-        SceneManager.LoadScene("Room 6");
+        SceneManager.LoadScene("Room 5");
     }
     #endregion
 
