@@ -83,6 +83,12 @@ public class PlayerController : MonoBehaviour {
 
     bool _enableGodMode;
 
+
+    [SerializeField] ParticleSystem _landingParticules;
+    [SerializeField] ParticleSystem _walkParticules;
+    [SerializeField] float _walkParticulesPeriod = 0.1f;
+    float _walkParticulesCounter = 0;
+
     void Start() {
         _physics = GetComponent<PlayerCompositePhysics>();
         _playerManager = GetComponent<PlayerManager>();
@@ -164,6 +170,19 @@ public class PlayerController : MonoBehaviour {
         HandleJumpBuffering();
 
         ResetNeededDataWhenOnGround();
+
+        // Particules
+        _walkParticulesCounter += Time.deltaTime;
+        if (Mathf.Abs(m_inputX) > 0.1 && _physics.IsGrounded() && !_physics.IsOnContactWithGear() && !_physics.IsOnContactWithGearWall() && _walkParticulesCounter > _walkParticulesPeriod)
+        {
+            _walkParticules.Play();
+            _walkParticulesCounter = 0;
+        }
+
+        if(!_physics.m_wasGroundedOnLastFrame && _physics.IsGrounded() && !_physics.IsOnContactWithGear() && !_physics.IsOnContactWithGearWall())
+        {
+            _landingParticules.Play();
+        }
     }
 
     #region Jump and movement methods called in Update()

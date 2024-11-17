@@ -27,6 +27,8 @@ public class PlayerCompositePhysics : MonoBehaviour {
     public bool m_isOnContactWithGearWall;
     public int m_gearWallDirection = 0;
 
+    public bool m_wasGroundedOnLastFrame { get; private set; } = false;
+
  
     void Start() {
         m_playerRigidbody = GetComponent<Rigidbody2D>();
@@ -80,9 +82,16 @@ public class PlayerCompositePhysics : MonoBehaviour {
         else return false;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-     
+        if(IsGrounded())
+        {
+            m_wasGroundedOnLastFrame = true;
+        }
+        else
+        {
+            m_wasGroundedOnLastFrame = false;
+        }
     }
 
     private void OnDrawGizmos()

@@ -50,6 +50,8 @@ public class PlayerUpgrades : MonoBehaviour {
     Vector3 _shrinkSize;
     int _sizeMode;
 
+    [SerializeField] ParticleSystem _magnetismParticules;
+
     Rigidbody2D _rb;
     PlayerInputAction _input;
     PlayerController _controller;
@@ -219,6 +221,13 @@ public class PlayerUpgrades : MonoBehaviour {
                 EndDash();
             }
         }
+
+        // ShowParticules
+        if(m_isAttracted)
+        {
+            _magnetismParticules.Play();
+        }
+        
 
     }
 
