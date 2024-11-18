@@ -12,32 +12,31 @@ public class NewMap : MonoBehaviour {
     [SerializeField] RectTransform _miniMapRect;  // RectTransform de la mini-map (image de fond)
     [SerializeField] RectTransform _playerMarker;  // RectTransform du minisprite (point du joueur)
 
+    [HideInInspector]
     [SerializeField] Vector2 _mapWorldSize = new Vector2(100, 100);
     [SerializeField] Vector2 _miniMapSize = new Vector2(500, 500);
-    [SerializeField] Vector2 _offsetRoom1 = new Vector2(1400, 260);
-    [SerializeField] Vector2 _offsetRoom2 = new Vector2(10, 10);
-    [SerializeField] Vector2 _offsetRoom3 = new Vector2(10, 10);
-    [SerializeField] Vector2 _offsetRoom4 = new Vector2(10, 10);
-    [SerializeField] Vector2 _offsetRoom5 = new Vector2(10, 10);
-    [SerializeField] Vector2 _offsetRoom6 = new Vector2(10, 10);
 
+    [Header("Offset Settings")]
+    [SerializeField] Vector2 _offsetRoom1 = new Vector2(1435, 350);
+    [SerializeField] Vector2 _offsetRoom2 = new Vector2(1160, -270);
+    [SerializeField] Vector2 _offsetRoom3 = new Vector2(1210, 350);
+    [SerializeField] Vector2 _offsetRoom4 = new Vector2(0, 500);
+    [SerializeField] Vector2 _offsetRoom5 = new Vector2(10, 10);
+
+    [Header("Rooms")]
     [SerializeField] GameObject _room1;
     [SerializeField] GameObject _room2;
     [SerializeField] GameObject _room3;
     [SerializeField] GameObject _room4;
     [SerializeField] GameObject _room5;
-    [SerializeField] GameObject _room6;
+
+    [Header("Minimap Player Sprite")]
     [SerializeField] Image _playerImage;
 
     bool _isMapActive;
     string _sceneName;
     Vector2 _mainOffset;
     PlayerInputAction _input;
-
-    void Awake() {
-        PlayerPrefs.SetInt("visited_room", 1);
-        PlayerPrefs.Save();
-    }
 
     void Start() {
         InitInput();
@@ -77,34 +76,42 @@ public class NewMap : MonoBehaviour {
 
                 case "Room 1":
                     _mainOffset = _offsetRoom1;
-                    _room1.SetActive(true);
                     break;
 
                 case "Room 2":
                     _mainOffset = _offsetRoom2;
-                    _room2.SetActive(true);
                     break;
 
                 case "Room 3":
                     _mainOffset = _offsetRoom3;
-                    _room3.SetActive(true);
                     break;
 
                 case "Room 4":
                     _mainOffset = _offsetRoom4;
-                    _room4.SetActive(true);
                     break;
 
                 case "Room 5":
                     _mainOffset = _offsetRoom5;
+                    break;
+            }
+
+            switch (index) {
+
+                case 1:
+                    _room1.SetActive(true);
+                    break;
+                case 2:
+                    _room2.SetActive(true);
+                    break;
+                case 3:
+                    _room3.SetActive(true);
+                    break;
+                case 4:
+                    _room4.SetActive(true);
+                    break;
+                case 5:
                     _room5.SetActive(true);
                     break;
-
-                case "Room 6":
-                    _mainOffset = _offsetRoom6;
-                    _room6.SetActive(true);
-                    break;
-
             }
 
             _isMapActive = true;
@@ -118,7 +125,6 @@ public class NewMap : MonoBehaviour {
             _room3.SetActive(false);
             _room4.SetActive(false);
             _room5.SetActive(false);
-            _room6.SetActive(false);
         }
     }
     
@@ -148,11 +154,6 @@ public class NewMap : MonoBehaviour {
             case "Room 5":
                 if (PlayerPrefs.GetInt("visited_room") < 5) {
                     PlayerPrefs.SetInt("visited_room", 5);
-                    PlayerPrefs.Save();
-                } break;
-            case "Room 6":
-                if (PlayerPrefs.GetInt("visited_room") < 6) {
-                    PlayerPrefs.SetInt("visited_room", 6);
                     PlayerPrefs.Save();
                 } break;
         }
