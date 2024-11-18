@@ -23,9 +23,11 @@ public class HorizontalPulleySystem : GearMechanism
 
         currentPosX = transform.position.x;
 
-
-        boxWidth = _boxCollider.size.x * transform.localScale.x;
-        boxHeight = _boxCollider.size.y * transform.localScale.y;
+        if(_boxCollider != null)
+        {
+            boxWidth = _boxCollider.size.x * transform.localScale.x;
+            boxHeight = _boxCollider.size.y * transform.localScale.y;
+        }
     }
 
     public override void ActivateOnce(int gearRotationDirection)
@@ -62,28 +64,32 @@ public class HorizontalPulleySystem : GearMechanism
 
     private void OnDrawGizmos()
     {
-        if (Application.isEditor && _initialPosition == Vector2.zero) _initialPosition = transform.position;
-        Gizmos.color = Color.yellow;
+        if (_boxCollider != null)
+        {
+            if (Application.isEditor && _initialPosition == Vector2.zero) _initialPosition = transform.position;
+            Gizmos.color = Color.yellow;
 
-        boxWidth = _boxCollider.size.x * transform.localScale.x;
-        boxHeight = _boxCollider.size.y * transform.localScale.y;
+            boxWidth = _boxCollider.size.x * transform.localScale.x;
+            boxHeight = _boxCollider.size.y * transform.localScale.y;
 
-        float xLineLeft = _initialPosition.x - _maxLeft - boxWidth / 2;
-        float yLineOriginLeft = _initialPosition.y + _boxCollider.offset.y  + boxHeight / 2;
-        float yLineEndLeft = _initialPosition.y + _boxCollider.offset.y - boxHeight / 2;
+            float xLineLeft = _initialPosition.x - _maxLeft - boxWidth / 2;
+            float yLineOriginLeft = _initialPosition.y + _boxCollider.offset.y + boxHeight / 2;
+            float yLineEndLeft = _initialPosition.y + _boxCollider.offset.y - boxHeight / 2;
 
-        float xLineRight = _initialPosition.x + _maxRight + boxWidth / 2;
-        float yLineOriginRight = _initialPosition.y + _boxCollider.offset.y + boxHeight / 2;
-        float yLineEndRight = _initialPosition.y + _boxCollider.offset.y - boxHeight / 2;
+            float xLineRight = _initialPosition.x + _maxRight + boxWidth / 2;
+            float yLineOriginRight = _initialPosition.y + _boxCollider.offset.y + boxHeight / 2;
+            float yLineEndRight = _initialPosition.y + _boxCollider.offset.y - boxHeight / 2;
 
-        // Draw line left max
-        Gizmos.DrawLine(new Vector2(xLineLeft + 0.01f, yLineOriginLeft), new Vector2(xLineLeft + 0.01f, yLineEndLeft));
-        Gizmos.DrawLine(new Vector2(xLineLeft, yLineOriginLeft), new Vector2(xLineLeft, yLineEndLeft));
-        Gizmos.DrawLine(new Vector2(xLineLeft - 0.01f, yLineOriginLeft), new Vector2(xLineLeft - 0.01f, yLineEndLeft));
-        // Draw line right
-        Gizmos.DrawLine(new Vector2(xLineRight + 0.01f, yLineOriginRight), new Vector2(xLineRight + 0.01f, yLineEndRight));
-        Gizmos.DrawLine(new Vector2(xLineRight, yLineOriginRight), new Vector2(xLineRight, yLineEndRight));
-        Gizmos.DrawLine(new Vector2(xLineRight - 0.01f, yLineOriginRight), new Vector2(xLineRight - 0.01f, yLineEndRight));
+            // Draw line left max
+            Gizmos.DrawLine(new Vector2(xLineLeft + 0.01f, yLineOriginLeft), new Vector2(xLineLeft + 0.01f, yLineEndLeft));
+            Gizmos.DrawLine(new Vector2(xLineLeft, yLineOriginLeft), new Vector2(xLineLeft, yLineEndLeft));
+            Gizmos.DrawLine(new Vector2(xLineLeft - 0.01f, yLineOriginLeft), new Vector2(xLineLeft - 0.01f, yLineEndLeft));
+            // Draw line right
+            Gizmos.DrawLine(new Vector2(xLineRight + 0.01f, yLineOriginRight), new Vector2(xLineRight + 0.01f, yLineEndRight));
+            Gizmos.DrawLine(new Vector2(xLineRight, yLineOriginRight), new Vector2(xLineRight, yLineEndRight));
+            Gizmos.DrawLine(new Vector2(xLineRight - 0.01f, yLineOriginRight), new Vector2(xLineRight - 0.01f, yLineEndRight));
+
+        }
 
 
     }
