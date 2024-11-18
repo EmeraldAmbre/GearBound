@@ -19,8 +19,8 @@ public class NewMap : MonoBehaviour {
     [Header("Offset Settings")]
     [SerializeField] Vector2 _offsetRoom1 = new Vector2(1435, 350);
     [SerializeField] Vector2 _offsetRoom2 = new Vector2(1160, -270);
-    [SerializeField] Vector2 _offsetRoom3 = new Vector2(10, 10);
-    [SerializeField] Vector2 _offsetRoom4 = new Vector2(10, 10);
+    [SerializeField] Vector2 _offsetRoom3 = new Vector2(1210, 350);
+    [SerializeField] Vector2 _offsetRoom4 = new Vector2(0, 500);
     [SerializeField] Vector2 _offsetRoom5 = new Vector2(10, 10);
 
     [Header("Rooms")]
@@ -76,29 +76,42 @@ public class NewMap : MonoBehaviour {
 
                 case "Room 1":
                     _mainOffset = _offsetRoom1;
-                    _room1.SetActive(true);
                     break;
 
                 case "Room 2":
                     _mainOffset = _offsetRoom2;
-                    _room2.SetActive(true);
                     break;
 
                 case "Room 3":
                     _mainOffset = _offsetRoom3;
-                    _room3.SetActive(true);
                     break;
 
                 case "Room 4":
                     _mainOffset = _offsetRoom4;
-                    _room4.SetActive(true);
                     break;
 
                 case "Room 5":
                     _mainOffset = _offsetRoom5;
+                    break;
+            }
+
+            switch (index) {
+
+                case 1:
+                    _room1.SetActive(true);
+                    break;
+                case 2:
+                    _room2.SetActive(true);
+                    break;
+                case 3:
+                    _room3.SetActive(true);
+                    break;
+                case 4:
+                    _room4.SetActive(true);
+                    break;
+                case 5:
                     _room5.SetActive(true);
                     break;
-
             }
 
             _isMapActive = true;
