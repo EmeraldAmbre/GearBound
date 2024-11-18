@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &714620403663141071
 RectTransform:
   m_ObjectHideFlags: 0
@@ -287,10 +287,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 5251835111745031286}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 1920, y: 820}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7188590947020178957
 CanvasRenderer:
@@ -549,7 +549,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7850620931023972134, guid: b03353383fca4f14e94f6996a2fa2063, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -72
+      value: -190
       objectReference: {fileID: 0}
     - target: {fileID: 7850620931023972134, guid: b03353383fca4f14e94f6996a2fa2063, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -621,10 +621,8 @@ PrefabInstance:
       propertyPath: m_text
       value: 'TO DASH : PRESS SHIFT
 
-        (R2 BUTTON ON GAMEPAD)
 
-        TO CLOSE
-        PRESS ESC (START)'
+        (R2 BUTTON ON GAMEPAD)'
       objectReference: {fileID: 0}
     - target: {fileID: 1564714916784599503, guid: 61a4c2eaf2ce80b458df285ef41b89e6, type: 3}
       propertyPath: m_fontSize
