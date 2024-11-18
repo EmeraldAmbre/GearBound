@@ -21,7 +21,7 @@ public class NewMap : MonoBehaviour {
     [SerializeField] Vector2 _offsetRoom2 = new Vector2(1160, -270);
     [SerializeField] Vector2 _offsetRoom3 = new Vector2(1210, 350);
     [SerializeField] Vector2 _offsetRoom4 = new Vector2(0, 500);
-    [SerializeField] Vector2 _offsetRoom5 = new Vector2(10, 10);
+    [SerializeField] Vector2 _offsetRoom5 = new Vector2(225, -375);
 
     [Header("Rooms")]
     [SerializeField] GameObject _room1;
