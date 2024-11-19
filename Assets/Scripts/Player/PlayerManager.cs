@@ -152,7 +152,6 @@ public class PlayerManager : MonoBehaviour {
                 if (m_playerLife <= 0) Death();
                 else StartCoroutine(Invincibility());
             }
-
         }
     }
 
