@@ -147,46 +147,49 @@ public class PulleySystem : GearMechanism
 
     private void OnDrawGizmos()
     {
-        if (Application.isEditor && _initialPosition == Vector2.zero) _initialPosition = transform.position;
-        Gizmos.color = Color.yellow;
-
-        pulleyWidth = _boxCollider.size.x * transform.localScale.x;
-        pulleyHeight = _boxCollider.size.y * transform.localScale.y;
-
-        yMaxheight = _initialPosition.y + _maxHeight + pulleyHeight / 2;
-        yMinheight = _initialPosition.y - _minHeight - pulleyHeight / 2;
-
-
-        yMaxHeightLockThreshold = _initialPosition.y + yMaxLockThreshold + pulleyHeight / 2;
-        yMinHeightLockThreshold = _initialPosition.y - yMinLockThreshold - pulleyHeight / 2;
-
-        float xLineOrigin = _initialPosition.x - pulleyWidth / 2;
-        float xLineEnd = _initialPosition.x + pulleyWidth / 2;
-
-        // Draw line max height
-        Gizmos.DrawLine(new Vector2(xLineOrigin, yMaxheight + 0.01f), new Vector2(xLineEnd, yMaxheight + 0.01f));
-        Gizmos.DrawLine(new Vector2(xLineOrigin, yMaxheight), new Vector2(xLineEnd, yMaxheight));
-        Gizmos.DrawLine(new Vector2(xLineOrigin, yMaxheight - 0.01f), new Vector2(xLineEnd, yMaxheight - 0.01f));
-        // Draw line min height
-        Gizmos.DrawLine(new Vector2(xLineOrigin, yMinheight + 0.01f), new Vector2(xLineEnd, yMinheight + 0.01f));
-        Gizmos.DrawLine(new Vector2(xLineOrigin, yMinheight), new Vector2(xLineEnd, yMinheight));
-        Gizmos.DrawLine(new Vector2(xLineOrigin, yMinheight - 0.01f), new Vector2(xLineEnd, yMinheight - 0.01f));
-
-
-        if(_isLockingAfterThreshold)
+        if(_boxCollider != null)
         {
-            Gizmos.color = Color.red;
-            if (yMaxLockThreshold != 0)
+            if (Application.isEditor && _initialPosition == Vector2.zero) _initialPosition = transform.position;
+            Gizmos.color = Color.yellow;
+
+            pulleyWidth = _boxCollider.size.x * transform.localScale.x;
+            pulleyHeight = _boxCollider.size.y * transform.localScale.y;
+
+            yMaxheight = _initialPosition.y + _maxHeight + pulleyHeight / 2;
+            yMinheight = _initialPosition.y - _minHeight - pulleyHeight / 2;
+
+
+            yMaxHeightLockThreshold = _initialPosition.y + yMaxLockThreshold + pulleyHeight / 2;
+            yMinHeightLockThreshold = _initialPosition.y - yMinLockThreshold - pulleyHeight / 2;
+
+            float xLineOrigin = _initialPosition.x - pulleyWidth / 2;
+            float xLineEnd = _initialPosition.x + pulleyWidth / 2;
+
+            // Draw line max height
+            Gizmos.DrawLine(new Vector2(xLineOrigin, yMaxheight + 0.01f), new Vector2(xLineEnd, yMaxheight + 0.01f));
+            Gizmos.DrawLine(new Vector2(xLineOrigin, yMaxheight), new Vector2(xLineEnd, yMaxheight));
+            Gizmos.DrawLine(new Vector2(xLineOrigin, yMaxheight - 0.01f), new Vector2(xLineEnd, yMaxheight - 0.01f));
+            // Draw line min height
+            Gizmos.DrawLine(new Vector2(xLineOrigin, yMinheight + 0.01f), new Vector2(xLineEnd, yMinheight + 0.01f));
+            Gizmos.DrawLine(new Vector2(xLineOrigin, yMinheight), new Vector2(xLineEnd, yMinheight));
+            Gizmos.DrawLine(new Vector2(xLineOrigin, yMinheight - 0.01f), new Vector2(xLineEnd, yMinheight - 0.01f));
+
+
+            if (_isLockingAfterThreshold)
             {
-                Gizmos.DrawLine(new Vector2(xLineOrigin, yMaxHeightLockThreshold + 0.01f), new Vector2(xLineEnd, yMaxHeightLockThreshold + 0.01f));
-                Gizmos.DrawLine(new Vector2(xLineOrigin, yMaxHeightLockThreshold), new Vector2(xLineEnd, yMaxHeightLockThreshold));
-                Gizmos.DrawLine(new Vector2(xLineOrigin, yMaxHeightLockThreshold - 0.01f), new Vector2(xLineEnd, yMaxHeightLockThreshold - 0.01f));
-            }
-            if (yMinLockThreshold != 0)
-            {
-                Gizmos.DrawLine(new Vector2(xLineOrigin, yMinHeightLockThreshold + 0.01f), new Vector2(xLineEnd, yMinHeightLockThreshold + 0.01f));
-                Gizmos.DrawLine(new Vector2(xLineOrigin, yMinHeightLockThreshold), new Vector2(xLineEnd, yMinHeightLockThreshold));
-                Gizmos.DrawLine(new Vector2(xLineOrigin, yMinHeightLockThreshold - 0.01f), new Vector2(xLineEnd, yMinHeightLockThreshold - 0.01f));
+                Gizmos.color = Color.red;
+                if (yMaxLockThreshold != 0)
+                {
+                    Gizmos.DrawLine(new Vector2(xLineOrigin, yMaxHeightLockThreshold + 0.01f), new Vector2(xLineEnd, yMaxHeightLockThreshold + 0.01f));
+                    Gizmos.DrawLine(new Vector2(xLineOrigin, yMaxHeightLockThreshold), new Vector2(xLineEnd, yMaxHeightLockThreshold));
+                    Gizmos.DrawLine(new Vector2(xLineOrigin, yMaxHeightLockThreshold - 0.01f), new Vector2(xLineEnd, yMaxHeightLockThreshold - 0.01f));
+                }
+                if (yMinLockThreshold != 0)
+                {
+                    Gizmos.DrawLine(new Vector2(xLineOrigin, yMinHeightLockThreshold + 0.01f), new Vector2(xLineEnd, yMinHeightLockThreshold + 0.01f));
+                    Gizmos.DrawLine(new Vector2(xLineOrigin, yMinHeightLockThreshold), new Vector2(xLineEnd, yMinHeightLockThreshold));
+                    Gizmos.DrawLine(new Vector2(xLineOrigin, yMinHeightLockThreshold - 0.01f), new Vector2(xLineEnd, yMinHeightLockThreshold - 0.01f));
+                }
             }
         }
     }
