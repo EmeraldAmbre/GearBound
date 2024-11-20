@@ -23,5 +23,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Room/Room 5.unity
     guid: 7901c96e1c3e84f49b9a526d21623990
+  - enabled: 1
+    path: Assets/Scenes/CreditsScene.unity
+    guid: b0bcaf989c207344aa29f76595a52b93
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: cb5507c84a87ab643b1505af21dfae41, type: 2}
