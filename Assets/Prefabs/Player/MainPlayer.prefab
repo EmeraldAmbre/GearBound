@@ -15633,8 +15633,22 @@ MonoBehaviour:
   _gearWallJumpForceVector: {x: 17, y: 15}
   _body: {fileID: 2560477893739365598}
   m_isGearWallJumping: 0
-  _walkParticules: {fileID: 2442064989089749591}
   _landingParticules: {fileID: 434150335198869384}
+  _walkParticules: {fileID: 2442064989089749591}
+  _walkParticulesPeriod: 0.1
+  _listSfxJump:
+  - {fileID: 8300000, guid: 14a8581e1ce066c49bdec99493c1fc37, type: 3}
+  - {fileID: 8300000, guid: d09e254f1c2950e459de573c71a2f5d7, type: 3}
+  - {fileID: 8300000, guid: 6d287b2ce7c46df408038e0bea5f3c4e, type: 3}
+  - {fileID: 8300000, guid: 2c6f8c16c87980d4fb260ae334b82d83, type: 3}
+  - {fileID: 8300000, guid: fb2f0cf69b294b7448a7dd135f05998f, type: 3}
+  - {fileID: 8300000, guid: 9dfe2f39fe82b25458b2970dfe3b5e25, type: 3}
+  _listSfxFootStep: []
+  _listSfxLanding:
+  - {fileID: 8300000, guid: 0e343adc74380404490ff94ad2ca086a, type: 3}
+  - {fileID: 8300000, guid: e84a6990adb28be4386ab6f557b8dca3, type: 3}
+  - {fileID: 8300000, guid: 32348d665b72fec489308effc49ef64d, type: 3}
+  _footStepDelay: 0.2
 --- !u!114 &6106390362826736106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15685,6 +15699,13 @@ MonoBehaviour:
   _growMultiplier: 2
   _shrinkMultiplier: 0.5
   _magnetismParticules: {fileID: 3766217658859222701}
+  _sfxDash: {fileID: 8300000, guid: 9b5fedad6eaa19746af21be8d1b3f616, type: 3}
+  _sfxMagnetActivaction: {fileID: 0}
+  _sfxMagnetDeactivaction: {fileID: 0}
+  _sfxReverseRotationActivaction: {fileID: 0}
+  _sfxReverseRotationDeactivaction: {fileID: 0}
+  _sfxPossesionActivaction: {fileID: 0}
+  _sfxPossesionDeactivaction: {fileID: 0}
 --- !u!1 &6445922541459735058
 GameObject:
   m_ObjectHideFlags: 0

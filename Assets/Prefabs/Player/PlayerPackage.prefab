@@ -1077,7 +1077,7 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 65536
-  maxDistance: 20
+  maxDistance: 50
 --- !u!1 &5944695329765697383
 GameObject:
   m_ObjectHideFlags: 0
@@ -1844,7 +1844,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95d051ee23a6d0e438086c570cf84971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_activateParallacinEditor: 0
+  m_activateParallacinEditor: 1
 --- !u!114 &4336590649374396215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2501,10 +2501,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3078479267771761472, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
-      propertyPath: _sfxDash
-      value: 
-      objectReference: {fileID: 8300000, guid: 498d212f4a73a8843ba8ee38c502fb6c, type: 3}
-    - target: {fileID: 3078479267771761472, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _virtualCamera
       value: 
       objectReference: {fileID: 1366588519002608153}
@@ -2537,10 +2533,6 @@ PrefabInstance:
       value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
-      propertyPath: _listSfxJump.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _gearGroundRotationSpeed
       value: 5
       objectReference: {fileID: 0}
@@ -2548,18 +2540,6 @@ PrefabInstance:
       propertyPath: _gearRotationAcceleration
       value: 0.2
       objectReference: {fileID: 0}
-    - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
-      propertyPath: _listSfxJump.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: b912fb6ab949b0341a82a30e11bbed40, type: 3}
-    - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
-      propertyPath: _listSfxJump.Array.data[1]
-      value: 
-      objectReference: {fileID: 8300000, guid: 4f5eef0692c642f4aa7bb0211522556c, type: 3}
-    - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
-      propertyPath: _listSfxJump.Array.data[2]
-      value: 
-      objectReference: {fileID: 8300000, guid: 82b2c376a93b8dc4ca6683d0d3e8fc8a, type: 3}
     - target: {fileID: 3756639636478510469, guid: 526dacc03bd43a94d894ae151aedbf9f, type: 3}
       propertyPath: _listSfxFootStep.Array.size
       value: 8
