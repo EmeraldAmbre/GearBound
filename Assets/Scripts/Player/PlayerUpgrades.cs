@@ -52,6 +52,16 @@ public class PlayerUpgrades : MonoBehaviour {
 
     [SerializeField] ParticleSystem _magnetismParticules;
 
+
+    [SerializeField] AudioClip _sfxDash;
+    [SerializeField] AudioClip _sfxMagnetActivaction;
+    [SerializeField] AudioClip _sfxMagnetDeactivaction;
+    [SerializeField] AudioClip _sfxReverseRotationActivaction;
+    [SerializeField] AudioClip _sfxReverseRotationDeactivaction;
+    [SerializeField] AudioClip _sfxPossesionActivaction;
+    [SerializeField] AudioClip _sfxPossesionDeactivaction;
+
+
     Rigidbody2D _rb;
     PlayerInputAction _input;
     PlayerController _controller;
@@ -267,6 +277,7 @@ public class PlayerUpgrades : MonoBehaviour {
         _initialSpeed = _controller.m_currentSpeed;
         _controller.SetCurrentSpeed(_dashSpeed);
         _controller.m_gearRotationDashMultiplier = _gearRotationDashMultiplier;
+        AudioManager.Instance.PlaySfx(_sfxDash,2);
     }
 
     void EndDash() {
@@ -280,6 +291,16 @@ public class PlayerUpgrades : MonoBehaviour {
     #region Rotation Methods
     void InverseRotation() {
         _controller.m_rotationInversion = !_controller.m_rotationInversion;
+
+        // Sfx
+        if(_controller.m_rotationInversion )
+        {
+            AudioManager.Instance.PlaySfx(_sfxReverseRotationActivaction,3);
+        }
+        else
+        {
+            AudioManager.Instance.PlaySfx(_sfxReverseRotationDeactivaction,3);
+        }
     }
     #endregion
 
@@ -291,6 +312,15 @@ public class PlayerUpgrades : MonoBehaviour {
         if (m_canBeAttracted == true)
         {
             _controller.ResetVelocity();
+        }
+
+        if (m_isAttracted)
+        {
+            AudioManager.Instance.PlaySfx(_sfxMagnetActivaction,4);
+        }
+        else
+        {
+            AudioManager.Instance.PlaySfx(_sfxMagnetDeactivaction,4);
         }
     }
 
@@ -323,6 +353,8 @@ public class PlayerUpgrades : MonoBehaviour {
         rb.constraints = RigidbodyConstraints2D.None;
 
         m_isPossessed = true;
+
+        AudioManager.Instance.PlaySfx(_sfxPossesionActivaction,5);
     }
 
     void Depossess() {
@@ -351,7 +383,9 @@ public class PlayerUpgrades : MonoBehaviour {
         else rb.constraints = RigidbodyConstraints2D.FreezePosition;
 
         m_isPossessed = false;
-    }   
+
+        AudioManager.Instance.PlaySfx(_sfxPossesionDeactivaction, 5);
+    }
     #endregion
 
     #region Sizing Methods

@@ -89,6 +89,11 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] float _walkParticulesPeriod = 0.1f;
     float _walkParticulesCounter = 0;
 
+    [SerializeField] List<AudioClip> _listSfxJump;
+    [SerializeField] List<AudioClip> _listSfxFootStep;
+    [SerializeField] float _footStepDelay = 0.2f;
+    float _footStepTimer = 0;
+
     void Start() {
         _physics = GetComponent<PlayerCompositePhysics>();
         _playerManager = GetComponent<PlayerManager>();
@@ -143,6 +148,11 @@ public class PlayerController : MonoBehaviour {
 
         _isHandlingJumpButton = true;
 
+        if(_isTrigerringJump)
+        {
+            AudioManager.Instance.PlayRandomSfx(_listSfxJump, 0);
+        }
+
     }
 
     void OnPerformGodModeMove(InputAction.CallbackContext context) {
@@ -183,6 +193,24 @@ public class PlayerController : MonoBehaviour {
         {
             _landingParticules.Play();
         }
+
+        // Sfx footstep
+        if(Mathf.Abs(m_inputX) > 0.1 && _physics.IsGrounded() )
+        {
+            if(_footStepTimer == 0)
+            {
+                AudioManager.Instance.PlayRandomSfx(_listSfxFootStep, 0);
+            }
+            if (_footStepTimer < _footStepDelay)
+            {
+                _footStepTimer += Time.deltaTime;
+            }
+            else
+            {
+                _footStepTimer = 0;
+            }
+        }
+        else if (_footStepTimer != 0) _footStepTimer = 0;
     }
 
     #region Jump and movement methods called in Update()
