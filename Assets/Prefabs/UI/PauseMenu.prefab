@@ -483,6 +483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1045dd468d33d040bd922aeb9d3c6ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _titleText: {fileID: 3323031035265663276}
   _controlsBackgroundImage1: {fileID: 50350286483334029}
   _controlsBackgroundImage2: {fileID: 7162969290696192926}
   _controlsBackgroundImage3: {fileID: 1963837184184601132}
@@ -1254,7 +1255,7 @@ GameObject:
   - component: {fileID: 660001450591753679}
   - component: {fileID: 3323031035265663276}
   m_Layer: 5
-  m_Name: Custom Sprite Font
+  m_Name: Pause Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
