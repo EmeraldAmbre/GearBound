@@ -224,6 +224,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""57636a72-eee8-4c18-b789-b09b2a8ac42c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1238,6 +1247,28 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Map"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8f03485c-a1ff-4c69-8ae3-484adefddcd0"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0eb9c96e-d1ad-4293-ab45-5da88e41a190"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1268,6 +1299,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_GodModeMove = m_Player.FindAction("GodModeMove", throwIfNotFound: true);
         m_Player_CloseBoxText = m_Player.FindAction("CloseBoxText", throwIfNotFound: true);
         m_Player_Map = m_Player.FindAction("Map", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
@@ -1356,6 +1388,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_GodModeMove;
     private readonly InputAction m_Player_CloseBoxText;
     private readonly InputAction m_Player_Map;
+    private readonly InputAction m_Player_Pause;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -1382,6 +1415,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @GodModeMove => m_Wrapper.m_Player_GodModeMove;
         public InputAction @CloseBoxText => m_Wrapper.m_Player_CloseBoxText;
         public InputAction @Map => m_Wrapper.m_Player_Map;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1457,6 +1491,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Map.started += instance.OnMap;
             @Map.performed += instance.OnMap;
             @Map.canceled += instance.OnMap;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1527,6 +1564,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Map.started -= instance.OnMap;
             @Map.performed -= instance.OnMap;
             @Map.canceled -= instance.OnMap;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1568,5 +1608,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnGodModeMove(InputAction.CallbackContext context);
         void OnCloseBoxText(InputAction.CallbackContext context);
         void OnMap(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }
