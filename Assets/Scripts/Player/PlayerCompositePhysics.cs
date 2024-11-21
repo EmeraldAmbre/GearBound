@@ -27,10 +27,15 @@ public class PlayerCompositePhysics : MonoBehaviour {
     public bool m_isOnContactWithGearWall;
     public int m_gearWallDirection = 0;
 
+    public bool m_isInAir { private set; get; } = true;
+    float delayBeforeToConsideringPlayerInAir = 0.2f;
+    float timerToConsiderPlayerInAir = 0;
+
     public bool m_wasGroundedOnLastFrame { get; private set; } = false;
 
  
-    void Start() {
+    void Start() 
+    {
         m_playerRigidbody = GetComponent<Rigidbody2D>();
     }
 
@@ -84,13 +89,25 @@ public class PlayerCompositePhysics : MonoBehaviour {
 
     private void LateUpdate()
     {
-        if(IsGrounded())
+        if(IsGrounded() && !m_isInAir)
         {
             m_wasGroundedOnLastFrame = true;
         }
         else
         {
             m_wasGroundedOnLastFrame = false;
+        }
+
+        // Considering playee in air 
+        if(!IsGrounded() && !_isOnContactWithGear && !m_isOnContactWithGearWall)
+        {
+            timerToConsiderPlayerInAir += Time.deltaTime;
+            if (timerToConsiderPlayerInAir >= delayBeforeToConsideringPlayerInAir) m_isInAir = true;
+        }
+        else
+        {
+            m_isInAir = false;
+            timerToConsiderPlayerInAir = 0;
         }
     }
 

@@ -91,6 +91,7 @@ public class PlayerController : MonoBehaviour {
 
     [SerializeField] List<AudioClip> _listSfxJump;
     [SerializeField] List<AudioClip> _listSfxFootStep;
+    [SerializeField] List<AudioClip> _listSfxLanding;
     [SerializeField] float _footStepDelay = 0.2f;
     float _footStepTimer = 0;
 
@@ -181,7 +182,7 @@ public class PlayerController : MonoBehaviour {
 
         ResetNeededDataWhenOnGround();
 
-        // Particules
+        // Walk Particules  and sfx
         _walkParticulesCounter += Time.deltaTime;
         if (Mathf.Abs(m_inputX) > 0.1 && _physics.IsGrounded() && !_physics.IsOnContactWithGear() && !_physics.IsOnContactWithGearWall() && _walkParticulesCounter > _walkParticulesPeriod)
         {
@@ -189,17 +190,12 @@ public class PlayerController : MonoBehaviour {
             _walkParticulesCounter = 0;
         }
 
-        if(!_physics.m_wasGroundedOnLastFrame && _physics.IsGrounded() && !_physics.IsOnContactWithGear() && !_physics.IsOnContactWithGearWall())
-        {
-            _landingParticules.Play();
-        }
-
         // Sfx footstep
-        if(Mathf.Abs(m_inputX) > 0.1 && _physics.IsGrounded() )
+        if (Mathf.Abs(m_inputX) > 0.1 && (_physics.IsGrounded() || !_physics.IsOnContactWithGearWall()) )
         {
-            if(_footStepTimer == 0)
+            if (_footStepTimer == 0)
             {
-                AudioManager.Instance.PlayRandomSfx(_listSfxFootStep, 0);
+                AudioManager.Instance.PlayRandomSfx(_listSfxFootStep, 1);
             }
             if (_footStepTimer < _footStepDelay)
             {
@@ -211,6 +207,14 @@ public class PlayerController : MonoBehaviour {
             }
         }
         else if (_footStepTimer != 0) _footStepTimer = 0;
+
+        // landing particules and sfx
+        if (!_physics.m_wasGroundedOnLastFrame && _physics.IsGrounded() && !_physics.IsOnContactWithGear() && !_physics.IsOnContactWithGearWall())
+        {
+            _landingParticules.Play();
+
+            AudioManager.Instance.PlayRandomSfx(_listSfxLanding, 2);
+        }
     }
 
     #region Jump and movement methods called in Update()
