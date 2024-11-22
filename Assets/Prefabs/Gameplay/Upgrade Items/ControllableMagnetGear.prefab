@@ -4879,8 +4879,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
-  m_LinearDrag: 1
+  m_Mass: 1000
+  m_LinearDrag: 10
   m_AngularDrag: 1000000
   m_GravityScale: 10
   m_Material: {fileID: 0}
@@ -4893,7 +4893,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 3
+  m_Constraints: 7
 --- !u!60 &5247301950973913042
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -5056,7 +5056,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5615597538264997741, guid: 07becc310a28e714bbbbb1baacdebe39, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5615597538264997741, guid: 07becc310a28e714bbbbb1baacdebe39, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5170,6 +5170,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7732187984882450632, guid: 491f508930eba1042b7957048ed2e3cc, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 7945079332037299740, guid: 491f508930eba1042b7957048ed2e3cc, type: 3}
       propertyPath: _spriteFromPlayerPrefab
       value: 

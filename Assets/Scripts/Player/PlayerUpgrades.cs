@@ -115,8 +115,7 @@ public class PlayerUpgrades : MonoBehaviour {
 
     void OnPerformPossessionStarted(InputAction.CallbackContext context) {
 
-
-        if (m_canControl && m_gearToControl != null) {
+        if (m_canControl && m_gearToControl != null && !m_isAttracted) {
             if (m_isPossessed is false) Possess();
             else Depossess();
         }
