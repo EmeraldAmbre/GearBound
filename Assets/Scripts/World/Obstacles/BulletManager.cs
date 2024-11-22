@@ -51,7 +51,7 @@ public class BulletManager : MonoBehaviour {
         }
         if (other.CompareTag("BulletDestroyable"))
         {
-            Destroy(other.gameObject);
+            Destroy(other.gameObject) ;
         }
         Destroy(gameObject);
     }
