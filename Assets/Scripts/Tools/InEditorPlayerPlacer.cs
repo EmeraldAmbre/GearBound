@@ -1,4 +1,6 @@
+#if UNITY_EDITOR
 using UnityEngine;
+
 using UnityEditor;
 
 [ExecuteInEditMode]
@@ -37,3 +39,4 @@ public class SelectPlayerInEditor : MonoBehaviour
         }
     }
 }
+#endif
