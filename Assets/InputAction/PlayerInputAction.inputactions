@@ -202,6 +202,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "57636a72-eee8-4c18-b789-b09b2a8ac42c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1176,7 +1185,7 @@
                 {
                     "name": "",
                     "id": "bac43b0a-61bb-481a-a038-44b8ecbd1946",
-                    "path": "<Gamepad>/start",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1187,7 +1196,7 @@
                 {
                     "name": "",
                     "id": "f52a2c6b-eb0e-4175-8393-7f9e42c3d7d0",
-                    "path": "<Keyboard>/escape",
+                    "path": "<Keyboard>/anyKey",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1214,6 +1223,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Map",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8f03485c-a1ff-4c69-8ae3-484adefddcd0",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0eb9c96e-d1ad-4293-ab45-5da88e41a190",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
