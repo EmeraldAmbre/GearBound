@@ -38,4 +38,5 @@ public class GearMechanism : MonoBehaviour
             ActivateOnce(_lastGearRotationDirection);
         }
     }
+
 }

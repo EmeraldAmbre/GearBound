@@ -13,6 +13,8 @@ public class RoomSpinner : GearMechanism
     [SerializeField] float _spinAngleToSnap = 90;
     float _angleToSnap;
 
+    float _lastAngle;
+
     public override void ActivateOnce(int gearRotationDirection)
     {
         base.ActivateOnce(gearRotationDirection);
@@ -29,6 +31,9 @@ public class RoomSpinner : GearMechanism
 
         if (gearRotationDirection == 1) transform.Rotate(0, 0, _spinningSpeed * gearRotationScale * Time.deltaTime);
         else if (gearRotationDirection == -1) transform.Rotate(0, 0, -_spinningSpeed * gearRotationScale * Time.deltaTime);
+
+        //if (name == "---- TilemapToRotate") Debug.Log("gearRotationScale  : " + gearRotationScale);
+        //if (name == "---- TilemapToRotate") Debug.Log("_spinningSpeed  : " + _spinningSpeed);
     }
 
  
@@ -36,7 +41,10 @@ public class RoomSpinner : GearMechanism
     public void LateUpdate()
     {
 
-        if (!m_isPlayerInteracting && (transform.eulerAngles.z % _spinAngleToSnap != 0))
+
+        // if (name == "---- TilemapToRotate") Debug.Log("m_isPlayerInteracting  : " + m_isPlayerInteracting);
+
+        if (!m_isPlayerInteracting && (transform.eulerAngles.z % _spinAngleToSnap != 0) && _lastAngle == transform.rotation.z)
         {
             if (transform.eulerAngles.z % _spinAngleToSnap < _spinAngleToSnap / 2)
             {
@@ -48,6 +56,7 @@ public class RoomSpinner : GearMechanism
 
 
 
+                if (name == "---- TilemapToRotate") Debug.Log("Is snaping with speed : " + _snapingSnapSpeed);
             }
             else 
             {
@@ -56,40 +65,46 @@ public class RoomSpinner : GearMechanism
                 Quaternion currentRotation = transform.rotation;
                 Quaternion targetRotation = Quaternion.Euler(0, 0, _angleToSnap);
                 transform.rotation = Quaternion.RotateTowards(currentRotation, targetRotation, _snapingSnapSpeed * Time.deltaTime);
+
+
+                if (name == "---- TilemapToRotate") Debug.Log("Is snaping with speed : " + _snapingSnapSpeed);
             }
+
+            if (name == "---- TilemapToRotate") Debug.Log("transform.rotation.z" + transform.rotation.z);
         }
-
-     
-
-            //if (!_isSnapping)
-            //{
-            //    _isSnapping = true;
-            //    if (transform.eulerAngles.z % _spinAngleToSnap < _spinAngleToSnap / 2) _angleToSnap = transform.eulerAngles.z - transform.eulerAngles.z % _spinAngleToSnap;
-            //    else _angleToSnap = transform.eulerAngles.z + (_spinAngleToSnap - transform.eulerAngles.z % _spinAngleToSnap);
-            //    Debug.Log("Current rotation : " + transform.eulerAngles.z + "    rotation to reach : " + _spinAngleToSnap);
-            //}
+        _lastAngle = transform.rotation.z;
 
 
-            //if (transform.eulerAngles.z % _spinAngleToSnap != 0)
-            //{
-            //    if (transform.eulerAngles.z % _spinAngleToSnap > _spinAngleToSnap / 2)
-            //    {
-            //        if(transform.eulerAngles.z > _angleToSnap)
-            //        {
-            //            transform.localRotation.Set(0,0,_angleToSnap,0);
-            //            _isSnapping = false;
-            //        }
-            //        else transform.Rotate(0, 0, _spinningSpeed);
-            //    }
-            //    else
-            //    {
-            //        if (transform.eulerAngles.z < _angleToSnap)
-            //        {
-            //            transform.localRotation.Set(0, 0, _angleToSnap, 0);
-            //            _isSnapping = false;
-            //        }
-            //        else transform.Rotate(0, 0, _spinningSpeed);
-            //    }
-            //}
+
+        //if (!_isSnapping)
+        //{
+        //    _isSnapping = true;
+        //    if (transform.eulerAngles.z % _spinAngleToSnap < _spinAngleToSnap / 2) _angleToSnap = transform.eulerAngles.z - transform.eulerAngles.z % _spinAngleToSnap;
+        //    else _angleToSnap = transform.eulerAngles.z + (_spinAngleToSnap - transform.eulerAngles.z % _spinAngleToSnap);
+        //    Debug.Log("Current rotation : " + transform.eulerAngles.z + "    rotation to reach : " + _spinAngleToSnap);
+        //}
+
+
+        //if (transform.eulerAngles.z % _spinAngleToSnap != 0)
+        //{
+        //    if (transform.eulerAngles.z % _spinAngleToSnap > _spinAngleToSnap / 2)
+        //    {
+        //        if(transform.eulerAngles.z > _angleToSnap)
+        //        {
+        //            transform.localRotation.Set(0,0,_angleToSnap,0);
+        //            _isSnapping = false;
+        //        }
+        //        else transform.Rotate(0, 0, _spinningSpeed);
+        //    }
+        //    else
+        //    {
+        //        if (transform.eulerAngles.z < _angleToSnap)
+        //        {
+        //            transform.localRotation.Set(0, 0, _angleToSnap, 0);
+        //            _isSnapping = false;
+        //        }
+        //        else transform.Rotate(0, 0, _spinningSpeed);
+        //    }
+        //}
     }
 }
