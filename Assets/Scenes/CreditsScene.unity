@@ -358,6 +358,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: CreditsMenu, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 864046985183466143, guid: b44b68d27f8c6814583db14cd9a5291a, type: 3}
+      propertyPath: m_text
+      value: itch.io
+      objectReference: {fileID: 0}
+    - target: {fileID: 864046985183466143, guid: b44b68d27f8c6814583db14cd9a5291a, type: 3}
+      propertyPath: m_fontSize
+      value: 70.15
+      objectReference: {fileID: 0}
     - target: {fileID: 1883121911517695084, guid: b44b68d27f8c6814583db14cd9a5291a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -465,6 +473,20 @@ PrefabInstance:
     - target: {fileID: 2327088046611180410, guid: b44b68d27f8c6814583db14cd9a5291a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4858299303645420904, guid: b44b68d27f8c6814583db14cd9a5291a, type: 3}
+      propertyPath: m_text
+      value: 'Project Manager : Beausart Martin
+
+
+        Lead Artist : Alleman Nils
+
+
+        Game
+        Designer : Manouvrier Alisson
+
+
+        Developer : Bourdon Ambre'
       objectReference: {fileID: 0}
     - target: {fileID: 7573516408856476079, guid: b44b68d27f8c6814583db14cd9a5291a, type: 3}
       propertyPath: m_Name

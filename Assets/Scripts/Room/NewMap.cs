@@ -11,6 +11,7 @@ public class NewMap : MonoBehaviour {
     [SerializeField] Transform _player;  // Référence au joueur réel dans la scène
     [SerializeField] RectTransform _miniMapRect;  // RectTransform de la mini-map (image de fond)
     [SerializeField] RectTransform _playerMarker;  // RectTransform du minisprite (point du joueur)
+    [SerializeField] GameObject _background;
 
     [HideInInspector]
     [SerializeField] Vector2 _mapWorldSize = new Vector2(100, 100);
@@ -114,6 +115,7 @@ public class NewMap : MonoBehaviour {
                     break;
             }
 
+            _background.SetActive(true);
             _isMapActive = true;
 
         }
@@ -125,6 +127,7 @@ public class NewMap : MonoBehaviour {
             _room3.SetActive(false);
             _room4.SetActive(false);
             _room5.SetActive(false);
+            _background.SetActive(false);
         }
     }
     
