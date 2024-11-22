@@ -15,7 +15,12 @@ public class CreditsMenu : MonoBehaviour {
     [SerializeField] string _itchioUrl = "https://ambre-emeraude.itch.io/";
 
     void Awake() {
-        _timer.text = "Final Timer: " + PlayerPrefs.GetFloat("GameTime").ToString("0.000");
+        float timer = PlayerPrefs.GetFloat("GameTime");
+        int hours = Mathf.FloorToInt(timer / 3600);
+        int minutes = Mathf.FloorToInt((timer % 3600) / 60);
+        int secs = Mathf.FloorToInt(timer % 60);
+        string timeFormat = string.Format("{0:D2}:{1:D2}:{2:D2}", hours, minutes, secs);
+        _timer.text = "Final Timer: " + timeFormat;
         _hearts.text = "Unlocked Hearts: " + ((PlayerPrefs.GetInt("max_player_life")/2)-1).ToString();
     }
 
