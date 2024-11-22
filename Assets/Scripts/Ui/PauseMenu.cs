@@ -12,6 +12,7 @@ public class PauseMenu : MonoBehaviour {
     PlayerInputAction _input;
 
     [SerializeField] TextMeshProUGUI _titleText;
+    [SerializeField] GameObject _background;
 
     [Header("Controls Background")]
     [SerializeField] GameObject _controlsBackgroundImage1;
@@ -63,6 +64,7 @@ public class PauseMenu : MonoBehaviour {
             Time.timeScale = 0f;
 
             _titleText.enabled = true;
+            _background.SetActive(true);
 
             int index = 0;
 
@@ -165,6 +167,7 @@ public class PauseMenu : MonoBehaviour {
 
     void DesactivateUI() {
         _titleText.enabled = false;
+        _background.SetActive(false);
 
         _controlsBackgroundImage1.SetActive(false);
         _controlsBackgroundImage2.SetActive(false);
