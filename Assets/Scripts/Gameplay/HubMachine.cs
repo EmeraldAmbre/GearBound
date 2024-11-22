@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class HubMachine : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer _spriteUpgradeDash;
-    [SerializeField] SpriteRenderer _spriteUpgradeMagnet;
-    [SerializeField] SpriteRenderer _spriteUpgradeRotation;
-    [SerializeField] SpriteRenderer _spriteUpgradePossesion;
+    [SerializeField] GameObject _spriteUpgradeDash;
+    [SerializeField] GameObject _spriteUpgradeMagnet;
+    [SerializeField] GameObject _spriteUpgradeRotation;
+    [SerializeField] GameObject _spriteUpgradePossesion;
 
     [SerializeField] GameObject _txtOpenHubDoor;
     [SerializeField] Animator _anim;
@@ -33,14 +33,14 @@ public class HubMachine : MonoBehaviour
     }
 
     private void HandleShowingUpgradeSprite() {
-        if (PlayerPrefs.GetInt("dash") == 1) _spriteUpgradeDash.enabled = true;
-        else _spriteUpgradeDash.enabled = false;
-        if (PlayerPrefs.GetInt("magnet") == 1) _spriteUpgradeMagnet.enabled = true;
-        else _spriteUpgradeMagnet.enabled = false;
-        if (PlayerPrefs.GetInt("rotation") == 1) _spriteUpgradeRotation.enabled = true;
-        else _spriteUpgradeRotation.enabled = false;
-        if (PlayerPrefs.GetInt("possession") == 1) _spriteUpgradePossesion.enabled = true;
-        else _spriteUpgradePossesion.enabled = false;
+        if (PlayerPrefs.GetInt("dash") == 1) _spriteUpgradeDash.SetActive(true);
+        else _spriteUpgradeDash.SetActive(false);
+        if (PlayerPrefs.GetInt("magnet") == 1) _spriteUpgradeMagnet.SetActive(true);
+        else _spriteUpgradeMagnet.SetActive(false);
+        if (PlayerPrefs.GetInt("rotation") == 1) _spriteUpgradeRotation.SetActive(true);
+        else _spriteUpgradeRotation.SetActive(false);
+        if (PlayerPrefs.GetInt("possession") == 1) _spriteUpgradePossesion.SetActive(true);
+        else _spriteUpgradePossesion.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {

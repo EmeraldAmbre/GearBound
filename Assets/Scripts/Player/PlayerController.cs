@@ -191,7 +191,7 @@ public class PlayerController : MonoBehaviour {
         }
 
         // Sfx footstep
-        if (Mathf.Abs(m_inputX) > 0.1 && (_physics.IsGrounded() || !_physics.IsOnContactWithGearWall()) )
+        if (Mathf.Abs(m_inputX) > 0.1 && (_physics.IsGrounded() || _physics.IsOnContactWithGearWall() || _physics.IsOnContactWithGear()) )
         {
             if (_footStepTimer == 0)
             {
