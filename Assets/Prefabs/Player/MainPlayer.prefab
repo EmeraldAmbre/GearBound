@@ -15585,6 +15585,8 @@ MonoBehaviour:
   _spriteRenderer: {fileID: 2230544721094278696}
   m_maxLife: 2
   m_playerLife: 0
+  _damagedParticule: {fileID: 0}
+  _listSfxPlayerDamaged: []
 --- !u!114 &3756639636478510469
 MonoBehaviour:
   m_ObjectHideFlags: 0

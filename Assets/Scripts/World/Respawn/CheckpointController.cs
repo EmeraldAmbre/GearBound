@@ -7,6 +7,14 @@ public class CheckpointController : MonoBehaviour {
 
     [SerializeField] string _sceneName;
 
+
+
+    [Header("VFX")]
+    [SerializeField] ParticleSystem _playerSpawnedParticule;
+
+    [Header("SFX")]
+    [SerializeField] AudioClip _sfxPlayerDetected;
+
     void Start() {
         _sceneName = SceneManager.GetActiveScene().name;
     }
@@ -19,6 +27,8 @@ public class CheckpointController : MonoBehaviour {
             float y = transform.position.y; PlayerPrefs.SetFloat("checkpoint_pos_y", y);
             float z = transform.position.z; PlayerPrefs.SetFloat("checkpoint_pos_z", z);
             PlayerPrefs.Save();
+            _playerSpawnedParticule.Play();
+            AudioManager.Instance.PlaySfx(_sfxPlayerDetected ,8);
         }
     }
 

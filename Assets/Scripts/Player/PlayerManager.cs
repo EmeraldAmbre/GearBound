@@ -21,6 +21,7 @@ public class PlayerManager : MonoBehaviour {
 
     PlayerInputAction _input;
 
+
     #region Public Variables
     public int m_maxLife = 2;
     public int m_playerLife;
@@ -29,6 +30,13 @@ public class PlayerManager : MonoBehaviour {
     // Singleton
     public static PlayerManager instance;
     #endregion
+
+
+    [Header("VFX")]
+    [SerializeField] ParticleSystem _damagedParticule;
+
+    [Header("SFX")]
+    [SerializeField] List<AudioClip> _listSfxPlayerDamaged;
 
     #region Unity API
     void Awake() {
@@ -147,6 +155,8 @@ public class PlayerManager : MonoBehaviour {
     public void TakeDamage(int nb_damage = 1) {
         if (!m_isInvincible) {
             if (m_playerLife > 0) {
+                AudioManager.Instance.PlayRandomSfx(_listSfxPlayerDamaged, 7);
+                _damagedParticule.Play();
                 m_playerLife -= nb_damage;
                 LifeUpdate();
                 if (m_playerLife <= 0) Death();

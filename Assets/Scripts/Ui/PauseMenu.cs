@@ -39,6 +39,11 @@ public class PauseMenu : MonoBehaviour {
     [SerializeField] TextMeshProUGUI _imageText3;
     [SerializeField] TextMeshProUGUI _imageText4;
 
+
+    [Header("SFX")]
+    [SerializeField] AudioClip _sfxMenuOpen;
+    [SerializeField] AudioClip _sfxMenuClosed;
+
     void Start() {
         InitInput();
         DesactivateUI();
@@ -58,7 +63,7 @@ public class PauseMenu : MonoBehaviour {
     void OnPerformPause(InputAction.CallbackContext context) {
 
         if (_isPaused is false) {
-
+            AudioManager.Instance.PlaySfx(_sfxMenuOpen, 6);
             DesactivateUI();
 
             Time.timeScale = 0f;
@@ -158,7 +163,9 @@ public class PauseMenu : MonoBehaviour {
             _isPaused = true;
         }
 
-        else if (_isPaused is true) {
+        else if (_isPaused is true)
+        {
+            AudioManager.Instance.PlaySfx(_sfxMenuClosed, 6);
             DesactivateUI();
             Time.timeScale = 1f;
             _isPaused = false;

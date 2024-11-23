@@ -34,6 +34,10 @@ public class NewMap : MonoBehaviour {
     [Header("Minimap Player Sprite")]
     [SerializeField] Image _playerImage;
 
+    [Header("SFX")]
+    [SerializeField] AudioClip _sfxMapOpen;
+    [SerializeField] AudioClip _sfxMapClosed;
+
     bool _isMapActive;
     string _sceneName;
     Vector2 _mainOffset;
@@ -72,6 +76,8 @@ public class NewMap : MonoBehaviour {
         int index = PlayerPrefs.GetInt("visited_room");
 
         if (_isMapActive is false) {
+
+            AudioManager.Instance.PlaySfx(_sfxMapOpen, 6);
 
             switch (_sceneName) {
 
@@ -122,6 +128,8 @@ public class NewMap : MonoBehaviour {
 
         else {
             _isMapActive = false;
+            AudioManager.Instance.PlaySfx(_sfxMapClosed, 6);
+
             _room1.SetActive(false);
             _room2.SetActive(false);
             _room3.SetActive(false);
