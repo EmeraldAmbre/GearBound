@@ -12,6 +12,7 @@ public class HubMachine : MonoBehaviour
 
     [SerializeField] GameObject _txtOpenHubDoor;
     [SerializeField] Animator _anim;
+    [SerializeField] AudioClip _sfxDoorOpening;
 
     [SerializeField] string _creditsMenuScene;
 
@@ -27,6 +28,7 @@ public class HubMachine : MonoBehaviour
         if(_txtOpenHubDoor.activeSelf && !_anim.GetCurrentAnimatorStateInfo(0).IsName("OpenDoor")) {
             if(Input.GetKeyDown(KeyCode.T)) {
                 _anim.Play("OpenDoor");
+                AudioManager.Instance.PlaySfx(_sfxDoorOpening, 9);
                 _txtOpenHubDoor.SetActive(false);
             }
         }

@@ -8,6 +8,7 @@ public class Possession : MonoBehaviour {
     static int _id = 3;
     static string _name = "possession";
     bool _isPossessionTextIsActive = false;
+    [SerializeField] AudioClip _sfxUpgrade;
 
     PlayerInputAction _input;
 
@@ -33,6 +34,7 @@ public class Possession : MonoBehaviour {
             PlayerPrefs.Save();
             _isPossessionTextIsActive = true;
             _textBox.SetActive(true);
+            AudioManager.Instance.PlaySfx(_sfxUpgrade, 9);
         }
     }
 

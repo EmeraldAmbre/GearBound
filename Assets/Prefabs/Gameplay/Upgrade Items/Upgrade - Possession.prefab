@@ -276,6 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7af7e39a44170840a7303f99c4b91fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sfxUpgrade: {fileID: 8300000, guid: f2ff63a1ab7affd46828283b8dd40aa7, type: 3}
   _textBox: {fileID: 2342121220005752492}
 --- !u!1 &6362057068292785379
 GameObject:

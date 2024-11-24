@@ -6,6 +6,7 @@ public class Life : MonoBehaviour {
 
     GameObject _player;
     PlayerManager _manager;
+    [SerializeField] AudioClip _sfxLifeUpgrade;
 
     void Awake() {
         _player = GameObject.FindWithTag("Player");
@@ -16,6 +17,8 @@ public class Life : MonoBehaviour {
         if (other.CompareTag("Player")) {
             _manager.LifeUpgrade();
             gameObject.SetActive(false);
+
+            AudioManager.Instance.PlaySfx(_sfxLifeUpgrade, 9);
         }
     }
 }

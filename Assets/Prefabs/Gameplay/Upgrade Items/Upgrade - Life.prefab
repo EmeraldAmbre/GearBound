@@ -267,6 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e0cb879e011954d8c84b9b7421d0e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sfxLifeUpgrade: {fileID: 8300000, guid: ae93824f934b80b46a08f99b2019eea4, type: 3}
 --- !u!1001 &1209346044492616700
 PrefabInstance:
   m_ObjectHideFlags: 0

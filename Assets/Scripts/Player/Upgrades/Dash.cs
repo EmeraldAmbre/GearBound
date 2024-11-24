@@ -8,6 +8,7 @@ public class Dash : MonoBehaviour {
     static int _id = 0;
     static string _name = "dash";
     bool _isDashTextIsActive = false;
+    [SerializeField] AudioClip _sfxUpgrade;
 
     PlayerInputAction _input;
 
@@ -33,6 +34,7 @@ public class Dash : MonoBehaviour {
             PlayerPrefs.Save();
             _isDashTextIsActive = true;
             _textBox.SetActive(true);
+            AudioManager.Instance.PlaySfx(_sfxUpgrade, 9);
         }
     }
 

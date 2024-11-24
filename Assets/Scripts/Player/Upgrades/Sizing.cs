@@ -8,6 +8,7 @@ public class Sizing : MonoBehaviour {
     static int _id = 4;
     static string _name = "sizing";
     bool _isSizingTextIsActive = false;
+    [SerializeField] AudioClip _sfxUpgrade;
 
     PlayerInputAction _input;
 
@@ -33,6 +34,7 @@ public class Sizing : MonoBehaviour {
             PlayerPrefs.Save();
             _isSizingTextIsActive = true;
             _textBox.SetActive(true);
+            AudioManager.Instance.PlaySfx(_sfxUpgrade, 9);
         }
     }
 

@@ -6592,7 +6592,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2434097830540354263}
-  - component: {fileID: 1712306544701317744}
+  - component: {fileID: 4149655910502217598}
   m_Layer: 0
   m_Name: PlayerInEditorPlacement
   m_TagString: Untagged
@@ -6615,7 +6615,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 941740304552537089}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1712306544701317744
+--- !u!114 &4149655910502217598
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

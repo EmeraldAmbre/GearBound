@@ -9,6 +9,7 @@ public class Magnet : MonoBehaviour {
     static int _id = 2;
     static string _name = "magnet";
     bool _isMagnetTextIsActive = false;
+    [SerializeField] AudioClip _sfxUpgrade;
 
     PlayerInputAction _input;
 
@@ -34,6 +35,7 @@ public class Magnet : MonoBehaviour {
             PlayerPrefs.Save();
             _isMagnetTextIsActive = true;
             _textBox.SetActive(true);
+            AudioManager.Instance.PlaySfx(_sfxUpgrade, 9);
         }
     }
 

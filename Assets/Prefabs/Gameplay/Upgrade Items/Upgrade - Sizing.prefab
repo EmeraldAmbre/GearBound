@@ -329,6 +329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6176bb4b567be534bab6fe99646db511, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sfxUpgrade: {fileID: 8300000, guid: f2ff63a1ab7affd46828283b8dd40aa7, type: 3}
   _textBox: {fileID: 3622188333969508532}
 --- !u!1001 &3690587188387260711
 PrefabInstance:

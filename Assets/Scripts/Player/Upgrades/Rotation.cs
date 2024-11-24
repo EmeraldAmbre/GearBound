@@ -8,6 +8,7 @@ public class Rotation : MonoBehaviour {
     static int _id = 1;
     static string _name = "rotation";
     bool _isRotationTextIsActive = false;
+    [SerializeField] AudioClip _sfxUpgrade;
 
     PlayerInputAction _input;
 
@@ -33,6 +34,7 @@ public class Rotation : MonoBehaviour {
             PlayerPrefs.Save();
             _isRotationTextIsActive = true;
             _textBox.SetActive(true);
+            AudioManager.Instance.PlaySfx(_sfxUpgrade, 9);
         }
     }
 
