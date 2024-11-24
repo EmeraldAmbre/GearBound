@@ -81,7 +81,11 @@ public class PlayerController : MonoBehaviour {
     PlayerInputAction _input;
     PlayerUpgrades _playerUpgrade;
 
+    
+
     bool _enableGodMode;
+
+    public bool m_isControllable = true;
 
 
     [SerializeField] ParticleSystem _landingParticules;
@@ -94,6 +98,8 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] List<AudioClip> _listSfxLanding;
     [SerializeField] float _footStepDelay = 0.2f;
     float _footStepTimer = 0;
+
+    public bool m_isRespawning = false;
 
     void Start() {
         _physics = GetComponent<PlayerCompositePhysics>();
@@ -176,44 +182,47 @@ public class PlayerController : MonoBehaviour {
     #endregion
 
     void Update() {
-        HandlingCoyoteJump();
-
-        HandleJumpBuffering();
-
-        ResetNeededDataWhenOnGround();
-
-        // Walk Particules  and sfx
-        _walkParticulesCounter += Time.deltaTime;
-        if (Mathf.Abs(m_inputX) > 0.1 && _physics.IsGrounded() && !_physics.IsOnContactWithGear() && !_physics.IsOnContactWithGearWall() && _walkParticulesCounter > _walkParticulesPeriod)
+        if(m_isControllable)
         {
-            _walkParticules.Play();
-            _walkParticulesCounter = 0;
-        }
+            HandlingCoyoteJump();
 
-        // Sfx footstep
-        if (Mathf.Abs(m_inputX) > 0.1 && (_physics.IsGrounded() || _physics.IsOnContactWithGearWall() || _physics.IsOnContactWithGear()) )
-        {
-            if (_footStepTimer == 0)
-            {
-                AudioManager.Instance.PlayRandomSfx(_listSfxFootStep, 1);
-            }
-            if (_footStepTimer < _footStepDelay)
-            {
-                _footStepTimer += Time.deltaTime;
-            }
-            else
-            {
-                _footStepTimer = 0;
-            }
-        }
-        else if (_footStepTimer != 0) _footStepTimer = 0;
+            HandleJumpBuffering();
 
-        // landing particules and sfx
-        if (!_physics.m_wasGroundedOnLastFrame && _physics.IsGrounded() && !_physics.IsOnContactWithGear() && !_physics.IsOnContactWithGearWall())
-        {
-            _landingParticules.Play();
+            ResetNeededDataWhenOnGround();
 
-            AudioManager.Instance.PlayRandomSfx(_listSfxLanding, 2);
+            // Walk Particules  and sfx
+            _walkParticulesCounter += Time.deltaTime;
+            if (Mathf.Abs(m_inputX) > 0.1 && _physics.IsGrounded() && !_physics.IsOnContactWithGear() && !_physics.IsOnContactWithGearWall() && _walkParticulesCounter > _walkParticulesPeriod)
+            {
+                _walkParticules.Play();
+                _walkParticulesCounter = 0;
+            }
+
+            // Sfx footstep
+            if (Mathf.Abs(m_inputX) > 0.1 && (_physics.IsGrounded() || _physics.IsOnContactWithGearWall() || _physics.IsOnContactWithGear()) )
+            {
+                if (_footStepTimer == 0)
+                {
+                    AudioManager.Instance.PlayRandomSfx(_listSfxFootStep, 1);
+                }
+                if (_footStepTimer < _footStepDelay)
+                {
+                    _footStepTimer += Time.deltaTime;
+                }
+                else
+                {
+                    _footStepTimer = 0;
+                }
+            }
+            else if (_footStepTimer != 0) _footStepTimer = 0;
+
+            // landing particules and sfx
+            if (!_physics.m_wasGroundedOnLastFrame && _physics.IsGrounded() && !_physics.IsOnContactWithGear() && !_physics.IsOnContactWithGearWall())
+            {
+                _landingParticules.Play();
+
+                AudioManager.Instance.PlayRandomSfx(_listSfxLanding, 2);
+            }
         }
     }
 
@@ -269,64 +278,66 @@ public class PlayerController : MonoBehaviour {
     }
 
     void FixedUpdate() {
-
-        if (_enableGodMode is false) 
+        if(m_isControllable)
         {
-            // ORDER HAVE IMPORTANCE DON'T CHANGE THE ORDER UNLESS YOU KNOW WHAT YOU DO
-            // ~ I never know what I'm doing .. :3
-            //_rigidbody.velocity = Vector2.zero;
+            if (_enableGodMode is false) 
+            {
+                // ORDER HAVE IMPORTANCE DON'T CHANGE THE ORDER UNLESS YOU KNOW WHAT YOU DO
+                // ~ I never know what I'm doing .. :3
+                //_rigidbody.velocity = Vector2.zero;
 
-            HandleCheckSlopePhysicsMaterialReset();
+                HandleCheckSlopePhysicsMaterialReset();
 
-            HandlePhysicsGravityChange();
-            HandlePhysicsGravity();
+                HandlePhysicsGravityChange();
+                HandlePhysicsGravity();
 
-            HandlePhysicsXMovement();
+                HandlePhysicsXMovement();
 
-            HandlePhysicsVelocityWenJumpTriggered();
-            HandlePhysicsVelocityWhenJumpHandling();
-
-
-
-            HandleCheckCeilingVelocityReset();
-            HandleMagnetAttraction();
-
-            ClampVelocity();
+                HandlePhysicsVelocityWenJumpTriggered();
+                HandlePhysicsVelocityWhenJumpHandling();
 
 
 
+                HandleCheckCeilingVelocityReset();
+                HandleMagnetAttraction();
 
-        // _rigidbody.MovePosition((Vector2) transform.position + _velocity * Time.fixedDeltaTime);
-        _rigidbody.velocity = _velocity;
+                ClampVelocity();
+
+
+
 
             // _rigidbody.MovePosition((Vector2) transform.position + _velocity * Time.fixedDeltaTime);
             _rigidbody.velocity = _velocity;
 
-            UpdateGearRotation();
-        }
+                // _rigidbody.MovePosition((Vector2) transform.position + _velocity * Time.fixedDeltaTime);
+                _rigidbody.velocity = _velocity;
 
-        else {
-            Vector3 moveDirection = Vector3.zero;
-            transform.rotation = Quaternion.identity;
+                UpdateGearRotation();
+            }
+            else {
+                Vector3 moveDirection = Vector3.zero;
+                transform.rotation = Quaternion.identity;
 
-            if (Input.GetKey(KeyCode.UpArrow) )
-            {
-                moveDirection += Vector3.up;
-            }
-            if (Input.GetKey(KeyCode.DownArrow) )
-            {
-                moveDirection += Vector3.down;
-            }
-            if (Input.GetKey(KeyCode.LeftArrow) )
-            {
-                moveDirection += Vector3.left;
-            }
-            if (Input.GetKey(KeyCode.RightArrow) )
-            {
-                moveDirection += Vector3.right;
+                if (Input.GetKey(KeyCode.UpArrow) )
+                {
+                    moveDirection += Vector3.up;
+                }
+                if (Input.GetKey(KeyCode.DownArrow) )
+                {
+                    moveDirection += Vector3.down;
+                }
+                if (Input.GetKey(KeyCode.LeftArrow) )
+                {
+                    moveDirection += Vector3.left;
+                }
+                if (Input.GetKey(KeyCode.RightArrow) )
+                {
+                    moveDirection += Vector3.right;
+                }
+
+                transform.Translate(moveDirection.normalized * m_currentSpeed * 0.05f);
             }
 
-            transform.Translate(moveDirection.normalized * m_currentSpeed * 0.05f);
         }
     }
 

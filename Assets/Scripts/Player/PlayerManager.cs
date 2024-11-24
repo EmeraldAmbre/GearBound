@@ -20,7 +20,7 @@ public class PlayerManager : MonoBehaviour {
     [SerializeField] private SpriteRenderer _spriteRenderer;
 
     PlayerInputAction _input;
-
+    PlayerController _playerController;
 
     #region Public Variables
     public int m_maxLife = 2;
@@ -34,9 +34,15 @@ public class PlayerManager : MonoBehaviour {
 
     [Header("VFX")]
     [SerializeField] ParticleSystem _damagedParticule;
+    [SerializeField] ParticleSystem _deathParticule;
+    [SerializeField] Animation _animTransition;
+    [SerializeField] GameObject _playerSprite;
+    [SerializeField] Image _transitionImage;
+
 
     [Header("SFX")]
     [SerializeField] List<AudioClip> _listSfxPlayerDamaged;
+    [SerializeField] List<AudioClip> _listSfxPlayerDeath;
 
     #region Unity API
     void Awake() {
@@ -67,6 +73,7 @@ public class PlayerManager : MonoBehaviour {
     void Start() {
         LifeUpdate();
 
+
         float x = PlayerPrefs.GetFloat("checkpoint_pos_x");
         float y = PlayerPrefs.GetFloat("checkpoint_pos_y");
         float z = PlayerPrefs.GetFloat("checkpoint_pos_z");
@@ -84,6 +91,8 @@ public class PlayerManager : MonoBehaviour {
         }
 
         InitInput();
+
+        _playerController = GetComponent<PlayerController>();
     }
 
     void Update() {
@@ -184,25 +193,69 @@ public class PlayerManager : MonoBehaviour {
         PlayerPrefs.Save();
     }
 
-    public void Death() {
+    public void Death() 
+    {
 
+        StartCoroutine(MakeDeathTransition());
+    }
+
+
+
+    // Coroutine to wait for 2 seconds
+    IEnumerator MakeDeathTransition()
+    {
+        _playerController.m_isControllable = false;
+
+        _playerController.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+
+
+        AudioManager.Instance.PlayRandomSfx(_listSfxPlayerDeath, 8);
+        yield return new WaitForSeconds(1.2f);
+
+        _deathParticule.Play();
+        _playerSprite.SetActive(false);
+
+        yield return new WaitForSeconds(2f);
+
+        _animTransition.Play();
+
+        yield return new WaitForSeconds(1.9f);
+
+
+        _animTransition.Stop();
+        yield return new WaitForSeconds(0.1f);
+        _playerSprite.SetActive(true);
+
+
+        Respawn();
+
+    }
+
+    private void Respawn()
+    {
         PlayerPrefs.SetInt("max_player_life", m_maxLife);
         PlayerPrefs.Save();
 
-        if (!string.IsNullOrEmpty(CheckpointManager.instance.m_lastCheckpointScene)) {
+        _playerController.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
 
-            if (SceneManager.GetActiveScene().name != CheckpointManager.instance.m_lastCheckpointScene) {
+        if (!string.IsNullOrEmpty(CheckpointManager.instance.m_lastCheckpointScene))
+        {
+
+            if (SceneManager.GetActiveScene().name != CheckpointManager.instance.m_lastCheckpointScene)
+            {
                 PlayerPrefs.SetInt("is_respawn", 1); PlayerPrefs.Save();
                 SceneManager.LoadScene(CheckpointManager.instance.m_lastCheckpointScene);
                 StartCoroutine(RespawnAfterLoading());
             }
 
-            else {
+            else
+            {
                 RespawnPlayer(CheckpointManager.instance.m_lastCheckpointPosition);
             }
         }
 
-        else {
+        else
+        {
             Debug.LogWarning("Aucun checkpoint enregistré. Respawn à la position initiale.");
             // Définir ici une position par défaut si aucun checkpoint n'a été visité
         }
@@ -221,6 +274,8 @@ public class PlayerManager : MonoBehaviour {
         if (player != null) {
             player.transform.position = respawnPosition;
             m_playerLife = m_maxLife;
+            player.GetComponent<PlayerController>().m_isRespawning = true;
+            player.GetComponent<PlayerManager>()._transitionImage.color = new Color(0,0,0,0);
         }
 
         else {
