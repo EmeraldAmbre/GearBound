@@ -10751,6 +10751,11 @@ MonoBehaviour:
   _sceneName: 
   _playerSpawnedParticule: {fileID: 636327504465446136}
   _sfxPlayerDetected: {fileID: 8300000, guid: 837ca473531f7cd458f2edd6e9aea421, type: 3}
+  _sfxPlayerRespawn:
+  - {fileID: 8300000, guid: b8ee54d1d9cb5b143817ee116dc0ce20, type: 3}
+  - {fileID: 8300000, guid: d2682eb275eafd144b0086d861e4aa9e, type: 3}
+  - {fileID: 8300000, guid: 7499b587681a2a4488ec0a2cc802600c, type: 3}
+  - {fileID: 8300000, guid: 0770c66a49332b64e8f4922df890182e, type: 3}
 --- !u!1 &4640099080896397002
 GameObject:
   m_ObjectHideFlags: 0

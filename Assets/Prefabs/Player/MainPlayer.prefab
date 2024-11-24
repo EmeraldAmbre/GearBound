@@ -15544,7 +15544,7 @@ MonoBehaviour:
     m_Bits: 64
   _gearLayer:
     serializedVersion: 2
-    m_Bits: 4352
+    m_Bits: 69888
   m_isOnContactWithGearWall: 0
   m_gearWallDirection: 0
 --- !u!114 &5312793714340410458
@@ -15586,7 +15586,19 @@ MonoBehaviour:
   m_maxLife: 2
   m_playerLife: 0
   _damagedParticule: {fileID: 0}
-  _listSfxPlayerDamaged: []
+  _deathParticule: {fileID: 0}
+  _animTransition: {fileID: 0}
+  _playerSprite: {fileID: 7726149546479308029}
+  _transitionImage: {fileID: 0}
+  _listSfxPlayerDamaged:
+  - {fileID: 8300000, guid: 4de23ba97a11d56438221a045a9c2286, type: 3}
+  - {fileID: 8300000, guid: 57209ad3661ab9e4bafc2e9c3e6e2d69, type: 3}
+  - {fileID: 8300000, guid: 090d0d80d4dca9b4fbf739f27c51a610, type: 3}
+  - {fileID: 8300000, guid: 599d3629ddb659649a3c82f90698b3cc, type: 3}
+  _listSfxPlayerDeath:
+  - {fileID: 8300000, guid: da92fbe27b727984888753980e64ca08, type: 3}
+  - {fileID: 8300000, guid: aa9a4461713b0b54d91deef09eff7489, type: 3}
+  - {fileID: 8300000, guid: 7c173aa0a1b1b5146be5edbb51d503ea, type: 3}
 --- !u!114 &3756639636478510469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15635,6 +15647,7 @@ MonoBehaviour:
   _gearWallJumpForceVector: {x: 17, y: 15}
   _body: {fileID: 2560477893739365598}
   m_isGearWallJumping: 0
+  m_isControllable: 1
   _landingParticules: {fileID: 434150335198869384}
   _walkParticules: {fileID: 2442064989089749591}
   _walkParticulesPeriod: 0.1
@@ -15651,6 +15664,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e84a6990adb28be4386ab6f557b8dca3, type: 3}
   - {fileID: 8300000, guid: 32348d665b72fec489308effc49ef64d, type: 3}
   _footStepDelay: 0.2
+  m_isRespawning: 0
 --- !u!114 &6106390362826736106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15854,5 +15868,10 @@ Transform:
 --- !u!212 &2230544721094278696 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 6866806946364343436, guid: abed20e33aa155b4aa1a44ae4c73c422, type: 3}
+  m_PrefabInstance: {fileID: 4737698925300497060}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7726149546479308029 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3064554419081770585, guid: abed20e33aa155b4aa1a44ae4c73c422, type: 3}
   m_PrefabInstance: {fileID: 4737698925300497060}
   m_PrefabAsset: {fileID: 0}
