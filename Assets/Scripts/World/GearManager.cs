@@ -23,6 +23,10 @@ public class GearManager : MonoBehaviour {
     PlayerController _player;
     Rigidbody2D _gearRigidbody;
 
+
+    [Header("Effect")]
+    [SerializeField] AudioClip _sfxActivation;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.tag == "Player")
@@ -38,11 +42,14 @@ public class GearManager : MonoBehaviour {
         {
             _isPlayerNear = false;
             _player = null;
+
+            AudioManager.Instance.StopSfxLoop();
         }
     }
 
 
-    void Start() {
+    void Start() 
+    {
         _gearRigidbody = GetComponent<Rigidbody2D>();
     }
 
@@ -52,6 +59,9 @@ public class GearManager : MonoBehaviour {
         {
             if (_player.m_inputX != 0)
             {
+                AudioManager.Instance.PlaySfxLoop(_sfxActivation);
+
+
                 int directionRotationUpgrade = _player.m_rotationInversion ? -1 : 1;
 
                 _gearRigidbody.freezeRotation = false;
@@ -81,12 +91,13 @@ public class GearManager : MonoBehaviour {
             else
             {
                 ResetGearMechanisms();
+
+                AudioManager.Instance.StopSfxLoop();
             }
         }
         else
         {
             if (_isActivableByOtherGears == false) _gearRigidbody.freezeRotation = true;
-            ResetGearMechanisms();
         }
 
     }

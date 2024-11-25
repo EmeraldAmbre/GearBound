@@ -45,7 +45,9 @@ public class PlayerManager : MonoBehaviour {
     [SerializeField] List<AudioClip> _listSfxPlayerDeath;
 
     #region Unity API
-    void Awake() {
+    void Awake() 
+    {
+        //_transitionImage.color = new Color(0 ,0 ,0 ,1);
         if (instance == null) { instance = this; }
         else { Destroy(gameObject); }
 
@@ -70,7 +72,9 @@ public class PlayerManager : MonoBehaviour {
         }
     }
 
-    void Start() {
+    void Start()
+    {
+        _animTransition.Play("ScreenBlacktransitionOut");
         LifeUpdate();
 
 
@@ -186,12 +190,17 @@ public class PlayerManager : MonoBehaviour {
         }
     }
 
-    public void ChangeRoom() {
+    public void ChangeRoom()
+    {
+        _playerController.m_isControllable = false;
+        _playerController.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        _animTransition.Play("ScreenBlacktransitionINQuick");
         PlayerPrefs.SetInt("is_changing_room", 1);
         PlayerPrefs.SetInt("max_player_life", m_maxLife);
         PlayerPrefs.SetInt("current_player_life", m_playerLife);
         PlayerPrefs.Save();
     }
+
 
     public void Death() 
     {
@@ -217,7 +226,7 @@ public class PlayerManager : MonoBehaviour {
 
         yield return new WaitForSeconds(2f);
 
-        _animTransition.Play();
+        _animTransition.Play("ScreenBlacktransitionIN");
 
         yield return new WaitForSeconds(1.9f);
 
@@ -225,6 +234,8 @@ public class PlayerManager : MonoBehaviour {
         _animTransition.Stop();
         yield return new WaitForSeconds(0.1f);
         _playerSprite.SetActive(true);
+
+        _animTransition.Play("ScreenBlacktransitionOut");
 
 
         Respawn();
@@ -265,8 +276,8 @@ public class PlayerManager : MonoBehaviour {
     #region Private Methods
     private IEnumerator RespawnAfterLoading() {
 
-        yield return null; // Do not delete !
         RespawnPlayer(CheckpointManager.instance.m_lastCheckpointPosition);
+        yield return null; // Do not delete !
     }
 
     private void RespawnPlayer(Vector3 respawnPosition) {
@@ -274,8 +285,7 @@ public class PlayerManager : MonoBehaviour {
         if (player != null) {
             player.transform.position = respawnPosition;
             m_playerLife = m_maxLife;
-            player.GetComponent<PlayerController>().m_isRespawning = true;
-            player.GetComponent<PlayerManager>()._transitionImage.color = new Color(0,0,0,0);
+            RoomData.Instance.m_isPlayerRespawning = true;
         }
 
         else {

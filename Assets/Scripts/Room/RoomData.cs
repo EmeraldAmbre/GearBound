@@ -6,6 +6,7 @@ using UnityEngine;
 public class RoomData : Singleton<RoomData>
 {
     public string m_LastRoomSceneName;
+    public bool m_isPlayerRespawning = false;
 
     public List<RoomMechanismData> m_ListRoomMechanismData = new List<RoomMechanismData>();
 

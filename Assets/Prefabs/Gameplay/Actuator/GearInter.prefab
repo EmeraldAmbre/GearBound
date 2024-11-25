@@ -456,6 +456,7 @@ MonoBehaviour:
   _rightGearMechanismToActivate: {fileID: 0}
   _isActivatingSeveralMechanism: 0
   _listSeveralMechanismm: []
+  _sfxActivation: {fileID: 8300000, guid: 1447e979c7f17304bb759bccfbc07004, type: 3}
 --- !u!58 &2659416893739044362
 CircleCollider2D:
   m_ObjectHideFlags: 0

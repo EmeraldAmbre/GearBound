@@ -20,6 +20,8 @@ public class AudioManager : MonoBehaviour
 
     float _volumeSfxRange;
 
+    float _sfxLoopInitVolume;
+
 
     // Singleton instance.
     public static AudioManager Instance = null;
@@ -75,5 +77,52 @@ public class AudioManager : MonoBehaviour
         _listSfxAudioSource[bus].clip = listAudioCLip[randomIndex];
         _listSfxAudioSource[bus].Play();
     }
+
+    public void PlaySfxLoop (AudioClip clip)
+    {
+        if (!_listSfxAudioSource[10].isPlaying)
+        {
+            float timeStart = Random.Range(0, clip.length);
+            float randomPitch = Random.Range(_lowSFXPitchRange, _highSFXPitchRange);
+            if(_listSfxAudioSource[10].volume != 0) _sfxLoopInitVolume = _listSfxAudioSource[10].volume;
+
+            _listSfxAudioSource[10].pitch = randomPitch;
+            _listSfxAudioSource[10].volume = 0;
+            _listSfxAudioSource[10].clip = clip;
+            _listSfxAudioSource[10].time = timeStart;
+            _listSfxAudioSource[10].Play();
+
+            StartCoroutine(FadeAudioSourceInVolume(_listSfxAudioSource[10], 0.1f, _sfxLoopInitVolume, false));
+        }
+    }
+
+    public void StopSfxLoop()
+    {
+        if (_listSfxAudioSource[10].isPlaying)
+        {
+            StartCoroutine(FadeAudioSourceInVolume(_listSfxAudioSource[10], 0.1f, 0, true));
+        }
+    }
+
+
+    private IEnumerator FadeAudioSourceInVolume(AudioSource audioSource, float duration ,float targetVolume ,bool isStopingAfterFade = false)
+    {
+        float startVolume = audioSource.volume;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(startVolume, targetVolume, elapsedTime / duration);
+            yield return null; // Wait until the next frame
+        }
+
+        // Ensure the final volume is the target volume
+        audioSource.volume = targetVolume;
+
+        if(isStopingAfterFade) audioSource.Stop();
+    }
+
+
 
 }

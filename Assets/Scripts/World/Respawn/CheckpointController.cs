@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,6 +14,8 @@ public class CheckpointController : MonoBehaviour {
     [SerializeField] AudioClip _sfxPlayerDetected;
     [SerializeField] List<AudioClip> _sfxPlayerRespawn;
 
+    [SerializeField] bool _isPlayingEffectOnTrigger = true;
+
     void Start() {
         _sceneName = SceneManager.GetActiveScene().name;
     }
@@ -24,23 +25,26 @@ public class CheckpointController : MonoBehaviour {
         if (other.CompareTag("Player"))
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player.GetComponent<PlayerController>().m_isRespawning == true)
+            if (RoomData.Instance.m_isPlayerRespawning == true)
             {
                 AudioManager.Instance.PlayRandomSfx(_sfxPlayerRespawn, 8);
                 StartCoroutine(MakeRespawn());
+
+                RoomData.Instance.m_isPlayerRespawning = false;
             }
             else
             {
-                AudioManager.Instance.PlaySfx(_sfxPlayerDetected, 8);
-                player.GetComponent<PlayerController>().m_isRespawning = false;
-
-
+                if(_isPlayingEffectOnTrigger)
+                {
+                    AudioManager.Instance.PlaySfx(_sfxPlayerDetected, 8);
+                    _playerSpawnedParticule.Play();
+                }
+                player.GetComponent<PlayerManager>().m_playerLife = player.GetComponent<PlayerManager>().m_maxLife;
                 CheckpointManager.instance.SaveLastCheckpoint(_sceneName, transform.position);
                 float x = transform.position.x; PlayerPrefs.SetFloat("checkpoint_pos_x", x);
                 float y = transform.position.y; PlayerPrefs.SetFloat("checkpoint_pos_y", y);
                 float z = transform.position.z; PlayerPrefs.SetFloat("checkpoint_pos_z", z);
                 PlayerPrefs.Save();
-                _playerSpawnedParticule.Play();
             }
 
 
@@ -49,11 +53,11 @@ public class CheckpointController : MonoBehaviour {
 
     private IEnumerator MakeRespawn()
     {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         yield return new WaitForSeconds(1f);
 
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-        player.GetComponent<PlayerController>().m_isRespawning = false;
+        RoomData.Instance.m_isPlayerRespawning = false;
         player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         player.GetComponent<PlayerController>().m_isControllable = true;
 
@@ -63,7 +67,7 @@ public class CheckpointController : MonoBehaviour {
         float y = transform.position.y; PlayerPrefs.SetFloat("checkpoint_pos_y", y);
         float z = transform.position.z; PlayerPrefs.SetFloat("checkpoint_pos_z", z);
         PlayerPrefs.Save();
-        _playerSpawnedParticule.Play();
+        if (_isPlayingEffectOnTrigger)  _playerSpawnedParticule.Play();
     }
 
 }

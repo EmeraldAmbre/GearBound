@@ -20,14 +20,21 @@ public class RoomConnector : MonoBehaviour {
 
     }
 
-    void OnTriggerEnter2D(Collider2D collision) {
-
-        if (collision.gameObject.layer == 7) {
-
-            _manager.ChangeRoom();
-            SaveRoomData();
-            
+    void OnTriggerEnter2D(Collider2D collision) 
+    {
+        if (collision.gameObject.layer == 7)
+        {
+            StartCoroutine(MakeRoomTransition());
         }
+    }
+
+
+
+    IEnumerator MakeRoomTransition()
+    {
+        _manager.ChangeRoom();
+        yield return new WaitForSeconds(0.5f);
+        SaveRoomData();
     }
 
     private void SaveRoomData()

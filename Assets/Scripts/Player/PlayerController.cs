@@ -99,7 +99,6 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] float _footStepDelay = 0.2f;
     float _footStepTimer = 0;
 
-    public bool m_isRespawning = false;
 
     void Start() {
         _physics = GetComponent<PlayerCompositePhysics>();
