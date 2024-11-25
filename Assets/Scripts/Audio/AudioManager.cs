@@ -14,6 +14,9 @@ public class AudioManager : MonoBehaviour
     [SerializeField] List<AudioSource> _listSfxAudioSource;
     [SerializeField] AudioSource _musicAudioSource;
 
+    public bool m_isMusicPlaying => _musicAudioSource.isPlaying;
+
+
     // Random pitch adjustment range.
     float _lowSFXPitchRange = .92f;
     float _highSFXPitchRange = 1.08f;
@@ -21,6 +24,7 @@ public class AudioManager : MonoBehaviour
     float _volumeSfxRange;
 
     float _sfxLoopInitVolume;
+    float _musicInitVolume;
 
 
     // Singleton instance.
@@ -29,6 +33,7 @@ public class AudioManager : MonoBehaviour
     // Initialize the singleton instance.
     private void Awake()
     {
+        _musicInitVolume = _musicAudioSource.volume;
         // If there is not already an instance of SoundManager, set it to this.
         if (Instance == null)
         {
@@ -45,14 +50,13 @@ public class AudioManager : MonoBehaviour
     }
 
     // Play a single clip through the music source.
-    public void PlayMusic(AudioClip clip)
+    public void PlayMusic(AudioClip clip , float transitionTime = 2)
     {
-        float targetVolume = _musicAudioSource.volume;
         _musicAudioSource.volume = 0;
         _musicAudioSource.clip = clip;
         _musicAudioSource.Play();
 
-        StartCoroutine(FadeAudioSourceInVolume(_musicAudioSource, 2f, targetVolume));
+        StartCoroutine(FadeAudioSourceInVolume(_musicAudioSource, transitionTime, _musicInitVolume));
     }
 
     public void StopMusic(float transitionTime = 0.5f)
