@@ -33,6 +33,7 @@ public class RoomConnector : MonoBehaviour {
     IEnumerator MakeRoomTransition()
     {
         _manager.ChangeRoom();
+        AudioManager.Instance.StopMusic();
         yield return new WaitForSeconds(0.5f);
         SaveRoomData();
     }

@@ -47,9 +47,17 @@ public class AudioManager : MonoBehaviour
     // Play a single clip through the music source.
     public void PlayMusic(AudioClip clip)
     {
+        float targetVolume = _musicAudioSource.volume;
+        _musicAudioSource.volume = 0;
         _musicAudioSource.clip = clip;
         _musicAudioSource.Play();
 
+        StartCoroutine(FadeAudioSourceInVolume(_musicAudioSource, 2f, targetVolume));
+    }
+
+    public void StopMusic(float transitionTime = 0.5f)
+    {
+        StartCoroutine(FadeAudioSourceInVolume(_musicAudioSource, transitionTime, 0));
     }
 
     // Play a single clip through the sound effects source.
