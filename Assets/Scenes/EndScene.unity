@@ -4751,6 +4751,14 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 503676703900327481, guid: b44b68d27f8c6814583db14cd9a5291a, type: 3}
+      propertyPath: m_Navigation.m_SelectOnUp
+      value: 
+      objectReference: {fileID: 9015617084409058461}
+    - target: {fileID: 503676703900327481, guid: b44b68d27f8c6814583db14cd9a5291a, type: 3}
+      propertyPath: m_Navigation.m_SelectOnDown
+      value: 
+      objectReference: {fileID: 9015617084409058459}
+    - target: {fileID: 503676703900327481, guid: b44b68d27f8c6814583db14cd9a5291a, type: 3}
       propertyPath: m_Navigation.m_SelectOnLeft
       value: 
       objectReference: {fileID: 9015617084409058459}
@@ -4798,6 +4806,14 @@ PrefabInstance:
       propertyPath: m_Navigation.m_Mode
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1883121911517695084, guid: b44b68d27f8c6814583db14cd9a5291a, type: 3}
+      propertyPath: m_Navigation.m_SelectOnUp
+      value: 
+      objectReference: {fileID: 9015617084409058459}
+    - target: {fileID: 1883121911517695084, guid: b44b68d27f8c6814583db14cd9a5291a, type: 3}
+      propertyPath: m_Navigation.m_SelectOnDown
+      value: 
+      objectReference: {fileID: 9015617084409058460}
     - target: {fileID: 1883121911517695084, guid: b44b68d27f8c6814583db14cd9a5291a, type: 3}
       propertyPath: m_Navigation.m_SelectOnLeft
       value: 
@@ -4988,6 +5004,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 79
       objectReference: {fileID: 0}
+    - target: {fileID: 8800542147873226995, guid: b44b68d27f8c6814583db14cd9a5291a, type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8800542147873226995, guid: b44b68d27f8c6814583db14cd9a5291a, type: 3}
+      propertyPath: m_Navigation.m_SelectOnUp
+      value: 
+      objectReference: {fileID: 9015617084409058461}
+    - target: {fileID: 8800542147873226995, guid: b44b68d27f8c6814583db14cd9a5291a, type: 3}
+      propertyPath: m_Navigation.m_SelectOnDown
+      value: 
+      objectReference: {fileID: 9015617084409058460}
+    - target: {fileID: 8800542147873226995, guid: b44b68d27f8c6814583db14cd9a5291a, type: 3}
+      propertyPath: m_Navigation.m_SelectOnLeft
+      value: 
+      objectReference: {fileID: 9015617084409058461}
+    - target: {fileID: 8800542147873226995, guid: b44b68d27f8c6814583db14cd9a5291a, type: 3}
+      propertyPath: m_Navigation.m_SelectOnRight
+      value: 
+      objectReference: {fileID: 9015617084409058460}
     - target: {fileID: 8800542147873226995, guid: b44b68d27f8c6814583db14cd9a5291a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
