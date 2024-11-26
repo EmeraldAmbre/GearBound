@@ -233,6 +233,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HubMachine"",
+                    ""type"": ""Button"",
+                    ""id"": ""bb28986b-68d7-4c58-af1d-1e8fb4d1c2c3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1269,6 +1278,28 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""20645306-68f7-470d-8a5c-7c716f275041"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HubMachine"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3ffe9817-e953-4ac4-bc04-fcd836b81fc0"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HubMachine"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1300,6 +1331,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_CloseBoxText = m_Player.FindAction("CloseBoxText", throwIfNotFound: true);
         m_Player_Map = m_Player.FindAction("Map", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_HubMachine = m_Player.FindAction("HubMachine", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
@@ -1389,6 +1421,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_CloseBoxText;
     private readonly InputAction m_Player_Map;
     private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_HubMachine;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -1416,6 +1449,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @CloseBoxText => m_Wrapper.m_Player_CloseBoxText;
         public InputAction @Map => m_Wrapper.m_Player_Map;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @HubMachine => m_Wrapper.m_Player_HubMachine;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1494,6 +1528,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @HubMachine.started += instance.OnHubMachine;
+            @HubMachine.performed += instance.OnHubMachine;
+            @HubMachine.canceled += instance.OnHubMachine;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1567,6 +1604,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @HubMachine.started -= instance.OnHubMachine;
+            @HubMachine.performed -= instance.OnHubMachine;
+            @HubMachine.canceled -= instance.OnHubMachine;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1609,5 +1649,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnCloseBoxText(InputAction.CallbackContext context);
         void OnMap(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnHubMachine(InputAction.CallbackContext context);
     }
 }

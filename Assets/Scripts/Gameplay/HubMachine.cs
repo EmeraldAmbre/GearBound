@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class HubMachine : MonoBehaviour
-{
+public class HubMachine : MonoBehaviour {
+
     [SerializeField] GameObject _spriteUpgradeDash;
     [SerializeField] GameObject _spriteUpgradeMagnet;
     [SerializeField] GameObject _spriteUpgradeRotation;
@@ -17,21 +18,34 @@ public class HubMachine : MonoBehaviour
     [SerializeField] string _creditsMenuScene;
 
     GameTimer _timerScript;
+    PlayerInputAction _input;
+
+    void InitInput() {
+        _input = new();
+        _input.Player.HubMachine.performed += OnPerformHubMachineActivated;
+        _input.Enable();
+    }
+
+    void OnPerformHubMachineActivated(InputAction.CallbackContext context) {
+        if (_txtOpenHubDoor.activeSelf && !_anim.GetCurrentAnimatorStateInfo(0).IsName("OpenDoor")) {
+            _anim.Play("OpenDoor");
+            AudioManager.Instance.PlaySfx(_sfxDoorOpening, 9);
+            _txtOpenHubDoor.SetActive(false);
+        }
+    }
 
     void Awake() {
+        InitInput();
         _timerScript = FindObjectOfType<GameTimer>();
     }
 
     void Update() {
         HandleShowingUpgradeSprite();
+    }
 
-        if(_txtOpenHubDoor.activeSelf && !_anim.GetCurrentAnimatorStateInfo(0).IsName("OpenDoor")) {
-            if(Input.GetKeyDown(KeyCode.T)) {
-                _anim.Play("OpenDoor");
-                AudioManager.Instance.PlaySfx(_sfxDoorOpening, 9);
-                _txtOpenHubDoor.SetActive(false);
-            }
-        }
+    void OnDestroy() {
+        _input.Player.HubMachine.performed -= OnPerformHubMachineActivated;
+        _input.Player.Disable();
     }
 
     private void HandleShowingUpgradeSprite() {
