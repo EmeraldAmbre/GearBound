@@ -30,6 +30,9 @@ public class CombatTurret : MonoBehaviour {
 
     private void OnDestroy()
     {
-        AudioManager.Instance.PlaySfx(_destroyedSfx, 9);
+        if(_destroyedSfx != null )
+        {
+            AudioManager.Instance.PlaySfx(_destroyedSfx, 9);
+        }
     }
 }
