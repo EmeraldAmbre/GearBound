@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource _musicAudioSource;
 
     public bool m_isMusicPlaying => _musicAudioSource.isPlaying;
+    public string m_currentMusicName => _musicAudioSource.clip.name;
 
 
     // Random pitch adjustment range.

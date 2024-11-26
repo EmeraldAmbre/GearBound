@@ -29,7 +29,11 @@ public class TitleMenu : MonoBehaviour {
 
     void Start()
     {
-        if(!AudioManager.Instance.m_isMusicPlaying)
+        if(!AudioManager.Instance.m_isMusicPlaying )
+        {
+            AudioManager.Instance.PlayMusic(_musicScene, fadeInAudioTime);
+        }
+        else if(AudioManager.Instance.m_isMusicPlaying && AudioManager.Instance.m_currentMusicName != "m_main_menu")
         {
             AudioManager.Instance.PlayMusic(_musicScene, fadeInAudioTime);
         }
