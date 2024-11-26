@@ -52,7 +52,7 @@ public class PlayerSpawnerManager : MonoBehaviour {
 
                 for (int j = 0; j < roomMechanismData.m_ListMechanismStateSaved.Count; j++) {
 
-                    MechanismData mechanismStateSaved = roomMechanismData.m_ListMechanismStateSaved.ElementAt(i);
+                    MechanismData mechanismStateSaved = roomMechanismData.m_ListMechanismStateSaved.ElementAt(j);
 
                         
                     if (mechanismToChange.name == mechanismStateSaved.name) {

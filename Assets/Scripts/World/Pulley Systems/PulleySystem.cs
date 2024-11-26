@@ -23,8 +23,6 @@ public class PulleySystem : GearMechanism
     [SerializeField] float yMaxLockThreshold = 0;
     [SerializeField] float yMinLockThreshold = 0;
     bool _isLocked = false;
-
-    bool _isPulleyWithDynamicRigidBody = false;
     [SerializeField]  bool _isAddingConstantVelocityToRigidbody = false;
     Rigidbody2D _dynamicRigidBody;
 
@@ -49,7 +47,6 @@ public class PulleySystem : GearMechanism
         {
             if (GetComponent<Rigidbody2D>().bodyType == RigidbodyType2D.Dynamic)
             {
-                _isPulleyWithDynamicRigidBody = true;
                 _dynamicRigidBody = GetComponent<Rigidbody2D>();
             }
         }

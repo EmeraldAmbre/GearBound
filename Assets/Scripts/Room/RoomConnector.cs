@@ -32,10 +32,10 @@ public class RoomConnector : MonoBehaviour {
 
     IEnumerator MakeRoomTransition()
     {
-        _manager.ChangeRoom();
         AudioManager.Instance.StopMusic();
-        yield return new WaitForSeconds(0.5f);
         SaveRoomData();
+        _manager.ChangeRoom();
+        yield return new WaitForSeconds(0.5f);
     }
 
     private void SaveRoomData()
@@ -57,6 +57,12 @@ public class RoomConnector : MonoBehaviour {
             {
                 MechanismData mechanismData = new MechanismData(listMechanismToSaveState.ElementAt(i));
                 listMechanismDataToSave.Add(mechanismData);
+                if (mechanismData.name == "---- Tilemap  to rotate")
+                {
+                    Debug.Log("FIRST TIME SAVING SAVING THE tilemaptorotate : for other time");
+                    Debug.Log("mechanismToChange.transform.rotation : " + mechanismData.rotation);
+                    Debug.Log("mechanismStateSaved.name : " + mechanismData.name);
+                }
             }
             roomMechanismData = new RoomMechanismData();
             roomMechanismData.m_SceneRoomName = SceneManager.GetActiveScene().name;
@@ -75,6 +81,12 @@ public class RoomConnector : MonoBehaviour {
             {
                 MechanismData mechanismData = new MechanismData(listMechanismToSaveState.ElementAt(i));
                 data.m_ListMechanismStateSaved.Add(mechanismData);
+                if (mechanismData.name == "---- Tilemap  to rotate")
+                {
+                    Debug.Log("SAVING THE tilemaptorotate : ");
+                    Debug.Log("mechanismToChange.transform.rotation : " + mechanismData.rotation);
+                    Debug.Log("mechanismStateSaved.name : " + mechanismData.name);
+                }
             }
         }
     }

@@ -33,6 +33,8 @@ public class GearManager : MonoBehaviour {
         {
             _isPlayerNear = true;
             _player = other.gameObject.GetComponent<PlayerController>();
+
+            AudioManager.Instance.PlaySfxLoop(_sfxActivation);
         }
     }
 
@@ -44,7 +46,7 @@ public class GearManager : MonoBehaviour {
             _player = null;
 
             AudioManager.Instance.StopSfxLoop(); 
-            ResetGearMechanisms();
+            //ResetGearMechanisms();
         }
     }
 
@@ -54,8 +56,8 @@ public class GearManager : MonoBehaviour {
         _gearRigidbody = GetComponent<Rigidbody2D>();
     }
 
-    void Update() {
-
+    void Update() 
+    {
         if (_isPlayerNear == true && _player != null)
         {
             if (_player.m_inputX != 0)
@@ -99,6 +101,7 @@ public class GearManager : MonoBehaviour {
         else
         {
             if (_isActivableByOtherGears == false) _gearRigidbody.freezeRotation = true;
+            ResetGearMechanisms();
         }
 
     }
