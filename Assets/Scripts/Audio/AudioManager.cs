@@ -111,9 +111,12 @@ public class AudioManager : MonoBehaviour
 
     public void StopSfxLoop()
     {
-        if (_listSfxAudioSource[10].isPlaying)
+        if(_listSfxAudioSource[10] != null)
         {
-            StartCoroutine(FadeAudioSourceInVolume(_listSfxAudioSource[10], 0.1f, 0, true));
+            if (_listSfxAudioSource[10].isPlaying)
+            {
+                StartCoroutine(FadeAudioSourceInVolume(_listSfxAudioSource[10], 0.1f, 0, true));
+            }
         }
     }
 

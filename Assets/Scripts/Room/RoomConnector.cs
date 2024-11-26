@@ -36,11 +36,11 @@ public class RoomConnector : MonoBehaviour {
         SaveRoomData();
         _manager.ChangeRoom();
         yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene(m_SceneNameToConnect);
     }
 
     private void SaveRoomData()
     {
-        SceneManager.LoadScene(m_SceneNameToConnect);
         RoomData.Instance.m_LastRoomSceneName = SceneManager.GetActiveScene().name;
 
         // If not roomMechanism Data saved yet for this room

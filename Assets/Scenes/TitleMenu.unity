@@ -748,7 +748,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7513382996705662863, guid: 99815fcb1da0cf84d9ff5c17dfa03fc9, type: 3}
       propertyPath: fadeInAudioTime
-      value: 10
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7513382996705662863, guid: 99815fcb1da0cf84d9ff5c17dfa03fc9, type: 3}
       propertyPath: _transitionImage
