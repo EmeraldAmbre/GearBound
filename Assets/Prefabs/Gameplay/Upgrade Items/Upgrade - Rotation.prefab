@@ -372,7 +372,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1564714916784599503, guid: 61a4c2eaf2ce80b458df285ef41b89e6, type: 3}
       propertyPath: m_text
-      value: 'INVERSE ROTATION : PRESS F
+      value: 'INVERSE ROTATION : PRESS S
 
 
         (X ON GAMEPAD)'

@@ -45,11 +45,15 @@ public class PauseMenu : MonoBehaviour {
     [SerializeField] AudioClip _sfxMenuOpen;
     [SerializeField] AudioClip _sfxMenuClosed;
 
+    [Header("VFX")]
+    [SerializeField] GameObject _transitionScreen;
+
     [Header("Buttons")]
     [SerializeField] string _mainMenuScene;
     [SerializeField] float _sceneTransitionDelay = 1f;
     [SerializeField] GameObject _mainMenuButton;
     [SerializeField] GameObject _exitButton;
+    [SerializeField] Button _mainMenuBt;
 
     void Start() {
         InitInput();
@@ -75,7 +79,7 @@ public class PauseMenu : MonoBehaviour {
     public void MainMenu() {
         if (_mainMenuScene != null)
         {
-            Time.timeScale = 1f;
+            FindAnyObjectByType<PlayerController>().m_isControllable = false;
             StartCoroutine(LoadSceneWithDelay(_sceneTransitionDelay, _mainMenuScene));
         }
     }
@@ -84,19 +88,23 @@ public class PauseMenu : MonoBehaviour {
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(sceneName);
     }
-
+    
     void OnPerformPause(InputAction.CallbackContext context) {
 
         if (_isPaused is false) {
+            _transitionScreen.SetActive(false);
             AudioManager.Instance.PlaySfx(_sfxMenuOpen, 6);
             DesactivateUI();
 
-            Time.timeScale = 0f;
+            FindAnyObjectByType<PlayerController>().m_isControllable = false;
+
 
             _titleText.enabled = true;
             _background.SetActive(true);
             _mainMenuButton.SetActive(true);
             _exitButton.SetActive(true);
+
+            _mainMenuBt.Select();
 
             int index = 0;
 
@@ -130,7 +138,7 @@ public class PauseMenu : MonoBehaviour {
                     _imageLockedUpgrade3.SetActive(true);
                     _imageLockedUpgrade4.SetActive(true);
                     _imageText1.enabled = true;
-                    _imageText1.text = "Dash (Tab)";
+                    _imageText1.text = "Dash (Shift)";
                     _imageText2.enabled = true;
                     _imageText2.text = "Locked";
                     _imageText3.enabled = true;
@@ -146,9 +154,9 @@ public class PauseMenu : MonoBehaviour {
                     _imageLockedUpgrade3.SetActive(true);
                     _imageLockedUpgrade4.SetActive(true);
                     _imageText1.enabled = true;
-                    _imageText1.text = "Dash (Tab)";
+                    _imageText1.text = "Dash (Shift)";
                     _imageText2.enabled = true;
-                    _imageText2.text = "Magnetize (G)";
+                    _imageText2.text = "Magnetize (Z)";
                     _imageText3.enabled = true;
                     _imageText3.text = "Locked";
                     _imageText4.enabled = true;
@@ -162,11 +170,11 @@ public class PauseMenu : MonoBehaviour {
                     _imageUpgrade3.SetActive(true);
                     _imageLockedUpgrade4.SetActive(true);
                     _imageText1.enabled = true;
-                    _imageText1.text = "Dash (Tab)";
+                    _imageText1.text = "Dash (Shift)";
                     _imageText2.enabled = true;
-                    _imageText2.text = "Magnetize (G)";
+                    _imageText2.text = "Magnetize (Z)";
                     _imageText3.enabled = true;
-                    _imageText3.text = "Inverse Rotation (F)";
+                    _imageText3.text = "Inverse Rotation (S)";
                     _imageText4.enabled = true;
                     _imageText4.text = "Locked";
                     break;
@@ -178,13 +186,13 @@ public class PauseMenu : MonoBehaviour {
                     _imageUpgrade3.SetActive(true);
                     _imageUpgrade4.SetActive(true);
                     _imageText1.enabled = true;
-                    _imageText1.text = "Dash (Tab)";
+                    _imageText1.text = "Dash (Shift)";
                     _imageText2.enabled = true;
-                    _imageText2.text = "Magnetize (G)";
+                    _imageText2.text = "Magnetize (Z)";
                     _imageText3.enabled = true;
-                    _imageText3.text = "Inverse Rotation (F)";
+                    _imageText3.text = "Inverse Rotation (S)";
                     _imageText4.enabled = true;
-                    _imageText4.text = "Possession (H)";
+                    _imageText4.text = "Possession (A)";
                     break;
             }
             _isPaused = true;
@@ -192,9 +200,12 @@ public class PauseMenu : MonoBehaviour {
 
         else if (_isPaused is true)
         {
+            _transitionScreen.SetActive(true);
+
             AudioManager.Instance.PlaySfx(_sfxMenuClosed, 6);
             DesactivateUI();
-            Time.timeScale = 1f;
+            FindAnyObjectByType<PlayerController>().m_isControllable = true;
+
             _isPaused = false;
         }
     }
@@ -226,4 +237,6 @@ public class PauseMenu : MonoBehaviour {
         _imageText3.enabled = false;
         _imageText4.enabled = false;
     }
+
+
 }

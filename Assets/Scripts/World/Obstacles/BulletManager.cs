@@ -7,12 +7,14 @@ public class BulletManager : MonoBehaviour {
     public bool m_isGoingRight;
     public float m_lifeTime = 10f;
 
+    [SerializeField] AudioClip _destroyedByBulletSfx;
     float _timer;
     [SerializeField] float _speed = 2f;
     bool _rotated;
 
     GameObject _player;
     PlayerManager _manager;
+
 
     void Awake() {
         _timer = m_lifeTime;
@@ -51,6 +53,8 @@ public class BulletManager : MonoBehaviour {
         }
         if (other.CompareTag("BulletDestroyable"))
         {
+            AudioManager.Instance.PlaySfx(_destroyedByBulletSfx, 9);
+
             Destroy(other.gameObject) ;
         }
         Destroy(gameObject);

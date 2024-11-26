@@ -183,6 +183,9 @@ public class PlayerController : MonoBehaviour {
     void Update() {
         if(m_isControllable)
         {
+            // Reset riugidbody to dynamic id was static before
+            if (_physics.m_playerRigidbody.bodyType == RigidbodyType2D.Static) _physics.m_playerRigidbody.bodyType = RigidbodyType2D.Dynamic;
+
             HandlingCoyoteJump();
 
             HandleJumpBuffering();
@@ -223,6 +226,10 @@ public class PlayerController : MonoBehaviour {
                 AudioManager.Instance.PlayRandomSfx(_listSfxLanding, 2);
             }
         }
+        else if (_physics.m_playerRigidbody.bodyType == RigidbodyType2D.Dynamic)
+        {
+            _physics.m_playerRigidbody.bodyType = RigidbodyType2D.Static;
+        }
     }
 
     #region Jump and movement methods called in Update()
@@ -262,12 +269,6 @@ public class PlayerController : MonoBehaviour {
 
     void HandleMagnetAttraction()
     {
-        //Debug.Log("Player can be attracted : " + _playerUpgrade.m_canBeAttracted);
-        //Debug.Log("Player is attracted : " + _playerUpgrade.m_isAttracted);
-        //Debug.Log("_velocity : " + _velocity);
-
-
-
         if (_playerUpgrade.m_canBeAttracted is true && _playerUpgrade.m_isAttracted is true)
         {
             Vector2 direction = (_playerUpgrade.m_magnet.transform.position - transform.position).normalized ;
@@ -549,7 +550,5 @@ public class PlayerController : MonoBehaviour {
     {
         _velocity = Vector2.zero;
         _rigidbody.velocity = _velocity;
-        Debug.Log("RESET VELOCITY");
-
     }
 }

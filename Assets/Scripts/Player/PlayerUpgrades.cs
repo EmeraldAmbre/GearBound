@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerUpgrades : MonoBehaviour {
 
@@ -67,6 +68,13 @@ public class PlayerUpgrades : MonoBehaviour {
     PlayerController _controller;
     PlayerCompositePhysics _physics;
 
+
+    [Header("UI")]
+    [SerializeField] GameObject _upgradeImageUiRotation;
+    [SerializeField] GameObject _upgradeImageUiMagnet;
+    [SerializeField] GameObject _upgradeImageUiPossesion;
+
+
     #region Input Methods
 
     void InitInput() {
@@ -93,6 +101,7 @@ public class PlayerUpgrades : MonoBehaviour {
     void OnPerformRotationStarted(InputAction.CallbackContext context) {
         if (PlayerPrefs.GetInt("rotation") == 1 && PlayerPrefs.HasKey("rotation")) {
             InverseRotation();
+            _upgradeImageUiRotation.SetActive(_controller.m_rotationInversion);
         }
     }
 
@@ -103,6 +112,7 @@ public class PlayerUpgrades : MonoBehaviour {
             if (PlayerPrefs.GetInt("magnet") == 1 && PlayerPrefs.HasKey("magnet"))
             {
                 ActivateAttraction();
+                _upgradeImageUiMagnet.SetActive(m_isAttracted);
             }
         }
     }
@@ -118,6 +128,7 @@ public class PlayerUpgrades : MonoBehaviour {
         if (m_canControl && m_gearToControl != null && !m_isAttracted) {
             if (m_isPossessed is false) Possess();
             else Depossess();
+            _upgradeImageUiPossesion.SetActive(m_isPossessed);
         }
     }
 
@@ -206,6 +217,11 @@ public class PlayerUpgrades : MonoBehaviour {
         _growSize = _normalSize * _growMultiplier;
         _shrinkSize = _normalSize * _shrinkMultiplier;
         InitInput();
+
+        // Enable ui image depending current upgrade activated
+        _upgradeImageUiRotation.SetActive(_controller.m_rotationInversion);
+        _upgradeImageUiMagnet.SetActive(m_isAttracted);
+        _upgradeImageUiPossesion.SetActive(m_isPossessed);
     }
 
     void Update() {

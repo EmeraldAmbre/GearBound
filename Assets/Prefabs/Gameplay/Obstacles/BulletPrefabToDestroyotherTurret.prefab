@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6713790807828493024}
   m_Layer: 0
   m_Name: BulletPrefabToDestroyotherTurret
-  m_TagString: Untagged
+  m_TagString: BulletDestroyable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85,6 +85,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_isGoingRight: 0
   m_lifeTime: 20
+  _destroyedByBulletSfx: {fileID: 8300000, guid: 090d0d80d4dca9b4fbf739f27c51a610, type: 3}
   _speed: 10
 --- !u!58 &2579148377346255677
 CircleCollider2D:

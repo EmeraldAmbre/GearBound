@@ -31,9 +31,6 @@ public class RoomSpinner : GearMechanism
 
         if (gearRotationDirection == 1) transform.Rotate(0, 0, _spinningSpeed * gearRotationScale * Time.deltaTime);
         else if (gearRotationDirection == -1) transform.Rotate(0, 0, -_spinningSpeed * gearRotationScale * Time.deltaTime);
-
-        //if (name == "---- TilemapToRotate") Debug.Log("gearRotationScale  : " + gearRotationScale);
-        //if (name == "---- TilemapToRotate") Debug.Log("_spinningSpeed  : " + _spinningSpeed);
     }
 
  
@@ -53,10 +50,6 @@ public class RoomSpinner : GearMechanism
                 Quaternion currentRotation = transform.rotation;
                 Quaternion targetRotation = Quaternion.Euler(0, 0, _angleToSnap);
                 transform.rotation = Quaternion.RotateTowards(currentRotation, targetRotation, _snapingSnapSpeed * Time.deltaTime);
-
-
-
-                if (name == "---- TilemapToRotate") Debug.Log("Is snaping with speed : " + _snapingSnapSpeed);
             }
             else 
             {
@@ -65,12 +58,7 @@ public class RoomSpinner : GearMechanism
                 Quaternion currentRotation = transform.rotation;
                 Quaternion targetRotation = Quaternion.Euler(0, 0, _angleToSnap);
                 transform.rotation = Quaternion.RotateTowards(currentRotation, targetRotation, _snapingSnapSpeed * Time.deltaTime);
-
-
-                if (name == "---- TilemapToRotate") Debug.Log("Is snaping with speed : " + _snapingSnapSpeed);
             }
-
-            if (name == "---- TilemapToRotate") Debug.Log("transform.rotation.z" + transform.rotation.z);
         }
         _lastAngle = transform.rotation.z;
 

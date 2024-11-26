@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TitleMenu : MonoBehaviour {
 
@@ -19,6 +21,8 @@ public class TitleMenu : MonoBehaviour {
         _anim.Play("ScreenBlacktransitionOut");
 
     }
+
+
     private void Update()
     {
         if (_anim.isPlaying == false && _transitionImage.activeSelf )
@@ -29,7 +33,7 @@ public class TitleMenu : MonoBehaviour {
 
     void Start()
     {
-        if(!AudioManager.Instance.m_isMusicPlaying )
+        if (!AudioManager.Instance.m_isMusicPlaying )
         {
             AudioManager.Instance.PlayMusic(_musicScene, fadeInAudioTime);
         }
@@ -55,7 +59,7 @@ public class TitleMenu : MonoBehaviour {
 
     public void Credits() {
         if (_creditsScene != null) {
-            StartCoroutine(LoadSceneWithDelay(_sceneTransitionDelay, _creditsScene));
+            SceneManager.LoadScene(_creditsScene);
         }
         else {
             Application.Quit();

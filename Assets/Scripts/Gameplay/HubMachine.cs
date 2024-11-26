@@ -12,7 +12,9 @@ public class HubMachine : MonoBehaviour {
     [SerializeField] GameObject _spriteUpgradePossesion;
 
     [SerializeField] GameObject _txtOpenHubDoor;
+    [SerializeField] GameObject _lightToActivateWhenMachineReady;
     [SerializeField] Animator _anim;
+    [SerializeField] Animation _animFadeTransitionExit;
     [SerializeField] AudioClip _sfxDoorOpening;
 
     [SerializeField] string _creditsMenuScene;
@@ -27,16 +29,37 @@ public class HubMachine : MonoBehaviour {
     }
 
     void OnPerformHubMachineActivated(InputAction.CallbackContext context) {
-        if (_txtOpenHubDoor.activeSelf && !_anim.GetCurrentAnimatorStateInfo(0).IsName("OpenDoor")) {
+        if (_txtOpenHubDoor.activeSelf && !_anim.GetCurrentAnimatorStateInfo(0).IsName("OpenDoor")) 
+        {
             _anim.Play("OpenDoor");
             AudioManager.Instance.PlaySfx(_sfxDoorOpening, 9);
             _txtOpenHubDoor.SetActive(false);
+            FindObjectOfType<PlayerController>().m_isControllable = false;
+            
         }
     }
 
-    void Awake() {
+    void Awake()
+    {
         InitInput();
         _timerScript = FindObjectOfType<GameTimer>();
+    }
+
+
+    private void Start()
+    {
+        if (PlayerPrefs.GetInt("dash") == 1
+            && PlayerPrefs.GetInt("magnet") == 1
+            && PlayerPrefs.GetInt("rotation") == 1
+            && PlayerPrefs.GetInt("possession") == 1
+        )
+        { 
+            _lightToActivateWhenMachineReady.SetActive(true);
+        }
+        else
+        {
+            _lightToActivateWhenMachineReady.SetActive(false);
+        }
     }
 
     void Update() {
@@ -74,13 +97,15 @@ public class HubMachine : MonoBehaviour {
         _txtOpenHubDoor.SetActive(false);
     }
 
-    public void OnDoorOpenAnimationFinished() {
-        Debug.Log("Animation Finished!");
-        _timerScript.StopTimer();
-        StartCoroutine(LoadSceneWithDelay(0.2f, _creditsMenuScene));
+    public void OnDoorOpenAnimationFinished() 
+    {
+        if(_timerScript != null) _timerScript.StopTimer();
+        StartCoroutine(LoadSceneWithDelay(1, _creditsMenuScene));
     }
 
     private IEnumerator LoadSceneWithDelay(float delay, string sceneName) {
+        _animFadeTransitionExit.Play("ScreenBlacktransitionINQuick");
+        AudioManager.Instance.StopMusic();
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(sceneName);
     }
