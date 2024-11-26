@@ -43,7 +43,8 @@ public class GearManager : MonoBehaviour {
             _isPlayerNear = false;
             _player = null;
 
-            AudioManager.Instance.StopSfxLoop();
+            AudioManager.Instance.StopSfxLoop(); 
+            ResetGearMechanisms();
         }
     }
 

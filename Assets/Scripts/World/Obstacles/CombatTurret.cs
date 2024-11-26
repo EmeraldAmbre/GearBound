@@ -7,6 +7,7 @@ public class CombatTurret : MonoBehaviour {
     [SerializeField] GameObject _bulletPrefab;
     [SerializeField] GameObject _shootingPoint;
     [SerializeField] float _shootLoopDuration = 2f;
+    [SerializeField] AudioClip _destroyedSfx;
 
     float _shootTimer;
     bool _facingRight;
@@ -25,5 +26,10 @@ public class CombatTurret : MonoBehaviour {
             bulletManager.m_isGoingRight = _facingRight;
             Destroy(bullet, bulletManager.m_lifeTime);
         }
+    }
+
+    private void OnDestroy()
+    {
+        AudioManager.Instance.PlaySfx(_destroyedSfx, 9);
     }
 }

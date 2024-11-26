@@ -48,7 +48,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -6196,7 +6196,7 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 65536
-  maxDistance: 50
+  maxDistance: 500
 --- !u!1 &4575784358655108487
 GameObject:
   m_ObjectHideFlags: 0

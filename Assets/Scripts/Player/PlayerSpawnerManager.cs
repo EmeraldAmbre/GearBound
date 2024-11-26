@@ -43,10 +43,10 @@ public class PlayerSpawnerManager : MonoBehaviour {
 
                 GameObject mechanismToChange = listMechanismToChangeState.ElementAt(i);
 
-                if (mechanismToChange.name == "Door")
+                if (mechanismToChange.name == "---- Tilemap  to rotate")
                 {
-                    Debug.Log("LOADING THE ROOM : ");
-                    Debug.Log("mechanismToChange.transform.position : " + mechanismToChange.transform.position);
+                    Debug.Log("LOADING THE tilemaptorotate : ");
+                    Debug.Log("mechanismToChange.transform.rotation : " + mechanismToChange.transform.rotation);
                     Debug.Log("mechanismStateSaved.name : " + mechanismToChange.name);
                 }
 
