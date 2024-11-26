@@ -33,8 +33,6 @@ public class GearManager : MonoBehaviour {
         {
             _isPlayerNear = true;
             _player = other.gameObject.GetComponent<PlayerController>();
-
-            AudioManager.Instance.PlaySfxLoop(_sfxActivation);
         }
     }
 
@@ -46,7 +44,7 @@ public class GearManager : MonoBehaviour {
             _player = null;
 
             AudioManager.Instance.StopSfxLoop(); 
-            //ResetGearMechanisms();
+            ResetGearMechanisms();
         }
     }
 
