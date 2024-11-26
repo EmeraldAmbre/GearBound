@@ -415,6 +415,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cb4047aae349564eb41333ce12c77e7, type: 3}
+--- !u!114 &1400850640 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4000829812772865298, guid: 99815fcb1da0cf84d9ff5c17dfa03fc9, type: 3}
+  m_PrefabInstance: {fileID: 3857906841517763102}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2045179890
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,13 +542,21 @@ PrefabInstance:
       value: 1080
       objectReference: {fileID: 0}
     - target: {fileID: 3298240208295600128, guid: 99815fcb1da0cf84d9ff5c17dfa03fc9, type: 3}
+      propertyPath: m_Transition
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3298240208295600128, guid: 99815fcb1da0cf84d9ff5c17dfa03fc9, type: 3}
+      propertyPath: m_TargetGraphic
+      value: 
+      objectReference: {fileID: 1400850640}
+    - target: {fileID: 3298240208295600128, guid: 99815fcb1da0cf84d9ff5c17dfa03fc9, type: 3}
       propertyPath: m_Navigation.m_Mode
-      value: 4
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3298240208295600128, guid: 99815fcb1da0cf84d9ff5c17dfa03fc9, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
-      objectReference: {fileID: 3857906841517763104}
+      objectReference: {fileID: 3857906841517763106}
     - target: {fileID: 3298240208295600128, guid: 99815fcb1da0cf84d9ff5c17dfa03fc9, type: 3}
       propertyPath: m_Navigation.m_WrapAround
       value: 0
@@ -545,7 +564,7 @@ PrefabInstance:
     - target: {fileID: 3298240208295600128, guid: 99815fcb1da0cf84d9ff5c17dfa03fc9, type: 3}
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
-      objectReference: {fileID: 3857906841517763105}
+      objectReference: {fileID: 3857906841517763104}
     - target: {fileID: 3298240208295600128, guid: 99815fcb1da0cf84d9ff5c17dfa03fc9, type: 3}
       propertyPath: m_SpriteState.m_SelectedSprite
       value: 
@@ -568,7 +587,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3298240208295600128, guid: 99815fcb1da0cf84d9ff5c17dfa03fc9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StartGame
+      value: Credits
       objectReference: {fileID: 0}
     - target: {fileID: 3298240208295600128, guid: 99815fcb1da0cf84d9ff5c17dfa03fc9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
