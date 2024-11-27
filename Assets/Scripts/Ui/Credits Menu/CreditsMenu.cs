@@ -14,7 +14,11 @@ public class CreditsMenu : MonoBehaviour {
     [SerializeField] Button _firstButtonToSelect;
 
     [Header("Websites")]
-    [SerializeField] string _itchioUrl = "https://ambre-emeraude.itch.io/";
+    [SerializeField] string _itchioUrl = "https://xinart.itch.io/gearbound";
+
+
+    [Header("SFX")]
+    [SerializeField] List<AudioClip> _listSfxBtClick;
 
     void Awake() {
         float timer = PlayerPrefs.GetFloat("GameTime");
@@ -36,15 +40,18 @@ public class CreditsMenu : MonoBehaviour {
     public void MainMenu() {
         if (_mainMenuScene != null) {
             StartCoroutine(LoadSceneWithDelay(_sceneTransitionDelay, _mainMenuScene));
+            AudioManager.Instance.PlayRandomSfx(_listSfxBtClick, 9);
         }
     }
 
     public void ExitGame() {
         Application.Quit();
+        AudioManager.Instance.PlayRandomSfx(_listSfxBtClick, 9);
     }
 
     public void OpenItchio() {
         Application.OpenURL(_itchioUrl);
+        AudioManager.Instance.PlayRandomSfx(_listSfxBtClick, 9);
     }
 
     IEnumerator LoadSceneWithDelay(float delay, string sceneName) {

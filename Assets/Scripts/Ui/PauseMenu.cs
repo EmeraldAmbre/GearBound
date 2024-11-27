@@ -44,6 +44,7 @@ public class PauseMenu : MonoBehaviour {
     [Header("SFX")]
     [SerializeField] AudioClip _sfxMenuOpen;
     [SerializeField] AudioClip _sfxMenuClosed;
+    [SerializeField] List<AudioClip> _listSfxBtClick;
 
     [Header("VFX")]
     [SerializeField] GameObject _transitionScreen;
@@ -74,10 +75,13 @@ public class PauseMenu : MonoBehaviour {
 
     public void ExitGame() {
         Time.timeScale = 1f;
+        AudioManager.Instance.PlayRandomSfx(_listSfxBtClick, 9);
         Application.Quit();
     }
 
-    public void MainMenu() {
+    public void MainMenu()
+    {
+        AudioManager.Instance.PlayRandomSfx(_listSfxBtClick, 9);
         if (_mainMenuScene != null)
         {
             FindAnyObjectByType<PlayerController>().m_isControllable = false;

@@ -50,7 +50,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainMenuScene: TitleMenu
   _sceneTransitionDelay: 1
+  _timer: {fileID: 0}
+  _hearts: {fileID: 0}
+  _firstButtonToSelect: {fileID: 0}
   _itchioUrl: https://ambre-emeraude.itch.io/
+  _listSfxBtClick:
+  - {fileID: 8300000, guid: a112c52e15cdcad44b6b562bed610075, type: 3}
+  - {fileID: 8300000, guid: 89322fc195ac13844ba5aac4671e281a, type: 3}
 --- !u!1 &1092660403572484472
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,7 +359,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.1854248, y: -12.816193}
+  m_AnchoredPosition: {x: -0.1854248, y: -12.816162}
   m_SizeDelta: {x: 69.2446, y: 118.1343}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5804463669133691262

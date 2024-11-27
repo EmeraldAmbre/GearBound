@@ -123,6 +123,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4aee2ccab72e1e4fbcdeac31b3dbb9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startScene: 
+  _creditsScene: 
+  _sceneTransitionDelay: 1
+  _musicScene: {fileID: 0}
+  fadeInAudioTime: 0
+  _anim: {fileID: 0}
+  _transitionImage: {fileID: 0}
+  _listSfxBtClick:
+  - {fileID: 8300000, guid: a112c52e15cdcad44b6b562bed610075, type: 3}
+  - {fileID: 8300000, guid: 89322fc195ac13844ba5aac4671e281a, type: 3}
 --- !u!1 &8165008760060955756
 GameObject:
   m_ObjectHideFlags: 0

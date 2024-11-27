@@ -638,10 +638,15 @@ MonoBehaviour:
   _imageText4: {fileID: 660097371386957388}
   _sfxMenuOpen: {fileID: 0}
   _sfxMenuClosed: {fileID: 0}
+  _listSfxBtClick:
+  - {fileID: 8300000, guid: a112c52e15cdcad44b6b562bed610075, type: 3}
+  - {fileID: 8300000, guid: 89322fc195ac13844ba5aac4671e281a, type: 3}
+  _transitionScreen: {fileID: 0}
   _mainMenuScene: TitleMenu
   _sceneTransitionDelay: 0.2
   _mainMenuButton: {fileID: 8643584865008210066}
   _exitButton: {fileID: 2113274776874146759}
+  _mainMenuBt: {fileID: 0}
 --- !u!1 &987053564836130204
 GameObject:
   m_ObjectHideFlags: 0

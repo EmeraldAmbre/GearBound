@@ -16,6 +16,9 @@ public class TitleMenu : MonoBehaviour {
     [SerializeField] GameObject _transitionImage;
     // Start is called before the first frame update
 
+    [Header("SFX")]
+    [SerializeField] List<AudioClip> _listSfxBtClick;
+
     private async void Awake()
     {
         _anim.Play("ScreenBlacktransitionOut");
@@ -44,7 +47,9 @@ public class TitleMenu : MonoBehaviour {
         }
     }
     public void StartGame() {
-        if (_startScene != null) {
+        if (_startScene != null)
+        {
+            AudioManager.Instance.PlayRandomSfx(_listSfxBtClick, 9);
 
             _transitionImage.SetActive(true);
             PlayerPrefs.DeleteAll();
@@ -54,12 +59,15 @@ public class TitleMenu : MonoBehaviour {
         }
     }
 
-    public void ExitGame() {
+    public void ExitGame()
+    {
+        AudioManager.Instance.PlayRandomSfx(_listSfxBtClick, 9);
         Application.Quit();
     }
 
     public void Credits() {
         if (_creditsScene != null) {
+            AudioManager.Instance.PlayRandomSfx(_listSfxBtClick, 9);
             SceneManager.LoadScene(_creditsScene);
         }
         else {
