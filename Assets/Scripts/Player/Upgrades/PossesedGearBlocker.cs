@@ -20,7 +20,7 @@ public class PossesedGearBlocker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<PlayerUpgrades>().m_isPossessed )
+        if (!collision.gameObject.GetComponent<PlayerUpgrades>().m_isPossessed )
         {
             _collider.enabled = true;
             collision.gameObject.GetComponent<PlayerUpgrades>().m_gearToControl = null;

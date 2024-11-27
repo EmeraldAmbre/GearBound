@@ -23,9 +23,14 @@ public class CreditsMenu : MonoBehaviour {
         int secs = Mathf.FloorToInt(timer % 60);
         string timeFormat = string.Format("{0:D2}:{1:D2}:{2:D2}", hours, minutes, secs);
         if (_timer != null) _timer.text = "Final Timer: " + timeFormat;
-        if (_hearts != null) _hearts.text = "Unlocked Hearts: " + ((PlayerPrefs.GetInt("max_player_life")/2)-1).ToString();
+        if (_hearts != null) _hearts.text = "Unlocked Hearts: " + ((PlayerPrefs.GetInt("max_player_life")/2)-1).ToString() + " /4";
 
         if (_firstButtonToSelect != null) _firstButtonToSelect.Select();
+    }
+
+    private void Start()
+    {
+        Cursor.visible = true;
     }
 
     public void MainMenu() {
