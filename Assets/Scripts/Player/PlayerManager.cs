@@ -214,6 +214,7 @@ public class PlayerManager : MonoBehaviour {
     IEnumerator MakeDeathTransition()
     {
         _playerController.m_isControllable = false;
+        _playerController.ResetVelocity();
 
         _playerController.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
 
@@ -224,7 +225,7 @@ public class PlayerManager : MonoBehaviour {
         _deathParticule.Play();
         _playerSprite.SetActive(false);
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
         _animTransition.Play("ScreenBlacktransitionIN");
 

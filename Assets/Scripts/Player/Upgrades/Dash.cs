@@ -35,6 +35,7 @@ public class Dash : MonoBehaviour {
             _isDashTextIsActive = true;
             _textBox.SetActive(true);
             AudioManager.Instance.PlaySfx(_sfxUpgrade, 9);
+            FindFirstObjectByType<PlayerController>().m_isControllable = false;
         }
     }
 
@@ -45,6 +46,8 @@ public class Dash : MonoBehaviour {
 
     void OnPerformCloseText(InputAction.CallbackContext context) {
         if (_isDashTextIsActive) {
+            FindFirstObjectByType<PlayerController>().m_isControllable = true;
+
             _textBox.SetActive(false);
             gameObject.SetActive(false);
             _isDashTextIsActive = false;

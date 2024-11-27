@@ -35,6 +35,7 @@ public class Rotation : MonoBehaviour {
             _isRotationTextIsActive = true;
             _textBox.SetActive(true);
             AudioManager.Instance.PlaySfx(_sfxUpgrade, 9);
+            FindFirstObjectByType<PlayerController>().m_isControllable = false;
         }
     }
 
@@ -43,7 +44,9 @@ public class Rotation : MonoBehaviour {
         _input.Player.Disable();
     }
 
-    void OnPerformCloseText(InputAction.CallbackContext context) {
+    void OnPerformCloseText(InputAction.CallbackContext context)
+    {
+        FindFirstObjectByType<PlayerController>().m_isControllable = true;
         if (_isRotationTextIsActive) {
             _textBox.SetActive(false);
             gameObject.SetActive(false);
