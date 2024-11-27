@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CreditsMenu : MonoBehaviour {
 
@@ -10,6 +11,7 @@ public class CreditsMenu : MonoBehaviour {
     [SerializeField] float _sceneTransitionDelay = 1f;
     [SerializeField] TextMeshProUGUI _timer;
     [SerializeField] TextMeshProUGUI _hearts;
+    [SerializeField] Button _firstButtonToSelect;
 
     [Header("Websites")]
     [SerializeField] string _itchioUrl = "https://ambre-emeraude.itch.io/";
@@ -22,6 +24,8 @@ public class CreditsMenu : MonoBehaviour {
         string timeFormat = string.Format("{0:D2}:{1:D2}:{2:D2}", hours, minutes, secs);
         if (_timer != null) _timer.text = "Final Timer: " + timeFormat;
         if (_hearts != null) _hearts.text = "Unlocked Hearts: " + ((PlayerPrefs.GetInt("max_player_life")/2)-1).ToString();
+
+        if (_firstButtonToSelect != null) _firstButtonToSelect.Select();
     }
 
     public void MainMenu() {

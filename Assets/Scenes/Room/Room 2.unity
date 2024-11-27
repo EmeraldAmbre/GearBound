@@ -64792,6 +64792,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.389
       objectReference: {fileID: 0}
+    - target: {fileID: 273298337290500844, guid: ed0891b428af94f47890ff26beb2343f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 506619242581612870, guid: ed0891b428af94f47890ff26beb2343f, type: 3}
       propertyPath: m_Name
       value: Lantern (16)
