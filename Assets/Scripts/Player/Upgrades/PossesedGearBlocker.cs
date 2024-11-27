@@ -20,16 +20,9 @@ public class PossesedGearBlocker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.gameObject.GetComponent<PlayerUpgrades>().m_isPossessed )
+        if (collision.gameObject.GetComponent<PlayerUpgrades>().m_isPossessed )
         {
             _collider.enabled = true;
-            collision.gameObject.GetComponent<PlayerUpgrades>().m_gearToControl = null;
-
-            GameObject gearToControl = collision.gameObject.GetComponent<PlayerUpgrades>().m_gearToControl;
-
-            ParticleSystem.EmissionModule emission = gearToControl.GetComponentInChildren<ParticleSystem>().emission;
-            if (gearToControl.GetComponentInChildren<ParticleSystem>().isPlaying) gearToControl.GetComponentInChildren<ParticleSystem>().Stop();
-            emission.enabled = false;
         }
         else
         {
