@@ -33,6 +33,7 @@ public class TitleMenu : MonoBehaviour {
 
     void Start()
     {
+        Cursor.visible = true;
         if (!AudioManager.Instance.m_isMusicPlaying )
         {
             AudioManager.Instance.PlayMusic(_musicScene, fadeInAudioTime);

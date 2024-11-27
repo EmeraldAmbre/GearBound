@@ -248,9 +248,14 @@ public class PlayerUpgrades : MonoBehaviour {
         }
 
         // ShowParticules
-        if(m_isAttracted)
+        if(m_isAttracted && !_magnetismParticules.isPlaying)
         {
+            Debug.Log("Should play particules");
             _magnetismParticules.Play();
+        }
+        else if(!m_isAttracted && _magnetismParticules.isPlaying)
+        {
+            _magnetismParticules.Stop();
         }
         
 

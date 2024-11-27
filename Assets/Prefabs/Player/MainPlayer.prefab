@@ -10533,14 +10533,14 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3748518708410482499}
   serializedVersion: 8
-  lengthInSec: 0.1
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -11362,7 +11362,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 150
+      scalar: 200
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -15721,6 +15721,9 @@ MonoBehaviour:
   _sfxReverseRotationDeactivaction: {fileID: 0}
   _sfxPossesionActivaction: {fileID: 0}
   _sfxPossesionDeactivaction: {fileID: 0}
+  _upgradeImageUiRotation: {fileID: 0}
+  _upgradeImageUiMagnet: {fileID: 0}
+  _upgradeImageUiPossesion: {fileID: 0}
 --- !u!1 &6445922541459735058
 GameObject:
   m_ObjectHideFlags: 0

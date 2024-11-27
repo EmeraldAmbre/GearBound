@@ -58,6 +58,7 @@ public class PauseMenu : MonoBehaviour {
     void Start() {
         InitInput();
         DesactivateUI();
+        Cursor.visible = false;
     }
 
     void OnDestroy() {
@@ -196,10 +197,13 @@ public class PauseMenu : MonoBehaviour {
                     break;
             }
             _isPaused = true;
+
+            Cursor.visible = true;
         }
 
         else if (_isPaused is true)
         {
+            Cursor.visible = false;
             _transitionScreen.SetActive(true);
 
             AudioManager.Instance.PlaySfx(_sfxMenuClosed, 6);
