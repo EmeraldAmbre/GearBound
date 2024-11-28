@@ -49,6 +49,9 @@ public class TitleMenu : MonoBehaviour {
     public void StartGame() {
         if (_startScene != null)
         {
+            RoomData.Instance.m_isPlayerRespawning = false;
+            RoomData.Instance.m_ListRoomMechanismData.Clear();
+
             AudioManager.Instance.PlayRandomSfx(_listSfxBtClick, 9);
 
             _transitionImage.SetActive(true);
